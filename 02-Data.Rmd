@@ -1,0 +1,38 @@
+---
+title: "Épidémiologie 2 - Labo informatique R (PTM-6675)"
+author: Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l'Université
+  de Montréal)
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography:
+- book.bib
+- packages.bib
+biblio-style: apalike
+link-citations: yes
+description: Chapitre 3
+ 
+---
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+# Obtention des données pour les travaux pratiques
+Les données utilisées pour les TP sont obtenues à partir du site web du livre [Veterinary Epidemiologic Research (Dohoo et al., 2009)](https://projects.upei.ca/ver/data-and-samples/). Choisissez: **ZIP file of all datasets – Excel format**. Une fois téléchargés sur votre ordinateur et décompressés, les tableaux de données en format xlsx sont disponibles avec l’appel suivant (remplacer le chemin d'accès avec le chemin approprié vers votre répertoire ou copiez-les dans un `Projet R` que vous aurez créé):
+
+```{r}
+#Importation de la table Daisy2.xlsx 
+#Vous pouvez importer en format XLSX comme suit:
+#library(readxl) #Ouvrir le package qui lit les fichiers excel
+#daisy2 <- read_excel("C:/Users/dufours/Documents/DiskD/Enseignement UdM/Cours/PTM 6675-Epi 2/Labo R/Data/ver2_data_excel/Daisy2.xlsx") #Indiquez votre chemin d'accès. Notez  les 'forward slash' plutôt que les 'backslash'
+
+#Ou en format CSV
+daisy2 <-read.csv(file="daisy2.csv", header=TRUE, sep=",")
+#Pour voir les premières 6 lignes d'un jeu de données (afin de mieux comprendre sa structure):
+head(daisy2)
+```
+

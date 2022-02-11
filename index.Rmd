@@ -1,0 +1,94 @@
+--- 
+title: "Épidémiologie 2 - Labo informatique R (PTM-6675)"
+author: Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l'Université
+  de Montréal)
+date: "`r Sys.Date()`"
+output:
+  html_document: 
+    fig_caption: yes
+    toc: yes
+    toc_float: yes
+    number_sections: yes
+  word_document: default
+  pdf_document: default
+description: Les notes de cours pour la partie TP du cours d'Épi2
+documentclass: book
+link-citations: yes
+bibliography:
+- book.bib
+- packages.bib
+site: bookdown::bookdown_site
+biblio-style: apalike
+---
+
+
+# À propos
+![](Figures\Ordi.jpg)
+
+Dans ce document, vous trouverez les différentes manières d'utiliser R pour vos analyses statistiques de base. Notez que les **notions théoriques relatives aux tests statistiques utilisés n'y sont pas présentées**. Pour cela, vous pouvez vous référrer au livre [Veterinary Epidemiologic Research (Dohoo et al., 2009)](https://projects.upei.ca/ver) ou au cours PTM-6675. Dans ce document, nous supposons que vous savez déjà:  
+  -  Importer ou créer des bases de données dans R   
+  -  Modifier des variables ou sélectionner une partie d'un jeu de données  
+  -  Produire des tables de fréquence  
+  -  Produire des figures de base avec le package ggplot2  
+  
+Nous supposons que vous avez quelques connaissances de base de `R`. Si vous n'avez jamais travaillé avec `R` auparavant ou si vous vous sentez un peu rouillé, voici quelques ressources pour vous aider à vous préparer :  
+  
+- Les chapitres 1, 2 et 4 de [CodeCademy "Learn R" course](https://www.codecademy.com/learn/learn-r) vous donneront un bon aperçu des concepts de base de `R`.  
+  
+- Si vous êtes familier avec `R` et que vous souhaitez approfondir vos connaissances,  [Hadley Wickham's "R for Data Science"](https://r4ds.had.co.nz/) est une excellente ressource.  
+  
+N'oubliez pas qu'il existe souvent de nombreuses façons différentes de réaliser un travail donné dans `R`. Dans ce document, nous avons essayé de nous en tenir aux approches les plus simples (par exemple, le code le plus court, le nombre minimal de bibliothèques `R`). 
+  
+Dans ce document, nous couvrirons quelques **généralités sur la gestion de projets d'analyses**, puis sur les fonctions de bases qui vous permettrons de réaliser vos projets de:  
+  **-  Régression linéaire;  **  
+  **-  Régression logistique;  **  
+  **-  Régression pour des données de comptes ou d'incidence;  **    
+  **-  Analyse de survie;  **  
+  **-  Modèles mixtes pour données structurées (les fameux modèles avec intercepts et/ou pentes aléatoires). **  
+  
+Tout au long du texte, vous trouverez des exemples de code R agrémentés de commentaires. **Le code R utilisé se trouve dans les encadrés en gris (comme l'exemple qui suit)**. C'est le code que vous pourrez utiliser pour vos propres analyses. **Les lignes précédées du signe # sont un commentaire**, elles ne sont pas considérées lorsque R les lit. Après chaque encadré gris, suivra un **encadré blanc où les résultats de l'analyse sont présentées**. **N'oubliez pas, R est sensible aux majuscules**. Par exemple, voici un code R où je demande simplement de présenter les statistiques principales des variables du jeu de données `cars`. Ce jeu de données contient 2 variables, speed et dist:
+
+```{r cars}
+#Ceci est un commentaire. R ignorera cette ligne
+#La fonction summary() produit les principales statistiques pour un jeu de données
+summary(cars)
+#On peut aussi, par exemple demander les statistique d'une variable précise dans un jeu  de données de cette façon:
+summary(cars$speed)
+```
+  
+Tout au long du document, dans le texte, j'utiliserai:  
+- L'italique pour les ensembles de données ou les variables. Par exemple, la variable *speed* de l'ensemble de données *cars*.  
+- Les cases grisées pour les bibliothèques `R` (par exemple, `episensr`) et les fonctions (par exemple, `summary()`).  
+  
+Dans `R`, nous pouvons d'abord appeler une bibliothèque donnée et ensuite utiliser les fonctions liées à chaque bibliothèque ou nous pouvons nommer la bibliothèque suivie de `::` et ensuite la fonction. Par exemple, les deux morceaux de code suivants sont équivalents :
+
+```{r, eval=FALSE}
+library(ggplot2)
+ggplot(data=cars, mapping=(aes(x=speed)))+
+  geom_histogram()
+
+##OR##
+
+ggplot2::ggplot(data=cars, mapping=(aes(x=speed)))+
+  geom_histogram()
+```
+  
+Cette dernière solution peut améliorer la reproductibilité, mais au prix de scripts plus longs. Dans tout le document, nous appellerons toujours d'abord la bibliothèque puis nous exécuterons les fonctions afin de garder des codes plus courts. 
+
+Une dernière chose, lors de l'utilisation d'une fonction donnée, il n'est pas obligatoire de nommer tous les arguments, du moment qu'ils sont présentés dans l'ordre attendu par cette fonction. Par exemple, la fonction `ggplot()` que nous avons utilisée dans le morceau de code précédent s'attend à voir d'abord un jeu de données (`data=`), puis un attribut de cartographie (`mapping=`) et, dans cet attribut de cartographie, une variable x (`x=`). Nous pourrions raccourcir le code en omettant tous ces éléments. Les deux morceaux de code suivants sont donc équivalents :  
+  
+```{r, eval=FALSE}
+library(ggplot2)
+ggplot(data=cars, mapping=(aes(x=speed)))+
+  geom_histogram()
+
+##OR##  
+
+library(ggplot2)
+ggplot(cars, (aes(speed)))+
+  geom_histogram()
+```
+  
+Tout au long de ce document, cependant, nous utiliserons le script le plus long, avec tous les arguments nommés. Étant donné que vous êtes en train d'apprendre ces nouvelles fonctions, il serait assez difficile d'utiliser le script le plus court dès le début. Mais vous pourrez certainement adopter les scripts les plus courts plus tard.
+  
+**COMMENÇONS!**

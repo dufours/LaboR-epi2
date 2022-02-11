@@ -1,0 +1,497 @@
+---
+title: "Épidémiologie 2 - Labo informatique R (PTM-6675)"
+author: Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l'Université
+  de Montréal)
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography:
+- book.bib
+- packages.bib
+biblio-style: apalike
+link-citations: yes
+description: Chapitre 16
+---
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+
+# Analyses de survie  
+  
+## Généralités  
+  
+L’analyse de survie est une collection de procédures statistiques pour l’analyse de données où la variable dépendante est le temps jusqu’à ce qu’un certain événement survienne. Cet événement peut être un décès, un événement de santé, une rechute après une rémission, une guérison ou toute autre expérience vécue par le sujet. Le temps peut être des années, mois, semaines ou jours depuis le début du suivi jusqu’à ce que l’événement survienne. Ce temps peut référer à l’âge du sujet au moment de l’événement, à un moment de son cycle de production (e.g. jours en lait), etc. On considère en général que l’événement ne se produit qu’une seule fois. Une caractéristique de ces données est que souvent plusieurs observations sont « censurées » (i.e. plusieurs individus n’expérimentent pas l’événement et on ne peut donc avoir un temps précis jusqu’à l’événement pour ces individus). La variable dépendante est le temps de survie sans l’événement. L’événement est l’échec (failure) parce que c’est souvent un événement « négatif ». Mais il peut aussi être positif, comme le temps pour le retour à la compétition après une chirurgie pour un cheval de course.  
+  
+La librairie `survival` vous permettra de réaliser la plupart de vos analyses de survie.La librairie `survminer` facilitera la présentation des figures typiquement utilisées en analyse de survie.   
+  
+Certains cas particuliers qui ne seront pas vu dans le cadre du cours demanderont des analyses de survie particulières :   
+1) si plus d’un événement sont considérés (e.g. une maladie qui se produit plus d’une fois, comme des cas de mammites), on considère alors que c’est un événement récurrent;   
+2) si le décès peut être le résultat de différentes causes, on peut considérer que c’est un risque compétitif  (i.e. les maladies compétitionnent entre elles pour causer le décès). 
+  
+Le jeu de donnée *calf_pneu.csv* sera utilisé pour les analyses non-paramétriques.    
+  
+```{r}
+#J'importe ce jeu de données
+calf <-read.csv(file="calf_pneu.csv", header=TRUE, sep=";")
+head(calf)
+```
+  
+## Format des données pour une analyse de survie
+La table plus haut illustre la disposition des données pour leur analyse, telle que requise par votre logiciel statistique. Une variable (*calf* dans ce cas) doit identifier chaque sujet, une autre (*days*) donne le temps de survie (votre variable déprendante), une autre indique le statut de l’individu à la fin du suivi (*pn*; en général 0 si censure, 1 si l’événement s’est produit). Les autres variables (une seule, *stock*, dans ce cas) seront les variables prédictives.  
+  
+Par convention, les noms de variables *dur* et *statut* sont souvent utilisés pour définir le temps de survie et le statut de l'individu à la fin du suivi, respectivement.  
+  
+## Analyses non-paramétriques (Kaplan-Meier)
+### Table de Kaplan-Meier et temps median de survie
+La fonction `Surv()` de la librairie `survival` permet d'indiquer les temps de survie et les statuts. C'est cette combinaison qui sera utilisée comme variable réponse dans les étapes subséquentes. Le premier argument indiqué est la variable décrivant le temps de survie (*days*), le deuxième argument est la variable décrivant le statut (*pn*).  
+  
+La table de survie de Kaplan-Meier peut ensuite être produite à l'aide de la fonction `survfit()`. Le premier argument indique la fonction qui servira à générer les tables et courbes de survie. Si aucun prédicteur n'est indiqué (i.e., `~ 1`), on demande alors une seule table et une seule courbe de survie. En ajoutant un prédicteur après le `~`, on aura alors une table et une courbe par niveau du prédicteur.  
+  
+- Vous pourrez directement utiliser la fonction `survfit()` dans ce cas, le temps median de survie et son *IC95* vous sera rapporté.  
+- Vous pouvez aussi créer un nouvel objet (par exemple `km_fit <- survfit()`) et utiliser la fonction `summary()` sur cet objet. Dans ce cas, la table de survie de Kaplan-Meier sera présentée.  
+  
+Le code suivant, par exemple, permet de présenter le temps médian de survie, puis de générer un nouvel objet que j'ai  nommé *km_fit* et qui est, en fait, la table de Kaplan-Meier décrivant le temps jusqu’à une pneumonie pour 24 veaux. 
+```{r}
+library(survival)
+survfit(Surv(days, pn) ~ 1, data=calf)
+
+km_fit <- survfit(Surv(days, pn) ~ 1, data=calf)
+summary(km_fit)
+```
+  
+### Courbe de survie de Kaplan-Meier
+La courbe de survie de Kaplan-Meier pourra être générée en appliquant la fonction `ggsurvplot()` de la librairie `survminer`à ce nouvel objet *km_fit*. La librairie `survminer` et sa fonction `ggsurvplot()` sont très flexibles pour produire les figures en lien avec les analyses de survie. 
+```{r, warning=FALSE, message=FALSE}
+library(survminer)
+survie <- ggsurvplot(km_fit, conf.int = TRUE)
+survie
+```
+  
+Et ce sera ensuite facile de modifier cette figure avec toutes les fonctions de `ggplot` auxquelles vous êtes habitué. Par exemple:
+
+```{r}
+survie$plot +theme_bw()
+```
+
+En continuant avec `survminer`, je pourrais demander la fonction d'échec (i.e., le contraire de la fonction de survie) à l'aide de l'argument `fun="event"`.
+```{r}
+library(survminer)
+echec <- ggsurvplot(km_fit, conf.int = TRUE, fun="event")
+echec
+```
+  
+Ou encore la fonction de hasard cummulatif (i.e., cummulative hazard function) à l'aide de la fonction `fun="cumhaz"`.
+```{r}
+library(survminer)
+cum <- ggsurvplot(km_fit, conf.int = TRUE, fun="cumhaz")
+cum
+```
+
+### Estimer la probabilité de survie pour un temps donnée
+L'argument `times=` de la fonction `survfit()` permet d'estimer la proportion (et son *IC95*) des individus qui "survivront" jusqu'à un temps *t*. Par exemple, ce code me permet d'estimer que 91.7% (*IC95*= 81.3, 100) des veaux n'avaient pas eu de pneumonie après 50 jours.
+```{r}
+library(survival)
+summary(survfit(Surv(days, pn) ~ 1, data=calf), times = 50)
+```
+  
+### Comparaisons entre niveaux d’un prédicteur catégorique
+L’analyse de survie non-paramétrique (i.e. Kaplan-Meier) permet de comparer les fonctions de survie des différents niveaux d’un prédicteur catégorique. Le code suivant, par exemple, permet de vérifier l’effet du type d’élevage (variable *stock*; en batch *vs.* en continu) sur le temps jusqu’à la pneumonie. Vous aurez maintenant un temps median de survie par niveau d'exposition (notez que celui-ci ne peut pas toujours être calculé, dépendamment du nombre d'observations).
+```{r}
+library(survival)
+survfit(Surv(days, pn) ~ stock, data=calf)
+```
+  
+Vous aurez également une table de Kaplan-Meier par niveau d'exposition.  
+```{r}
+library(survival)
+km_fit_stock <- survfit(Surv(days, pn) ~ stock, data=calf)
+summary(km_fit_stock)
+```
+  
+Finalement, vous aurez aussi une courbe de survie par niveau d'exposition.
+```{r, warning=FALSE, message=FALSE}
+library(survminer)
+survie <- ggsurvplot(km_fit_stock, conf.int = TRUE)
+
+survie$plot + theme_bw() +
+  xlab("Nombre de jours") +
+  ylab("Probabilité de survie")+ 
+  scale_fill_discrete(name = "Type d'élevage", labels = c("En batch", "En continu"))+
+  scale_color_discrete(name = "Type d'élevage", labels = c("En batch", "En continu"))
+```
+  
+Finalement, vous pourrez tester les différences entre les niveaux d'exposition à l'aide des tests de log-rank et/ou de Wilcoxon à l'aide de la fonction `survdiff()`. Le premier argument est notre modèle, le deuxième est le jeu de données, l'argument `rho=0` permettra d'indiquer que le test de log-rank est désiré. En utilisant `rho=1`, ce sera plutôt le test de Wilcoxon qui sera réalisé. 
+```{r}
+library(survival)
+#log-rank
+survdiff(Surv(days, pn) ~ stock, data=calf, rho=0)
+
+#Wilcoxon
+survdiff(Surv(days, pn) ~ stock, data=calf, rho=1)
+```
+  
+Dans ce cas, les deux tests donnent une valeur de *P* de 0.08. C'est donc dire que les courbes de survie des veaux élevés en batch ou en continu ne sont pas différentes.  
+  
+Notez que plus d'une variable peut être utilisée pour stratifier les données. Par exemple, le jeu de données *pgtrial.csv* contient plusieurs prédicteurs. Cette étude est un essai clinique randomisé sur l’effet de l’administration d’une dose de prostaglandine *vs.* d’un placebo (la variable *tx*) au début de la période de reproduction sur le nombre de jours (la variable *dar*) jusqu’à la conception (la variable *preg*). L’hypothèse était que l’administration de prostaglandine réduirait le nombre de jours jusqu’à la conception. Les 319 vaches de cette étude étaient suivies jusqu’à un maximum de 346 jours en lait. Trois autres prédicteurs étaient aussi évalués: le nombre de lactation (*lact*; 1, 2, 3…), l’état de chair (*thin*; 0=normal, 1=thin) et le troupeau (*herd*; 3 troupeaux).
+```{r}
+pgtrial <-read.csv(file="pgtrial.csv", header=TRUE, sep=";")
+head(pgtrial)
+
+#J'indique les variables catégoriques dans mon jeu de données
+pgtrial$thin <- factor(pgtrial$thin) 
+pgtrial$herd <- factor(pgtrial$herd) 
+```
+  
+Le code suivant pourra être utilisé pour effectuer une analyse de survie non-paramétrique par groupe de traitement (*tx*) **ET** par état de chair (*thin*). Dans ce cas, vous auriez quatre strates de *tx* par *thin* possibles (0-0, 0-1, 1-0, et 1-1). La fonction `survfit()` vous rapportera alors toutes les comparaisons entre chaque paire de strates (4 comparaisons dans ce cas).  
+```{r}
+library(survival)
+
+km_fit_pg <- survfit(Surv(dar, preg) ~ tx + thin, data=pgtrial)
+survdiff(Surv(dar, preg) ~ tx + thin, data=pgtrial, rho=0)
+
+library(survminer)
+ggsurvplot(km_fit_pg, conf.int = TRUE)
+```
+  
+C'est beaucoup d'information sur une même figure! Vous pourriez aussi la séparer à l'aide de la fonction `facet_grid()` de la librairie `ggplot2` afin de pouvoir comparer plus aisément l'effet du traitement chez les vaches maigres, puis chez les vaches normales.
+```{r}
+ggsurv <- ggsurvplot(km_fit_pg, conf.int = TRUE)
+   
+ggsurv$plot +theme_bw() + 
+  theme (legend.position = "right")+
+  facet_grid( ~ thin)
+```
+  
+## Régression de Cox à hasard proportionnel
+Si on veut comparer la survie de deux groupes en ajustant pour les effets confondants ou des modificateurs d’effet potentiels, on peut utiliser un modèle de risques proportionnels (proportional hazards model) ou modèle de régression de Cox. La fonction `coxph()` (pour Cox **P**roportional **H**azard) de la librairie `survival` permet de réaliser les régressions de Cox.  
+  
+Par exemple, le code suivant permet d'estimer un modèle de Cox à hasard proportionnel qui décrit l'effet d'un traitement à la prostaglandine (*tx*) sur le temps jusqu'à la conception (*dar* et *preg*) après ajustement pour les biais de confusion par la parité (*lact*), l'état de chair (*thin*) et le troupeau d'origine (*herd*).
+```{r}
+library(survival)
+PH_fit_pg <- coxph(Surv(dar, preg) ~ tx + lact + thin + herd, data=pgtrial)
+summary(PH_fit_pg)
+```
+  
+La fonction `summary()` vous permet de rapporter le nombre d'observations (n=319) et le nombre de vaches ayant eu une conception (n=264). Ont vous rapporte ensuite les coefficients pour chacun des prédicteurs, leur erreur-type, leur *IC95* et la valeur de *P* du test de Wald pour ce coefficient particulier. La table suivante présente les hazard ratios (HR) et leur *IC95* (ce sont simplement les coefficients et leur *IC95* mis à l'exposant). Enfin, le test de rapport de vraisemblance qui vérifie si au moins un coefficient est différent de 0 est présenté (ici, *P*=0.08).  
+  
+Pour générer une figure de la fonction de survie de Cox, on devra utiliser la fonction `ggadjustedcurves()` de la librairie `survminer`. L'argument `variable="tx"` me permet de générer des fonctions de survie de Cox par niveaux d'un prédicteur (ici *tx*).
+```{r, fig.cap="**Figure.** Fonction de survie de Cox par niveau de la variable traitement.", message=FALSE, warning=FALSE}
+#La courbe de survie de Cox
+library(survminer)
+ggadjustedcurves(PH_fit_pg, variable="tx")
+```
+
+  
+### Analyses stratifiées
+On peut réaliser une analyse stratifiée par un prédicteur à l’aide de la fonction `strata()`. L’analyse stratifiée par un prédicteur pourra être utile:  
+- lorsque ce prédicteur ne satisfait pas à la supposition de proportionnalité des Hazard Ratio et que le prédicteur n’est pas d’intérêt direct (e.g. un facteur confondant);  
+- afin de prendre en compte le regroupement d’observations (la variable de stratification sera alors la variable indiquant le groupe d’appartenance; *herd* dans l’exemple suivant). 
+
+```{r}
+library(survival)
+PH_fit_pg <- coxph(Surv(dar, preg) ~ tx + lact + thin + strata(herd), data=pgtrial)
+summary(PH_fit_pg)
+```
+  
+Notez que l'effet de la variable utilisée pour stratifier n'est plus calculé maintenant.  
+  
+### Prédicteur dont la valeur change dans le temps
+Lorsqu’un prédicteur peut changer de valeur en cours de suivi, le jeu de données doit être réorganisé avec plusieurs intervalles pour chaque sujet. Ce format s’appelle le *counting process format* (**CP**). Le format CP est en fait adapté à plusieurs situations d’analyse de survie complexes:  
+- quand il y a présence de prédicteurs dont la valeur change dans le temps;  
+- quand l’âge plutôt que le temps est utilisé comme mesure du suivi (on voudra alors indiquer l'âge de début et l'âge de fin);  
+- quand il y a des évènements récurrents et/ou que l’occurrence de l’évènement ne peut être observé en continu (ex: animaux testés mensuellement pour identifier l’acquisition d’une infection).  
+  
+Le format général des données dans le format CP est montré à la table suivante. Pour chaque individu, il y a plusieurs lignes: chaque temps de suivi est divisé en petits intervalles de temps. Il y a aussi deux variables de temps spécifiées pour chaque individu, une indiquant le début du suivi (*start* dans ce cas) et une indiquant la fin du suivi (*stop* dans ce cas). Une variable (*dead2* dans ce cas) indique ce qui s’est produit à la fin du suivi (dans cet exemple censure=0 et mort=1). 
+```{r}
+stan <-read.csv(file="stanlong.csv", header=TRUE, sep=";")
+head(stan)
+```
+  
+Dans l'exemple plus haut, on voit que les individus 3 et 4 ont bien 2 intervalles de temps (2 rangées) puisque le prédicteur *trans* (indiquant s'ils ont eu ou non une transplatation cardiaque) à changé de valeur (de 0 à 1) pour ces individus durant l'étude. Ont comprend donc que l'individu 3 a reçu une transplantation très rapidement à 0.1 jour (c'est là que sons statut *trans* à changé) et il est malheureusement décédé à 15 jours. L'individu 4 a reçu une transplantation 35 jours après son accident cardio-vasculaire et il est décédé 3 jours plus tard, soit 38 jours après son accident cardio-vasculaire.  
+  
+Pour analyser ce genre de données, vous devrez indiquer les  variables indiquant le début et la fin de chaque intervalle dans votre fonction `surv()` à la place de votre variable représentant le temps (e.g. *dur*, *dar*, ou *days*). Par exemple, le modèle suivant présente le temps d'un accident cardio-vasculaire jusqu'au décès en fonction de si le patient à reçu une transplantation cardiaque (une variable qui peut changer de valeur dans le temps) et après ajustement pour l'âge du patient.
+```{r}
+library(survival)
+PH_fit_stan <- coxph(Surv(start, stop, dead2) ~ trans + ageaccpt, data=stan)
+summary(PH_fit_stan)
+```
+  
+Le *HR* de décès chez les patients ayant eu une transplantation cardiaque était 0.17 (*IC95*: 0.10, 0.28) fois celui de ceux qui n'en ont pas eu. Pour cette dernière catégorie, le temps passé sans transplantation par des patients qui seront transplantés dans le futur est aussi compilé.  
+  
+### Prédicteur dont l'effet change dans le temps
+Avec le modèle de régression de Cox, le risque peut évoluer au cours du temps, mais il doit rester proportionnel entre sujets avec différents niveaux d’exposition. Cette suposition pourra être vérifiée (voir section évaluation du modèle). Cette supposition peut aussi être relaxée en ajoutant une interaction entre le temps et un prédicteur. Si cette interaction est significativement différente de zéro, on concluera que le risque n’était pas proportionnel et ont présentera alors les résultats du modèle avec l’interaction. Pour ce faire, la variable représentant le temps pourra être transformée (e.g., une transformation log, une catégorisation en deux, ou plus de deux catégories, etc) en fonction de la biologie du phénomène étudié.  
+  
+Par exemple, le code suivant permettrait d’évaluer une interaction avec le temps représentant un changement d’effet de la prostaglandine entre les 5 premiers jours *vs.* le reste de la période de suivi. Ont pourrait émettre l'hypothèse que le traitement aux prostaglandines aura un effet dans les 5 jours suivants l'administration, mais aucun ou peu d'effet par la suite. **Important:** en ajoutant un terme d'interaction (ex: $tx*time5$ dans votre fonction `coxph()`, R incluera automatiquement les deux termes principaux pour cette interaction ($tx$ et $time5$) en plus de l'interaction ($tx*time5$). Or, il n'est **pas possible d'estimer dans ce modèle le terme principal $time5$ puisque la notion de temps fait également partie de l'issue**. Vous devrez donc indiquer à R de retirer ce terme principal simplement en ajoutant `- time5` dans votre modèle. De cette manière, ce terme ne sera pas inclu.  
+```{r}
+#Je commence par créer une prédicteur "temps" que j'ai nommer time et qui prend les valeurs 0-5 days vs. >5 days
+pgtrial$time5 <- cut(pgtrial$dar, breaks = c(0, 5, Inf),labels = c("0-5 days", ">5 days"))
+
+#Ensuite, je peux tester une interaction entre time et tx
+library(survival)
+PH_fit_pg <- coxph(Surv(dar, preg) ~  tx*time5 -time5 + lact + thin + herd, data=pgtrial)
+summary(PH_fit_pg)
+```
+  
+Nous notons maintenant que, comme l'hypothèse que nous avions émise, le traitement aux prostaglandine augmente le hasard de conception dans le 5 jours suivant l'injection (HR= 235). Par contre, après 5 jours, l'effet semble minime. Le coefficient après 5 jours serait de -0.18 (i.e., 5.46 + -5.64), donc un HR de 0.84. L'interaction est significative (*P*< 0.001). Ont pourrait demander des contrastes pour comparer ces derniers résultats.
+  
+
+```{r, message=FALSE, warning=FALSE}
+library(emmeans)
+#Je génère d'abord l'objet contrast à partir de mon modèle
+contrast <- emmeans(PH_fit_pg, c("tx", "time5")) 
+
+#Je demande les comparaisons pairées, je voulais voir Tx=1 vs Tx=0, j'ai donc du utilisé reverse=TRUE. Puis j'ai ajouté les IC95 avec confint
+result <- confint(pairs(contrast, reverse = TRUE))
+
+#Je retravaille mes résultats pour la présentation. D'abord en les mettant à l'exposant pour avoir des HR, puis en arrondissant.
+result$HR <- round(exp(result$estimate), digits=2)
+result$lowCI <- round(exp(result$asymp.LCL), digits=2)
+result$hiCI <- round(exp(result$asymp.UCL), digits=2)
+
+#Je ne conserve que les rangée (2 et 5) et les colonnes (1, 7, 8, 9) qui m'intéressent
+result2 <- result[c(2,5),c(1, 7, 8, 9)]
+
+library(knitr)
+library(kableExtra)
+kable (result2, caption="HR et IC95 d'un traitement à la prostaglandine sur le risque de conception dans les 5 jours suivant le traitement vs. après 5 jours.")%>%
+  kable_styling()
+```
+ 
+Dans les 5 jours suivant l'injection le HR est de 235.44 (*IC95*: 51.78, 1070.64), alors que après 5 jours, le HR est de 0.84 (*IC95*: 0.59, 1.20).  
+  
+Le code suivant permettrait d’évaluer une interaction avec le temps représentant un changement d’effet exponentiel durant la période de suivi (i.e., un effet qui diminue ou augmente graduellement, plutôt que de manière catégorique).
+```{r}
+#Je commence par créer une prédicteur "temps" logarithmique
+pgtrial$lntime <- log(pgtrial$dar)
+
+#Ensuite, je peux tester une interaction entre lntime et tx
+library(survival)
+PH_fit_pg <- coxph(Surv(dar, preg) ~  tx*lntime -lntime + lact + thin + herd, data=pgtrial)
+summary(PH_fit_pg)
+```
+  
+Ici aussi l'interaction est significative (*P*<0.001). Au jour 1 (*lntime*=0), l'effet du tx est un HR de exp(8.05) ou 3131! Puis, l'effet du traitement en log(HR) diminue de -1.81 à chaque augmentation de 1 log jour. Pour mieux visualiser tout ça, une figure pourrait être utile. 
+```{r, fig.cap="**Figure.** Hasard ratio présentant l'effet de la prostaglandine sur le hasard de conception en fonction des jours suivant l'injection."}
+#Je génère le jeu de données avec les valeurs de temps qui m'intéressent (jours 1 à 90) et j'y met les coefficients dont j'ai besoin.
+new <- data.frame(tx=8.04, tx_lntime_int=-1.81, time=c(1:90))
+new$lntime <- log(new$time)
+new$hr <- exp(new$tx + new$lntime*new$tx_lntime_int)
+
+library(ggplot2)
+ggplot(new, mapping=aes(x=time, y=hr))+
+  geom_line()+
+  theme_bw() +
+  ylab(label = "Hazard ratio")
+```
+   
+On note que l'effet du traitement diminue rapidement. Notre modèle 0-5 *vs.* >5 jours indiquait le même patron (et était peut-être aussi plus simple à expliquer?).  
+  
+## Évaluation du modèle
+### Linéarité de la relation (pour les prédicteurs quantitatifs)
+La linéarité de la relation est une supposition importante du modèle. Pour les prédicteurs quantitatifs, vous devrez toujours vérifier si cette supposition est bien respectée. Vous pouvez le faire simplement à l’aide du modèle polynomial comme vu précédemment (en ajoutant le $prédicteur^2$  ou le $prédicteur^2$ et le $prédicteur^3$ dans votre modèle).  
+  
+Une autre possibilité est l’évaluation du **graphique du prédicteur quantitatif que nous désirons évaluer par les résiduels de Martingdale d'un modèle sans le prédicteur quantitatif**. Une fonction de lissage (comme vu précédemment) permettra de visualiser s’il y a une courbe ou non dans la relation. Les résiduels de Martingdale peuvent être obtenus grâce à la fonction `resid()`. La relation pourra être représentée grâce à la fonction `ggplot` de la librairie `ggplot2`. Par exemple, le code suivant permet d'évaluer la linéarité de la relation entre la variable *lact* et le hasard de conception. 
+```{r, warning=FALSE, message=FALSE, fig.cap="**Figure.** Graphique des résiduel de Martingdale en fonction de la parité."}
+#Faire rouler le modèle sans le prédicteur continu lact
+PH_fit_pg_WO_lact <- coxph(Surv(dar, preg) ~  tx + thin + herd, data=pgtrial)
+
+#Ajouter les résiduels de Martingale dans mon jeu de données
+pgtrial$res <- resid(PH_fit_pg_WO_lact) 
+
+library(ggplot2)
+ggplot(data=pgtrial, mapping=aes(x=lact, y=res))+
+  geom_point() +  #Je demande d'ajouter le nuage de points (un 'scatterplot')
+  geom_smooth(method="loess", span=2)+ #Je demande d'ajouter la courbe lissée de type loess. 
+  theme_bw() 
+```
+  
+Dans cet exemple, on note que la relation est curvilinéaire. Notez que le modèle polynomial indique également que le terme au carré est important (*P* = 0.03) et que la relation n’était donc pas linéaire (voir le code qui suit).
+```{r}
+#Lactation centrée sur 2ième parité et au carré
+pgtrial$lact_ct <- pgtrial$lact-2
+pgtrial$lact_ct_sq <- (pgtrial$lact-2)*(pgtrial$lact-2)
+
+#La régression de cox avec terme polynomiaux
+PH_fit_pg_lact_sq <- coxph(Surv(dar, preg) ~  tx + lact_ct + lact_ct_sq + thin + herd, data=pgtrial)
+summary(PH_fit_pg_lact_sq)
+
+```
+  
+### Valider la supposition de hasard proportionnel
+La supposition de risque proportionnel peut être vérifiée en ajoutant une interaction avec le temps (comme présenté à la section "Prédicteur dont l'effet change dans le temps"). Cette interaction peut également être une solution lorsque la supposition de risque proportionnel n’est pas respectée. Mais il existe plusieurs autres méthodes afin de vérifier la supposition de risque proportionnel.  
+  
+#### Pour un prédicteur catégorique:  
+**Option 1:** Comparer graphiquement le log du hasard cummulatif ln H(t) par le log du temps pour chaque niveau du prédicteur. Ces droites devraient être parallèles si les hasards sont proportionnels. Le graphique ln H(t) * ln(t) peut être produit en: 1) faisant tourner un modèle de Kaplan-Meier avec juste la variable qui nous intéresse (*tx* dans l'exemple qui suit) à l'aide de la fonction `survfit()`, puis 2) en demandant de produire la figure à partir de cet objet à l'aide de la fonction `plot()` et de l'argument `fun=cloglog` (qui indique la figure désirée, c'est à dire ln H(t)*ln(t)).
+```{r, fig.cap="**Figure.** Graphique du log du hasard cumulatif (ln H(t)) par le log du temps (ln(t))."}
+library(survival)
+#Le modèle de K-M avec la variable qui m'intéresse
+KM_fit_pg <- survfit(Surv(dar, preg) ~  tx, data=pgtrial)
+
+#La figure ln(H(t)) par ln(temps)
+plot(KM_fit_pg, col=c("blue", "red"), fun="cloglog", xlab="days", ylab="Log(H(t))")
+```
+  
+Ici, les droites ne sont clairement pas parallèles jusqu'à approximativement 20 à 50 jours.  
+  
+**Option 2:** comparer graphiquement les courbes de survie produites à l’aide du modèle de Cox (qui suppose hasard proportionnel) et d’une analyse de survie non-paramétrique (Kaplan-Meier; qui ne suppose rien). Les graphiques devraient être très similaires si les hasards sont proportionnels.  
+```{r, warning=FALSE, message=FALSE, fig.cap="**Figure.** Courbes de survie de Kaplan-Meier pour la variable traitement."}
+library(survminer)
+#La courbe de survie de Kaplan-Meier
+ggsurvplot(KM_fit_pg)
+```
+
+```{r, warning=FALSE, message=FALSE, fig.cap="*Figure.** Courbes de survie de Cox pour la variable traitement."}
+#Le modèle de cox équivalent
+library(survival)
+PH_fit_pg <- coxph(Surv(dar, preg) ~  tx, data=pgtrial)
+
+#La courbe de survie de Cox
+ggadjustedcurves(PH_fit_pg, variable="tx")
+```
+  
+Notez que les courbes de survie de Kaplan-Meier et de Cox sont passablement différentes entre 0 et 50 jours.  
+  
+#### Pour un prédicteur catégorique OU quantitatif
+Une dernière approche qui permet d’évaluer la supposition de risque proportionnel et qui fonctionne pour des **prédicteurs catégoriques OU quantitatifs** est l’évaluation d’un graphique des résiduels de Schoenfeld par le logarithme du temps (t). Une fonction de lissage pourra être utilisée afin de visualiser la tendance générale. Si la supposition de risque proportionnel est respectée, une ligne de tendance horizontale (i.e. avec une pente=0) devrait être observée. Notez qu’un résiduel de Schoenfeld différent sera produit pour chacun des prédicteurs du modèle. Vous devrez donc utiliser le résiduel correspondant au prédicteur que vous désirez évaluer.  
+  
+Pour générer cette figure, vous devrez d'abord créer votre objet modèle de Cox (à l'aide de la fonction `coxph()`). Puis, vous devez créer un nouvel objet à partir de celui-ci à l'aide de la fonction `cox.zph()` de la librairie `survival`. Finalement, à l'aide de la librairie `survminer` vous pourrez utiliser la fonction `ggcoxzph()` sur ce dernier objet. Dans l'exemple suivant, je vérifie la supposition de hasard proportionnel pour la variable *lact*.  
+```{r}
+#Je génère le modèle de Cox
+library(survival)
+PH_fit_pg <- coxph(Surv(dar, preg) ~ tx + lact + thin + herd, data=pgtrial)
+
+#Je génère l'objet cox.zph
+fit <- cox.zph(PH_fit_pg)
+
+#Je demande la figure spécifiquement pour la variable lact
+library(survminer)
+ggcoxzph(fit, var="lact") 
+```
+
+Dans ce cas, la ligne est très près d’être horizontale (i.e. pente=0). La supposition de hasard proportionnel est donc probablement respectée pour la variable *lact*. Notez que le résultat d'un test de Schoenfeld est également présenté. L'hypothèse nulle de ce test est que la pente n'est pas différente de zéro (i.e., la supposition de hasard proportionnel est respectée).  
+  
+À titre d'exemple, voici la même analyse, mais pour la variable *tx*. Rappellez-vous, nous avons déjà identifié de différentes manières que la supposition de hasard proportionnel pour cette variable est problématique.
+```{r}
+library(survminer)
+ggcoxzph(fit, var="tx") 
+```
+  
+Notez la courbe au tout début (i.e. entre 0 et 28 jours). Le test est près d'être significatif (*P* = 0.06).  
+  
+### Évaluer impact du non-respect de la supposition de censure non-informative
+On ne peut évaluer si la supposition de censure non-informative est respectée, mais ont peut cependant vérifier quel aurait été l’impact d’une censure informative. Pour cela, on doit modifier le jeu de données pour représenter les scénarios les plus extrêmes.  
+- D’une part toutes les données censurées remplacées par un échec au moment de la censure (corrélation positive).  
+- D’autre part, ont pourrait remplacer la durée de suivi des données censurées par un temps lointain, mais plausible (corrélation négative).  
+  
+Ensuite, on éxécutera le modèle de Cox avec ces deux scénarios et on comparera les résultats obtenus à notre modèle initial. On se demandera:  
+1) est-ce que les conclusions statistiques changent (e.g. un prédicteur n’est plus significatif)?  
+2) est-ce que les ratio de hasard changent beaucoup (e.g. 2.0 vs. 2.2 ou 2.0 vs. 12.0)?  
+  
+Par exemple:
+```{r}
+#Impact de la censure
+
+#Estimés originaux
+library(survival)
+PH_fit_pg <- coxph(Surv(dar, preg) ~ tx + lact + thin + herd, data=pgtrial)
+
+#Corrélation positive complète
+#Je créer une nouvelle variable où toutes les observations se terminent par l'événement
+pgtrial$preg2 <- 1
+#Le modèle avec cette variable
+PH_fit_pg_pos <- coxph(Surv(dar, preg2) ~ tx + lact + thin + herd, data=pgtrial)
+
+#Corrélation négative complète
+#Je créer une nouvelle variable où toutes les vaches non-gestantes auraient vécu jusqu'à au moins 500 JEL sans conception avant d'être finalement réformées
+pgtrial$dar2 <- ifelse(pgtrial$preg==1,pgtrial$dar,500) 
+#Le modèle avec cette variable
+PH_fit_pg_neg <- coxph(Surv(dar2, preg) ~ tx + lact + thin + herd, data=pgtrial)
+
+#tableau récapitulatif
+tableau <- cbind("Estimés originaux"=exp(PH_fit_pg$coefficients), "Corrélation positive complète"=exp(PH_fit_pg_pos$coefficients), "Corrélation négative complète"=exp(PH_fit_pg_neg$coefficients)) 
+
+library(knitr)
+library(kableExtra)
+kable (round(tableau, digits=2), caption="HR d'un traitement à la prostaglandine sur le risque de conception. Modèle initial, puis modèles supposant corrélation positive et négative complètes.")%>%
+  kable_styling()
+```
+  
+Ici, on note peu de différence des ratio de hasard d'un modèle à l'autre. Notez que la fonction `ggforest()` de la librairie `survminer` produit une autre manière de visualiser/comparer nos résultats rapidement. Par exemple, pour nos 3 modèles:  
+```{r, warning=FALSE, message=FALSE}
+library(survminer)
+ggforest(PH_fit_pg, main = "HR modèle initial")
+ggforest(PH_fit_pg_pos, main = "HR corrélation positive complète")
+ggforest(PH_fit_pg_neg, main = "HR corrélation négative complète")
+```
+  
+### Observations extrêmes
+Les résiduels de déviance peuvent être utilisés afin d’identifier les observations extrêmes. Ont peut les produire à l’aide de la fonction `resid()` en spécifiant `type="deviance"`. On pourra ensuite les représenter graphiquement en fonction du temps à l’aide de la fonction `ggplot()`. On devra aussi tenter d’identifier si ces observations ont un profil de prédicteurs et variable dépendante commun.
+
+```{r, fig.cap="**Figure.** Résiduels de déviance en fonction du temps."}
+#Ajouter les résiduels de déviance à ma table
+pgtrial$res.dev <- resid(PH_fit_pg, type="deviance")
+
+library(ggplot2)
+ggplot(data=pgtrial, mapping=aes(x=dar, y=res.dev)) +
+          geom_point() +
+          theme_bw() 
+```
+  
+```{r}
+#Je pourrais maintenant filtrer cette table pour ne conserver que les résiduels standardisés larges (en fait, il n'y en avait aucun >3.0 ou <-3.0)
+res_large <- subset(pgtrial, (res.dev >=2.0 | res.dev<=-2.0))
+
+kable (res_large, caption="Observations avec les résiduels les plus larges.")%>%
+  kable_styling()
+```
+  
+### Observations influentes
+Les résiduels de score ou les delta-betas peuvent être utilisés afin d’identifier les observations influentes. Notez que, comme pour les résiduels de Schoenfeld, un résiduel de score (et un delta-beta) différent sera produit pour chacun des prédicteurs du modèle. Vous devrez donc utiliser le résiduel correspondant au prédicteur que vous désirez évaluer.  
+  
+Ont peut également les produire à l’aide de la fonction `resid()`, l'argument `type="score"` génèrera les résiduels de Score. `type="dfbetas"` sera utilisé pour les delta-betas. Ont pourra ensuite les représenter graphiquement en fonction du temps à l’aide de la fonction `ggplot()`. Lorsque représenté en fonction du temps, ces résiduels ressembleront à un genre de « ventilateur ». Les points en dehors du ventilateur seront les plus influants. On devra tenter d’identifier si ces observations ont un profil de prédicteurs et de variable dépendante particulier.  
+  
+Le code suivant permettra, par exemple, de produire les résiduels de score pour chacun des prédicteurs et de visualiser la figure pour la variable *tx*. Pour la figure, j'ai utilisé la librairie `ggrepel` et la fonction `geom_text_repel()` qui me permet d'identifier les points sur la figure.
+```{r, fig.cap="**Figure.** Résiduels de score de la variable TX en fonction du temps.", message=FALSE, warning=FALSE}
+#Créer les résiduels de déviance dans une table
+y <- data.frame(resid(PH_fit_pg, type="score"))
+
+#Joindre ces éléments dans ma table initiale
+#Renommer les variables
+library(data.table)
+setnames(y, old = c('tx','lact', 'thin1', 'herd2', 'herd3'), new = c('score_tx','score_lact', 'score_thin', 'score_herd2', 'score_herd3'))
+
+#Combiner les tables
+a <- cbind(pgtrial, y) 
+
+#Visualiser résiduels de score de tx en fonction du temps
+library(ggplot2)
+library(ggrepel)
+ggplot(data=a, mapping=aes(x=dar, y=score_tx)) +
+          geom_point() +
+          theme_bw() +
+          geom_text_repel(aes(label = cow))
+```
+  
+## Pour aller plus loin
+### Erreurs-types robustes
+Lorsqu’il y a regroupement des observations (e.g. des animaux regroupés en troupeaux), la supposition d’indépendance des observations n’est pas respectée. Comme vu au cours, ont poura remédier à ce problème en incluant la variable « groupe » (e.g. l’identifiant du troupeau) comme prédicteur ou en stratifiant  l’analyse de Cox par cette variable. Les erreur-types robustes peuvent aussi être utilisées pour régler ce problème. L'argument `cluster()` permettra le calcul d’erreur-types robustes. On indiquera entre parenthèse une variable décrivant l'unité d'analyse (ici la vache).
+```{r}
+library(survival)
+PH_fit_pg <- coxph(Surv(dar, preg) ~ tx + lact + thin + cluster(cow), data=pgtrial)
+summary(PH_fit_pg)
+```
+  
+### Régression de Cox à fragilité partagée
+Un modèle de régression de Cox à fragilité partagée peut-être utilisé afin de prendre en compte le regroupement des observations (i.e., la dépendance entre les observations). L’argument `frailty()` permettra d’indiquer comment les données sont regroupées (i.e. permet d’ajouter un effet aléatoire groupe). Notez qu'on ne pourra indiquer qu'un seul niveau de regroupement (e.g., vaches regroupées par troupeaux). 
+```{r}
+library(survival)
+PH_fit_pg <- coxph(Surv(dar, preg) ~ tx + lact + thin + frailty(herd), data=pgtrial)
+summary(PH_fit_pg)
+```
+

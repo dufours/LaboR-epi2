@@ -1,0 +1,49 @@
+---
+title: "Épidémiologie 2 - Labo informatique R (PTM-6675)"
+author: "Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l'Université de Montréal)"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: Chapitre 5
+ 
+---
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+# R Markdown
+À l'aide de [`R Markdown`](https://rmarkdown.rstudio.com/) il est possible d'envoyer les résultats de vos analyses directement dans un document Microsoft Word, PDF, HTML, etc. Vous pourrez ainsi produire un texte avec des tables et des figures. Certains éléments de ce texte peuvent même être des résultats de vos analyses. Ces notes de cours, par exemple, ont été préparées à l'aide de `R Markdown`. Par exemple, si je demande:
+
+```{r}
+a<- summary(cars$speed)
+```
+
+Je peux ensuite vous indiquer dans le texte que la vitesse médiane dans le jeu de données était `r a[3]` km/h. Dans la phrase précédente le `15` est un objet R, c'est le 3ième élément du vecteur que j'ai nommé `a` et je l'ai inclus dans mon texte en l'appelant (i.e., j'ai invoqué `a[3]` dans mon code R Markdown comme ceci: "...le jeu de données était *tickmark* r a[3] *tickmark* km/h. Dans la...").  
+Vous pourrez aussi inclure une table dans votre texte:
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+library(knitr)
+library(kableExtra)
+kable(mtcars[1:5, ], caption="**Table 5.1.** Une table produite avec la fonction knitr.")%>%
+  kable_styling()
+```
+
+Ou une figure:
+
+```{r fig.cap="**Figure 5.1.** Une figure produite avec la librairie ggplot2.", echo=FALSE, message=FALSE}
+library(ggplot2)
+ggplot(data=cars, aes(x=speed))+
+  geom_histogram(fill="light blue", colour="black")+
+  labs(x="Vitesse (en miles/h)", y="Nombre d'autos")+
+  theme_bw()
+```
+`R Markdown` pourrait donc être très utile dans le futur pour produire vos rapports d'analyses ou même les textes de vos articles. Ceux-ci seront automatiquement mis-à-jour lorsque vous modifierez vos analyses.  
+

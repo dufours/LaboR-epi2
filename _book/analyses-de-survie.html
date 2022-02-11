@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapitre 9 Analyses de survie | Épidémiologie 2 - Labo informatique R (PTM-6675)</title>
+  <meta name="description" content="Chapitre 16" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapitre 9 Analyses de survie | Épidémiologie 2 - Labo informatique R (PTM-6675)" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Chapitre 16" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapitre 9 Analyses de survie | Épidémiologie 2 - Labo informatique R (PTM-6675)" />
+  
+  <meta name="twitter:description" content="Chapitre 16" />
+  
+
+<meta name="author" content="Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l’Université de Montréal)" />
+
+
+<meta name="date" content="2021-06-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="régression-pour-données-de-compte-et-dincidence.html"/>
+
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Épidémiologie 2 - Labo informatique R (PTM-6675)</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> À propos</a></li>
+<li class="chapter" data-level="2" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html"><i class="fa fa-check"></i><b>2</b> Bonnes pratiques de gestion de projet</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#organiser-son-projet-de-recherche"><i class="fa fa-check"></i><b>2.1</b> Organiser son projet de recherche</a></li>
+<li class="chapter" data-level="2.2" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#où-sauvegarder-son-projet"><i class="fa fa-check"></i><b>2.2</b> Où sauvegarder son projet</a></li>
+<li class="chapter" data-level="2.3" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#où-sauvegarder-ses-données"><i class="fa fa-check"></i><b>2.3</b> Où sauvegarder ses données</a></li>
+<li class="chapter" data-level="2.4" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#scripts-danalyse"><i class="fa fa-check"></i><b>2.4</b> Scripts d’analyse</a></li>
+<li class="chapter" data-level="2.5" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#copies-de-sécurité"><i class="fa fa-check"></i><b>2.5</b> Copies de sécurité</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="obtention-des-données-pour-les-travaux-pratiques.html"><a href="obtention-des-données-pour-les-travaux-pratiques.html"><i class="fa fa-check"></i><b>3</b> Obtention des données pour les travaux pratiques</a></li>
+<li class="chapter" data-level="4" data-path="aide-de-r.html"><a href="aide-de-r.html"><i class="fa fa-check"></i><b>4</b> Aide de R</a></li>
+<li class="chapter" data-level="5" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>5</b> R Markdown</a></li>
+<li class="chapter" data-level="6" data-path="régression-linéaire.html"><a href="régression-linéaire.html"><i class="fa fa-check"></i><b>6</b> Régression linéaire</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#généralités"><i class="fa fa-check"></i><b>6.1</b> Généralités</a></li>
+<li class="chapter" data-level="6.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#ajouter-des-intervalles-de-confiance"><i class="fa fa-check"></i><b>6.2</b> Ajouter des intervalles de confiance</a></li>
+<li class="chapter" data-level="6.3" data-path="régression-linéaire.html"><a href="régression-linéaire.html#test-de-f-pour-comparer-modèles-complet-vs.-réduit"><i class="fa fa-check"></i><b>6.3</b> Test de <em>F</em> pour comparer modèles complet <em>vs.</em> réduit</a></li>
+<li class="chapter" data-level="6.4" data-path="régression-linéaire.html"><a href="régression-linéaire.html#transformer-une-variable"><i class="fa fa-check"></i><b>6.4</b> Transformer une variable</a></li>
+<li class="chapter" data-level="6.5" data-path="régression-linéaire.html"><a href="régression-linéaire.html#choisir-la-valeur-de-référence-pour-une-variable-catégorique"><i class="fa fa-check"></i><b>6.5</b> Choisir la valeur de référence pour une variable catégorique</a></li>
+<li class="chapter" data-level="6.6" data-path="régression-linéaire.html"><a href="régression-linéaire.html#comparer-les-niveaux-dun-prédicteur-catégorique-avec-2-catégories"><i class="fa fa-check"></i><b>6.6</b> Comparer les niveaux d’un prédicteur catégorique avec &gt;2 catégories</a></li>
+<li class="chapter" data-level="6.7" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluer-une-interaction-entre-2-variables"><i class="fa fa-check"></i><b>6.7</b> Évaluer une interaction entre 2 variables</a></li>
+<li class="chapter" data-level="6.8" data-path="régression-linéaire.html"><a href="régression-linéaire.html#tol-et-vif---évaluer-colinéarité"><i class="fa fa-check"></i><b>6.8</b> TOL et VIF - Évaluer colinéarité</a></li>
+<li class="chapter" data-level="6.9" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluation-du-modèle"><i class="fa fa-check"></i><b>6.9</b> Évaluation du modèle</a>
+<ul>
+<li class="chapter" data-level="6.9.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluer-la-linéarité-de-la-relation-à-laide-de-courbes-lissées-pour-prédicteur-quantitatif"><i class="fa fa-check"></i><b>6.9.1</b> Évaluer la linéarité de la relation à l’aide de courbes lissées (pour prédicteur quantitatif)</a></li>
+<li class="chapter" data-level="6.9.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#méthodes-diagnostiques-pour-les-résiduels"><i class="fa fa-check"></i><b>6.9.2</b> Méthodes diagnostiques pour les résiduels</a></li>
+<li class="chapter" data-level="6.9.3" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluation-des-observations-extrêmes-etou-influentes"><i class="fa fa-check"></i><b>6.9.3</b> Évaluation des observations extrêmes et/ou influentes</a></li>
+</ul></li>
+<li class="chapter" data-level="6.10" data-path="régression-linéaire.html"><a href="régression-linéaire.html#travaux-pratiques-1---régression-linéaire---base"><i class="fa fa-check"></i><b>6.10</b> Travaux pratiques 1 - Régression linéaire - Base</a>
+<ul>
+<li class="chapter" data-level="6.10.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#exercices"><i class="fa fa-check"></i><b>6.10.1</b> Exercices</a></li>
+<li class="chapter" data-level="6.10.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#code-r-et-réponses"><i class="fa fa-check"></i><b>6.10.2</b> Code R et réponses</a></li>
+</ul></li>
+<li class="chapter" data-level="6.11" data-path="régression-linéaire.html"><a href="régression-linéaire.html#travaux-pratiques-2---régression-linéaire---évaluation-du-modèle"><i class="fa fa-check"></i><b>6.11</b> Travaux pratiques 2 - Régression linéaire - Évaluation du modèle</a>
+<ul>
+<li class="chapter" data-level="6.11.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#exercices-1"><i class="fa fa-check"></i><b>6.11.1</b> Exercices</a></li>
+<li class="chapter" data-level="6.11.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#code-r-et-réponses-1"><i class="fa fa-check"></i><b>6.11.2</b> Code R et réponses</a></li>
+</ul></li>
+<li class="chapter" data-level="6.12" data-path="régression-linéaire.html"><a href="régression-linéaire.html#travaux-pratiques-3---régression-linéaire---construction-de-modèle"><i class="fa fa-check"></i><b>6.12</b> Travaux pratiques 3 - Régression linéaire - Construction de modèle</a>
+<ul>
+<li class="chapter" data-level="6.12.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#exercices-2"><i class="fa fa-check"></i><b>6.12.1</b> Exercices</a></li>
+<li class="chapter" data-level="6.12.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#code-r-et-réponses-2"><i class="fa fa-check"></i><b>6.12.2</b> Code R et réponses</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="régression-logistique.html"><a href="régression-logistique.html"><i class="fa fa-check"></i><b>7</b> Régression logistique</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="régression-logistique.html"><a href="régression-logistique.html#généralités-1"><i class="fa fa-check"></i><b>7.1</b> Généralités</a></li>
+<li class="chapter" data-level="7.2" data-path="régression-logistique.html"><a href="régression-logistique.html#effectuer-un-test-de-rapport-de-vraisemblance"><i class="fa fa-check"></i><b>7.2</b> Effectuer un test de rapport de vraisemblance</a></li>
+<li class="chapter" data-level="7.3" data-path="régression-logistique.html"><a href="régression-logistique.html#ajouter-des-ic95"><i class="fa fa-check"></i><b>7.3</b> Ajouter des IC95</a></li>
+<li class="chapter" data-level="7.4" data-path="régression-logistique.html"><a href="régression-logistique.html#choisir-valeur-de-référence-pour-les-variables-catégoriques"><i class="fa fa-check"></i><b>7.4</b> Choisir valeur de référence pour les variables catégoriques</a></li>
+<li class="chapter" data-level="7.5" data-path="régression-logistique.html"><a href="régression-logistique.html#produire-des-tables-de-résultats"><i class="fa fa-check"></i><b>7.5</b> Produire des tables de résultats</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="régression-logistique.html"><a href="régression-logistique.html#présenter-les-rapport-de-cotes-plutôt-que-les-log-odds"><i class="fa fa-check"></i><b>7.5.1</b> Présenter les rapport de cotes plutôt que les log odds</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="régression-logistique.html"><a href="régression-logistique.html#spécifier-pour-quelle-augmentation-dun-prédicteur-continu-le-rapport-de-cotes-est-calculé"><i class="fa fa-check"></i><b>7.6</b> Spécifier pour quelle augmentation d’un prédicteur continu le rapport de cotes est calculé</a></li>
+<li class="chapter" data-level="7.7" data-path="régression-logistique.html"><a href="régression-logistique.html#évaluer-une-interaction-entre-2-variables-1"><i class="fa fa-check"></i><b>7.7</b> Évaluer une interaction entre 2 variables</a></li>
+<li class="chapter" data-level="7.8" data-path="régression-logistique.html"><a href="régression-logistique.html#comparer-rapports-de-cotes-pour-une-combinaison-spécifique-de-prédicteurs"><i class="fa fa-check"></i><b>7.8</b> Comparer rapports de cotes pour une combinaison spécifique de prédicteurs</a></li>
+<li class="chapter" data-level="7.9" data-path="régression-logistique.html"><a href="régression-logistique.html#présenter-leffet-des-prédicteurs-sur-une-échelle-de-probabilité"><i class="fa fa-check"></i><b>7.9</b> Présenter l’effet des prédicteurs sur une échelle de probabilité</a></li>
+<li class="chapter" data-level="7.10" data-path="régression-logistique.html"><a href="régression-logistique.html#linéarité-de-la-relation-pour-prédicteur-quantitatif"><i class="fa fa-check"></i><b>7.10</b> Linéarité de la relation (pour prédicteur quantitatif)</a></li>
+<li class="chapter" data-level="7.11" data-path="régression-logistique.html"><a href="régression-logistique.html#test-de-fit-de-hosmer-lemeshow-et-de-pearson"><i class="fa fa-check"></i><b>7.11</b> Test de ‘fit’ de Hosmer-Lemeshow et de Pearson</a></li>
+<li class="chapter" data-level="7.12" data-path="régression-logistique.html"><a href="régression-logistique.html#évaluation-des-profils-extrêmes-etou-influents"><i class="fa fa-check"></i><b>7.12</b> Évaluation des profils extrêmes et/ou influents</a></li>
+<li class="chapter" data-level="7.13" data-path="régression-logistique.html"><a href="régression-logistique.html#sensibilité-spécificité-et-courbe-roc"><i class="fa fa-check"></i><b>7.13</b> Sensibilité, spécificité et courbe ROC</a></li>
+<li class="chapter" data-level="7.14" data-path="régression-logistique.html"><a href="régression-logistique.html#travaux-pratiques-4---régression-logistique---base"><i class="fa fa-check"></i><b>7.14</b> Travaux pratiques 4 - Régression logistique - Base</a>
+<ul>
+<li class="chapter" data-level="7.14.1" data-path="régression-logistique.html"><a href="régression-logistique.html#exercices-3"><i class="fa fa-check"></i><b>7.14.1</b> Exercices</a></li>
+<li class="chapter" data-level="7.14.2" data-path="régression-logistique.html"><a href="régression-logistique.html#code-r-et-réponses-3"><i class="fa fa-check"></i><b>7.14.2</b> Code R et réponses</a></li>
+</ul></li>
+<li class="chapter" data-level="7.15" data-path="régression-logistique.html"><a href="régression-logistique.html#travaux-pratiques-5---régression-logistique---évaluation-du-modèle"><i class="fa fa-check"></i><b>7.15</b> Travaux pratiques 5 - Régression logistique - Évaluation du modèle</a>
+<ul>
+<li class="chapter" data-level="7.15.1" data-path="régression-logistique.html"><a href="régression-logistique.html#exercices-4"><i class="fa fa-check"></i><b>7.15.1</b> Exercices</a></li>
+<li class="chapter" data-level="7.15.2" data-path="régression-logistique.html"><a href="régression-logistique.html#code-r-et-réponses-4"><i class="fa fa-check"></i><b>7.15.2</b> Code R et réponses</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html"><i class="fa fa-check"></i><b>8</b> Régression pour données de compte et d’incidence</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#régression-de-poisson"><i class="fa fa-check"></i><b>8.1</b> Régression de Poisson</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#indiquer-un-offset-dénominateur-e.g.-nombre-danimal-temps-à-risque"><i class="fa fa-check"></i><b>8.1.1</b> Indiquer un Offset-dénominateur (e.g., nombre d’animal-temps à risque)</a></li>
+<li class="chapter" data-level="8.1.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#test-de-rapport-de-vraisemblance"><i class="fa fa-check"></i><b>8.1.2</b> Test de rapport de vraisemblance</a></li>
+<li class="chapter" data-level="8.1.3" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#présenter-les-ratios-dincidence"><i class="fa fa-check"></i><b>8.1.3</b> Présenter les ratios d’incidence</a></li>
+<li class="chapter" data-level="8.1.4" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#calculer-un-compte-prédit-dévènements"><i class="fa fa-check"></i><b>8.1.4</b> Calculer un compte prédit d’évènements</a></li>
+<li class="chapter" data-level="8.1.5" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#comparer-les-niveaux-dun-prédicteur-catégorique-avec-2-catégories-1"><i class="fa fa-check"></i><b>8.1.5</b> Comparer les niveaux d’un prédicteur catégorique avec &gt; 2 catégories</a></li>
+<li class="chapter" data-level="8.1.6" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#linéarité-de-la-relation-pour-prédicteur-continu"><i class="fa fa-check"></i><b>8.1.6</b> Linéarité de la relation (pour prédicteur continu)</a></li>
+<li class="chapter" data-level="8.1.7" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#test-de-chi-carré-de-pearson"><i class="fa fa-check"></i><b>8.1.7</b> Test de chi-carré de Pearson</a></li>
+<li class="chapter" data-level="8.1.8" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#profils-extrêmes-ou-influents"><i class="fa fa-check"></i><b>8.1.8</b> Profils extrêmes ou influents</a></li>
+<li class="chapter" data-level="8.1.9" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#comparer-les-comptes-observés-et-prédits"><i class="fa fa-check"></i><b>8.1.9</b> Comparer les comptes observés et prédits</a></li>
+<li class="chapter" data-level="8.1.10" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#erreurs-type-mise-à-léchelle-scaled-se"><i class="fa fa-check"></i><b>8.1.10</b> Erreurs-type mise à l’échelle (scaled SE)</a></li>
+<li class="chapter" data-level="8.1.11" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#variance-robuste"><i class="fa fa-check"></i><b>8.1.11</b> Variance robuste</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#régression-binomiale-négative"><i class="fa fa-check"></i><b>8.2</b> Régression binomiale négative</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#comparer-les-modèles-poisson-et-binomial-négatif"><i class="fa fa-check"></i><b>8.2.1</b> Comparer les modèles Poisson et Binomial négatif</a></li>
+<li class="chapter" data-level="8.2.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#évaluer-les-résiduels-dun-modèle-binomial-négatif"><i class="fa fa-check"></i><b>8.2.2</b> Évaluer les résiduels d’un modèle Binomial négatif</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#modèles-zéro-enflés"><i class="fa fa-check"></i><b>8.3</b> Modèles zéro-enflés</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#généralités-2"><i class="fa fa-check"></i><b>8.3.1</b> Généralités</a></li>
+<li class="chapter" data-level="8.3.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#test-de-vuong-comparer-modèle-zéros-enflés-au-modèle-régulier"><i class="fa fa-check"></i><b>8.3.2</b> Test de Vuong – Comparer modèle zéros-enflés au modèle régulier</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#calcul-du-risque-relatif-à-laide-dune-régression-de-poisson"><i class="fa fa-check"></i><b>8.4</b> Calcul du risque relatif à l’aide d’une régression de Poisson</a></li>
+<li class="chapter" data-level="8.5" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#travaux-pratiques-6---régression-de-poisson-et-binomiale-négative"><i class="fa fa-check"></i><b>8.5</b> Travaux pratiques 6 - Régression de Poisson et Binomiale négative</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#exercices-5"><i class="fa fa-check"></i><b>8.5.1</b> Exercices</a></li>
+<li class="chapter" data-level="8.5.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#code-r-et-réponses-5"><i class="fa fa-check"></i><b>8.5.2</b> Code R et réponses</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#travaux-pratiques-7---modèles-modifiés-en-zéro-et-calcul-dun-risque-relatif"><i class="fa fa-check"></i><b>8.6</b> Travaux pratiques 7 - Modèles modifiés en zéro et calcul d’un risque relatif</a>
+<ul>
+<li class="chapter" data-level="8.6.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#exercices-6"><i class="fa fa-check"></i><b>8.6.1</b> Exercices</a></li>
+<li class="chapter" data-level="8.6.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#code-r-et-réponses-6"><i class="fa fa-check"></i><b>8.6.2</b> Code R et réponses</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html"><i class="fa fa-check"></i><b>9</b> Analyses de survie</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#généralités-3"><i class="fa fa-check"></i><b>9.1</b> Généralités</a></li>
+<li class="chapter" data-level="9.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#format-des-données-pour-une-analyse-de-survie"><i class="fa fa-check"></i><b>9.2</b> Format des données pour une analyse de survie</a></li>
+<li class="chapter" data-level="9.3" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#analyses-non-paramétriques-kaplan-meier"><i class="fa fa-check"></i><b>9.3</b> Analyses non-paramétriques (Kaplan-Meier)</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#table-de-kaplan-meier-et-temps-median-de-survie"><i class="fa fa-check"></i><b>9.3.1</b> Table de Kaplan-Meier et temps median de survie</a></li>
+<li class="chapter" data-level="9.3.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#courbe-de-survie-de-kaplan-meier"><i class="fa fa-check"></i><b>9.3.2</b> Courbe de survie de Kaplan-Meier</a></li>
+<li class="chapter" data-level="9.3.3" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#estimer-la-probabilité-de-survie-pour-un-temps-donnée"><i class="fa fa-check"></i><b>9.3.3</b> Estimer la probabilité de survie pour un temps donnée</a></li>
+<li class="chapter" data-level="9.3.4" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#comparaisons-entre-niveaux-dun-prédicteur-catégorique"><i class="fa fa-check"></i><b>9.3.4</b> Comparaisons entre niveaux d’un prédicteur catégorique</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#régression-cox-à-hasard-proportionnel"><i class="fa fa-check"></i><b>9.4</b> Régression Cox à hasard proportionnel</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#analyses-stratifiées"><i class="fa fa-check"></i><b>9.4.1</b> Analyses stratifiées</a></li>
+<li class="chapter" data-level="9.4.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#prédicteur-dont-la-valeur-change-dans-le-temps"><i class="fa fa-check"></i><b>9.4.2</b> Prédicteur dont la valeur change dans le temps</a></li>
+<li class="chapter" data-level="9.4.3" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#prédicteur-dont-leffet-change-dans-le-temps"><i class="fa fa-check"></i><b>9.4.3</b> Prédicteur dont l’effet change dans le temps</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#évaluation-du-modèle-1"><i class="fa fa-check"></i><b>9.5</b> Évaluation du modèle</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#linéarité-de-la-relation-pour-les-prédicteurs-quantitatifs"><i class="fa fa-check"></i><b>9.5.1</b> Linéarité de la relation (pour les prédicteurs quantitatifs)</a></li>
+<li class="chapter" data-level="9.5.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#valider-la-supposition-de-hasard-proportionnel"><i class="fa fa-check"></i><b>9.5.2</b> Valider la supposition de hasard proportionnel</a></li>
+<li class="chapter" data-level="9.5.3" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#évaluer-impact-du-non-respect-de-la-supposition-de-censure-non-informative"><i class="fa fa-check"></i><b>9.5.3</b> Évaluer impact du non-respect de la supposition de censure non-informative</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#travaux-pratiques-8---analyses-de-survie-non-paramétriques"><i class="fa fa-check"></i><b>9.6</b> Travaux pratiques 8 - Analyses de survie non-paramétriques</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#exercices-7"><i class="fa fa-check"></i><b>9.6.1</b> Exercices</a></li>
+<li class="chapter" data-level="9.6.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#code-r-et-réponses-7"><i class="fa fa-check"></i><b>9.6.2</b> Code R et réponses</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publié avec bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Épidémiologie 2 - Labo informatique R (PTM-6675)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="analyses-de-survie" class="section level1" number="9">
+<h1><span class="header-section-number">Chapitre 9</span> Analyses de survie</h1>
+<div id="généralités-3" class="section level2" number="9.1">
+<h2><span class="header-section-number">9.1</span> Généralités</h2>
+<p>L’analyse de survie est une collection de procédures statistiques pour l’analyse de données où la variable dépendante est le temps jusqu’à ce qu’un certain événement survienne. Cet événement peut être un décès, un événement de santé, une rechute après une rémission, une guérison ou toute autre expérience vécue par le sujet. Le temps peut être des années, mois, semaines ou jours depuis le début du suivi jusqu’à ce que l’événement survienne. Ce temps peut référer à l’âge du sujet au moment de l’événement, à un moment de son cycle de production (e.g. jours en lait), etc. On considère en général que l’événement ne se produit qu’une seule fois. Une caractéristique de ces données est que souvent plusieurs observations sont « censurées » (i.e. plusieurs individus n’expérimentent pas l’événement et on ne peut donc avoir un temps précis jusqu’à l’événement pour ces individus). La variable dépendante est le temps de survie sans l’événement. L’événement est l’échec (failure) parce que c’est souvent un événement « négatif ». Mais il peut aussi être positif, comme le temps pour le retour à la compétition après une chirurgie pour un cheval de course.</p>
+<p>La librairie <code>survival</code> vous permettra de réaliser la plupart de vos analyses de survie.La librairie <code>survminer</code> facilitera la présentation des figures typiquement utilisées en analyse de survie.</p>
+<p>Certains cas particuliers qui ne seront pas vu dans le cadre du cours demanderont des analyses de survie particulières :<br />
+1) si plus d’un événement sont considérés (e.g. une maladie qui se produit plus d’une fois, comme des cas de mammites), on considère alors que c’est un événement récurrent;<br />
+2) si le décès peut être le résultat de différentes causes, on peut considérer que c’est un risque compétitif (i.e. les maladies compétitionnent entre elles pour causer le décès).</p>
+<p>Le jeu de donnée <em>calf_pneu.csv</em> sera utilisé pour les analyses non-paramétriques.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="analyses-de-survie.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#J&#39;importe ce jeu de données</span></span>
+<span id="cb1-2"><a href="analyses-de-survie.html#cb1-2" aria-hidden="true" tabindex="-1"></a>calf <span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="at">file=</span><span class="st">&quot;calf_pneu.csv&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">&quot;;&quot;</span>)</span>
+<span id="cb1-3"><a href="analyses-de-survie.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(calf)</span></code></pre></div>
+<pre><code>##   calf stock days pn
+## 1    1     1   27  1
+## 2    2     1   49  1
+## 3    3     1   72  1
+## 4    4     1   79  1
+## 5    5     1   90  1
+## 6    6     1  113  1</code></pre>
+</div>
+<div id="format-des-données-pour-une-analyse-de-survie" class="section level2" number="9.2">
+<h2><span class="header-section-number">9.2</span> Format des données pour une analyse de survie</h2>
+<p>La table plus haut illustre la disposition des données pour leur analyse, telle que requise par votre logiciel statistique. Une variable (<em>calf</em> dans ce cas) doit identifier chaque sujet, une autre (<em>days</em>) donne le temps de survie (votre variable déprendante), une autre indique le statut de l’individu à la fin du suivi (<em>pn</em>; en général 0 si censure, 1 si l’événement s’est produit). Les autres variables (une seule, <em>stock</em>, dans ce cas) seront les variables prédictives.</p>
+<p>Par convention, les noms de variables <em>dur</em> et <em>statut</em> sont souvent utilisés pour définir le temps de survie et le statut de l’individu à la fin du suivi, respectivement.</p>
+</div>
+<div id="analyses-non-paramétriques-kaplan-meier" class="section level2" number="9.3">
+<h2><span class="header-section-number">9.3</span> Analyses non-paramétriques (Kaplan-Meier)</h2>
+<div id="table-de-kaplan-meier-et-temps-median-de-survie" class="section level3" number="9.3.1">
+<h3><span class="header-section-number">9.3.1</span> Table de Kaplan-Meier et temps median de survie</h3>
+<p>La fonction <code>Surv()</code> de la librairie <code>survival</code> permet d’indiquer les temps de survie et les statuts. C’est cette combinaison qui sera utilisée comme variable réponse dans les étapes subséquentes. Le premier argument indiqué est la variable décrivant le temps de survie (<em>days</em>), le deuxième argument est la variable décrivant le statut (<em>pn</em>).</p>
+<p>La table de survie de Kaplan-Meier peut ensuite être produite à l’aide de la fonction <code>survfit()</code>. Le premier argument indique la fonction qui servira à générer les tables et courbes de survie. Si aucun prédicteur n’est indiqué (i.e., <code>~ 1</code>), on demande alors une seule table et une seule courbe de survie. En ajoutant un prédicteur après le <code>~</code>, on aura alors une table et une courbe par niveau du prédicteur.</p>
+<ul>
+<li>Vous pourrez directement utiliser la fonction <code>survfit()</code> dans ce cas, le temps median de survie et son <em>IC95</em> vous sera rapporté.<br />
+</li>
+<li>Vous pouvez aussi créer un nouvel objet (par exemple <code>km_fit &lt;- survfit()</code>) et utiliser la fonction <code>summary()</code> sur cet objet. Dans ce cas, la table de survie de Kaplan-Meier sera présentée.</li>
+</ul>
+<p>Le code suivant, par exemple, permet de présenter le temps médian de survie, puis de générer un nouvel objet que j’ai nommé <em>km_fit</em> et qui est, en fait, la table de Kaplan-Meier décrivant le temps jusqu’à une pneumonie pour 24 veaux.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="analyses-de-survie.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb3-2"><a href="analyses-de-survie.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">survfit</span>(<span class="fu">Surv</span>(days, pn) <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data=</span>calf)</span></code></pre></div>
+<pre><code>## Call: survfit(formula = Surv(days, pn) ~ 1, data = calf)
+## 
+##       n  events  median 0.95LCL 0.95UCL 
+##      24      12     123     113      NA</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="analyses-de-survie.html#cb5-1" aria-hidden="true" tabindex="-1"></a>km_fit <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(days, pn) <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data=</span>calf)</span>
+<span id="cb5-2"><a href="analyses-de-survie.html#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(km_fit)</span></code></pre></div>
+<pre><code>## Call: survfit(formula = Surv(days, pn) ~ 1, data = calf)
+## 
+##  time n.risk n.event survival std.err lower 95% CI upper 95% CI
+##    27     24       1    0.958  0.0408        0.882        1.000
+##    49     23       1    0.917  0.0564        0.813        1.000
+##    72     22       1    0.875  0.0675        0.752        1.000
+##    79     21       2    0.792  0.0829        0.645        0.972
+##    89     19       1    0.750  0.0884        0.595        0.945
+##    90     18       1    0.708  0.0928        0.548        0.916
+##   101     17       1    0.667  0.0962        0.502        0.885
+##   113     15       2    0.578  0.1019        0.409        0.816
+##   117      9       1    0.514  0.1089        0.339        0.778
+##   123      6       1    0.428  0.1198        0.247        0.741</code></pre>
+</div>
+<div id="courbe-de-survie-de-kaplan-meier" class="section level3" number="9.3.2">
+<h3><span class="header-section-number">9.3.2</span> Courbe de survie de Kaplan-Meier</h3>
+<p>La courbe de survie de Kaplan-Meier pourra être générée en appliquant la fonction <code>ggsurvplot()</code> de la librairie <code>survminer</code>à ce nouvel objet <em>km_fit</em>. La librairie <code>survminer</code> et sa fonction <code>ggsurvplot()</code> sont très flexibles pour produire les figures en lien avec les analyses de survie.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="analyses-de-survie.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span>
+<span id="cb7-2"><a href="analyses-de-survie.html#cb7-2" aria-hidden="true" tabindex="-1"></a>survie <span class="ot">&lt;-</span> <span class="fu">ggsurvplot</span>(km_fit, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-3"><a href="analyses-de-survie.html#cb7-3" aria-hidden="true" tabindex="-1"></a>survie</span></code></pre></div>
+<p><img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Et ce sera ensuite facile de modifier cette figure avec toutes les fonctions de <code>ggplot</code> auxquelles vous êtes habitué. Par exemple:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="analyses-de-survie.html#cb8-1" aria-hidden="true" tabindex="-1"></a>survie<span class="sc">$</span>plot <span class="sc">+</span><span class="fu">theme_bw</span>()</span></code></pre></div>
+<p><img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>En continuant avec <code>survminer</code>, je pourrais demander la fonction d’échec (i.e., le contraire de la fonction de survie) à l’aide de l’argument <code>fun="event"</code>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="analyses-de-survie.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span>
+<span id="cb9-2"><a href="analyses-de-survie.html#cb9-2" aria-hidden="true" tabindex="-1"></a>echec <span class="ot">&lt;-</span> <span class="fu">ggsurvplot</span>(km_fit, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">fun=</span><span class="st">&quot;event&quot;</span>)</span>
+<span id="cb9-3"><a href="analyses-de-survie.html#cb9-3" aria-hidden="true" tabindex="-1"></a>echec</span></code></pre></div>
+<p><img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Ou encore la fonction de hasard cummulatif (i.e., cummulative hazard function) à l’aide de la fonction <code>fun="cumhaz"</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="analyses-de-survie.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span>
+<span id="cb10-2"><a href="analyses-de-survie.html#cb10-2" aria-hidden="true" tabindex="-1"></a>cum <span class="ot">&lt;-</span> <span class="fu">ggsurvplot</span>(km_fit, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">fun=</span><span class="st">&quot;cumhaz&quot;</span>)</span>
+<span id="cb10-3"><a href="analyses-de-survie.html#cb10-3" aria-hidden="true" tabindex="-1"></a>cum</span></code></pre></div>
+<p><img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="estimer-la-probabilité-de-survie-pour-un-temps-donnée" class="section level3" number="9.3.3">
+<h3><span class="header-section-number">9.3.3</span> Estimer la probabilité de survie pour un temps donnée</h3>
+<p>L’argument <code>times=</code> de la fonction <code>survfit()</code> permet d’estimer la proportion (et son <em>IC95</em>) des individus qui “survivront” jusqu’à un temps <em>t</em>. Par exemple, ce code me permet d’estimer que 91.7% (<em>IC95</em>= 81.3, 100) des veaux n’avaient pas eu de pneumonie après 50 jours.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="analyses-de-survie.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb11-2"><a href="analyses-de-survie.html#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">survfit</span>(<span class="fu">Surv</span>(days, pn) <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data=</span>calf), <span class="at">times =</span> <span class="dv">50</span>)</span></code></pre></div>
+<pre><code>## Call: survfit(formula = Surv(days, pn) ~ 1, data = calf)
+## 
+##  time n.risk n.event survival std.err lower 95% CI upper 95% CI
+##    50     22       2    0.917  0.0564        0.813            1</code></pre>
+</div>
+<div id="comparaisons-entre-niveaux-dun-prédicteur-catégorique" class="section level3" number="9.3.4">
+<h3><span class="header-section-number">9.3.4</span> Comparaisons entre niveaux d’un prédicteur catégorique</h3>
+<p>L’analyse de survie non-paramétrique (i.e. Kaplan-Meier) permet de comparer les fonctions de survie des différents niveaux d’un prédicteur catégorique. Le code suivant, par exemple, permet de vérifier l’effet du type d’élevage (variable <em>stock</em>; en batch <em>vs.</em> en continu) sur le temps jusqu’à la pneumonie. Vous aurez maintenant un temps median de survie par niveau d’exposition (notez que celui-ci ne peut pas toujours être calculé, dépendamment du nombre d’observations).</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="analyses-de-survie.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb13-2"><a href="analyses-de-survie.html#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">survfit</span>(<span class="fu">Surv</span>(days, pn) <span class="sc">~</span> stock, <span class="at">data=</span>calf)</span></code></pre></div>
+<pre><code>## Call: survfit(formula = Surv(days, pn) ~ stock, data = calf)
+## 
+##          n events median 0.95LCL 0.95UCL
+## stock=0 12      4     NA     123      NA
+## stock=1 12      8    113      79      NA</code></pre>
+<p>Vous aurez également une table de Kaplan-Meier par niveau d’exposition.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="analyses-de-survie.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb15-2"><a href="analyses-de-survie.html#cb15-2" aria-hidden="true" tabindex="-1"></a>km_fit_stock <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(days, pn) <span class="sc">~</span> stock, <span class="at">data=</span>calf)</span>
+<span id="cb15-3"><a href="analyses-de-survie.html#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(km_fit_stock)</span></code></pre></div>
+<pre><code>## Call: survfit(formula = Surv(days, pn) ~ stock, data = calf)
+## 
+##                 stock=0 
+##  time n.risk n.event survival std.err lower 95% CI upper 95% CI
+##    79     12       1    0.917  0.0798        0.773            1
+##    89     11       1    0.833  0.1076        0.647            1
+##   101     10       1    0.750  0.1250        0.541            1
+##   123      5       1    0.600  0.1673        0.347            1
+## 
+##                 stock=1 
+##  time n.risk n.event survival std.err lower 95% CI upper 95% CI
+##    27     12       1    0.917  0.0798        0.773        1.000
+##    49     11       1    0.833  0.1076        0.647        1.000
+##    72     10       1    0.750  0.1250        0.541        1.000
+##    79      9       1    0.667  0.1361        0.447        0.995
+##    90      8       1    0.583  0.1423        0.362        0.941
+##   113      7       2    0.417  0.1423        0.213        0.814
+##   117      4       1    0.312  0.1398        0.130        0.751</code></pre>
+<p>Finalement, vous aurez aussi une courbe de survie par niveau d’exposition.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="analyses-de-survie.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span>
+<span id="cb17-2"><a href="analyses-de-survie.html#cb17-2" aria-hidden="true" tabindex="-1"></a>survie <span class="ot">&lt;-</span> <span class="fu">ggsurvplot</span>(km_fit_stock, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-3"><a href="analyses-de-survie.html#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="analyses-de-survie.html#cb17-4" aria-hidden="true" tabindex="-1"></a>survie<span class="sc">$</span>plot <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb17-5"><a href="analyses-de-survie.html#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Nombre de jours&quot;</span>) <span class="sc">+</span></span>
+<span id="cb17-6"><a href="analyses-de-survie.html#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Probabilité de survie&quot;</span>)<span class="sc">+</span> </span>
+<span id="cb17-7"><a href="analyses-de-survie.html#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">name =</span> <span class="st">&quot;Type d&#39;élevage&quot;</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;En batch&quot;</span>, <span class="st">&quot;En continu&quot;</span>))<span class="sc">+</span></span>
+<span id="cb17-8"><a href="analyses-de-survie.html#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_discrete</span>(<span class="at">name =</span> <span class="st">&quot;Type d&#39;élevage&quot;</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;En batch&quot;</span>, <span class="st">&quot;En continu&quot;</span>))</span></code></pre></div>
+<p><img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>Finalement, vous pourrez tester les différences entre les niveaux d’exposition à l’aide des tests de log-rank et/ou de Wilcoxon à l’aide de la fonction <code>survdiff()</code>. Le premier argument est notre modèle, le deuxième est le jeu de données, l’argument <code>rho=0</code> permettra d’indiquer que le test de log-rank est désiré. En utilisant <code>rho=1</code>, ce sera plutôt le test de Wilcoxon qui sera réalisé.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="analyses-de-survie.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb18-2"><a href="analyses-de-survie.html#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co">#log-rank</span></span>
+<span id="cb18-3"><a href="analyses-de-survie.html#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">survdiff</span>(<span class="fu">Surv</span>(days, pn) <span class="sc">~</span> stock, <span class="at">data=</span>calf, <span class="at">rho=</span><span class="dv">0</span>)</span></code></pre></div>
+<pre><code>## Call:
+## survdiff(formula = Surv(days, pn) ~ stock, data = calf, rho = 0)
+## 
+##          N Observed Expected (O-E)^2/E (O-E)^2/V
+## stock=0 12        4     6.89      1.21      2.99
+## stock=1 12        8     5.11      1.63      2.99
+## 
+##  Chisq= 3  on 1 degrees of freedom, p= 0.08</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="analyses-de-survie.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Wilcoxon</span></span>
+<span id="cb20-2"><a href="analyses-de-survie.html#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">survdiff</span>(<span class="fu">Surv</span>(days, pn) <span class="sc">~</span> stock, <span class="at">data=</span>calf, <span class="at">rho=</span><span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## Call:
+## survdiff(formula = Surv(days, pn) ~ stock, data = calf, rho = 1)
+## 
+##          N Observed Expected (O-E)^2/E (O-E)^2/V
+## stock=0 12     2.89     5.25      1.06      3.13
+## stock=1 12     6.41     4.05      1.38      3.13
+## 
+##  Chisq= 3.1  on 1 degrees of freedom, p= 0.08</code></pre>
+<p>Dans ce cas, les deux tests donnent une valeur de <em>P</em> de 0.08. C’est donc dire que les courbes de survie des veaux élevés en batch ou en continu ne sont pas différentes.</p>
+<p>Notez que plus d’une variable peut être utilisée pour stratifier les données. Par exemple, le jeu de données <em>pgtrial.csv</em> contient plusieurs prédicteurs. Cette étude est un essai clinique randomisé sur l’effet de l’administration d’une dose de prostaglandine <em>vs.</em> d’un placebo (la variable <em>tx</em>) au début de la période de reproduction sur le nombre de jours (la variable <em>dar</em>) jusqu’à la conception (la variable <em>preg</em>). L’hypothèse était que l’administration de prostaglandine réduirait le nombre de jours jusqu’à la conception. Les 319 vaches de cette étude étaient suivies jusqu’à un maximum de 346 jours en lait. Trois autres prédicteurs étaient aussi évalués: le nombre de lactation (<em>lact</em>; 1, 2, 3…), l’état de chair (<em>thin</em>; 0=normal, 1=thin) et le troupeau (<em>herd</em>; 3 troupeaux).</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="analyses-de-survie.html#cb22-1" aria-hidden="true" tabindex="-1"></a>pgtrial <span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="at">file=</span><span class="st">&quot;pgtrial.csv&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">&quot;;&quot;</span>)</span>
+<span id="cb22-2"><a href="analyses-de-survie.html#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pgtrial)</span></code></pre></div>
+<pre><code>##   herd cow tx lact thin dar preg
+## 1    1   1  0    1    0   1    1
+## 2    1   2  1    4    1   1    1
+## 3    1   3  1    1    0   2    1
+## 4    1   4  1    1    0   3    1
+## 5    1   5  1    6    0   3    0
+## 6    1   6  1    1    0   3    1</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="analyses-de-survie.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#J&#39;indique les variables catégoriques dans mon jeu de données</span></span>
+<span id="cb24-2"><a href="analyses-de-survie.html#cb24-2" aria-hidden="true" tabindex="-1"></a>pgtrial<span class="sc">$</span>thin <span class="ot">&lt;-</span> <span class="fu">factor</span>(pgtrial<span class="sc">$</span>thin) </span>
+<span id="cb24-3"><a href="analyses-de-survie.html#cb24-3" aria-hidden="true" tabindex="-1"></a>pgtrial<span class="sc">$</span>herd <span class="ot">&lt;-</span> <span class="fu">factor</span>(pgtrial<span class="sc">$</span>herd) </span></code></pre></div>
+<p>Le code suivant pourra être utilisé pour effectuer une analyse de survie non-paramétrique par groupe de traitement (<em>tx</em>) <strong>ET</strong> par état de chair (<em>thin</em>). Dans ce cas, vous auriez quatre strates de <em>tx</em> par <em>thin</em> possibles (0-0, 0-1, 1-0, et 1-1). La fonction <code>survfit()</code> vous rapportera alors toutes les comparaisons entre chaque paire de strates (4 comparaisons dans ce cas).</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="analyses-de-survie.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb25-2"><a href="analyses-de-survie.html#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="analyses-de-survie.html#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">survfit</span>(<span class="fu">Surv</span>(dar, preg) <span class="sc">~</span> tx <span class="sc">+</span> thin, <span class="at">data=</span>pgtrial)</span></code></pre></div>
+<pre><code>## Call: survfit(formula = Surv(dar, preg) ~ tx + thin, data = pgtrial)
+## 
+##               n events median 0.95LCL 0.95UCL
+## tx=0, thin=0 73     63     70      58      90
+## tx=0, thin=1 95     76     68      52     105
+## tx=1, thin=0 73     60     66      40      88
+## tx=1, thin=1 78     65     53      32      91</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="analyses-de-survie.html#cb27-1" aria-hidden="true" tabindex="-1"></a>km_fit_pg <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(dar, preg) <span class="sc">~</span> tx <span class="sc">+</span> thin, <span class="at">data=</span>pgtrial)</span>
+<span id="cb27-2"><a href="analyses-de-survie.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">survdiff</span>(<span class="fu">Surv</span>(dar, preg) <span class="sc">~</span> tx <span class="sc">+</span> thin, <span class="at">data=</span>pgtrial, <span class="at">rho=</span><span class="dv">0</span>)</span></code></pre></div>
+<pre><code>## Call:
+## survdiff(formula = Surv(dar, preg) ~ tx + thin, data = pgtrial, 
+##     rho = 0)
+## 
+##               N Observed Expected (O-E)^2/E (O-E)^2/V
+## tx=0, thin=0 73       63     60.8    0.0806     0.107
+## tx=0, thin=1 95       76     88.3    1.7023     2.634
+## tx=1, thin=0 73       60     53.8    0.7213     0.928
+## tx=1, thin=1 78       65     61.2    0.2380     0.317
+## 
+##  Chisq= 2.8  on 3 degrees of freedom, p= 0.4</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="analyses-de-survie.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span>
+<span id="cb29-2"><a href="analyses-de-survie.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(km_fit_pg, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>C’est beaucoup d’information sur une même figure! Vous pourriez aussi la séparer à l’aide de la fonction <code>facet_grid()</code> de la librairie <code>ggplot2</code> afin de pouvoir comparer plus aisément l’effet du traitement chez les vaches maigres, puis chez les vaches normales.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="analyses-de-survie.html#cb30-1" aria-hidden="true" tabindex="-1"></a>ggsurv <span class="ot">&lt;-</span> <span class="fu">ggsurvplot</span>(km_fit_pg, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb30-2"><a href="analyses-de-survie.html#cb30-2" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb30-3"><a href="analyses-de-survie.html#cb30-3" aria-hidden="true" tabindex="-1"></a>ggsurv<span class="sc">$</span>plot <span class="sc">+</span><span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb30-4"><a href="analyses-de-survie.html#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span> (<span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>)<span class="sc">+</span></span>
+<span id="cb30-5"><a href="analyses-de-survie.html#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>( <span class="sc">~</span> thin)</span></code></pre></div>
+<p><img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+</div>
+</div>
+<div id="régression-cox-à-hasard-proportionnel" class="section level2" number="9.4">
+<h2><span class="header-section-number">9.4</span> Régression Cox à hasard proportionnel</h2>
+<p>Si on veut comparer la survie de deux groupes en ajustant pour les effets confondants ou des modificateurs d’effet potentiels, on peut utiliser un modèle de risques proportionnels (proportional hazards model) ou modèle de régression de Cox. La fonction <code>coxph()</code> (pour Cox <strong>P</strong>roportional <strong>H</strong>azard) de la librairie <code>survival</code> permet de réaliser les régressions de Cox.</p>
+<p>Par exemple, le code suivant permet d’estimer un modèle de Cox à hasard proportionnel qui décrit l’effet d’un traitement à la prostaglandine (<em>tx</em>) sur le temps jusqu’à la conception (<em>dar</em> et <em>preg</em>) après ajustement pour les biais de confusion par la parité (<em>lact</em>), l’état de chair (<em>thin</em>) et le troupeau d’origine (<em>herd</em>).</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="analyses-de-survie.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb31-2"><a href="analyses-de-survie.html#cb31-2" aria-hidden="true" tabindex="-1"></a>PH_fit_pg <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(dar, preg) <span class="sc">~</span> tx <span class="sc">+</span> lact <span class="sc">+</span> thin <span class="sc">+</span> herd, <span class="at">data=</span>pgtrial)</span>
+<span id="cb31-3"><a href="analyses-de-survie.html#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(PH_fit_pg)</span></code></pre></div>
+<pre><code>## Call:
+## coxph(formula = Surv(dar, preg) ~ tx + lact + thin + herd, data = pgtrial)
+## 
+##   n= 319, number of events= 264 
+## 
+##           coef exp(coef) se(coef)      z Pr(&gt;|z|)  
+## tx     0.19603   1.21657  0.12543  1.563    0.118  
+## lact  -0.04360   0.95733  0.04118 -1.059    0.290  
+## thin1 -0.14713   0.86318  0.13804 -1.066    0.286  
+## herd2 -0.28544   0.75169  0.16993 -1.680    0.093 .
+## herd3  0.04032   1.04115  0.17453  0.231    0.817  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##       exp(coef) exp(-coef) lower .95 upper .95
+## tx       1.2166     0.8220    0.9514     1.556
+## lact     0.9573     1.0446    0.8831     1.038
+## thin1    0.8632     1.1585    0.6586     1.131
+## herd2    0.7517     1.3303    0.5388     1.049
+## herd3    1.0411     0.9605    0.7395     1.466
+## 
+## Concordance= 0.565  (se = 0.019 )
+## Likelihood ratio test= 9.94  on 5 df,   p=0.08
+## Wald test            = 9.76  on 5 df,   p=0.08
+## Score (logrank) test = 9.78  on 5 df,   p=0.08</code></pre>
+<p>La fonction <code>summary()</code> vous permet de rapporter le nombre d’observations (n=319) et le nombre de vaches ayant eu une conception (n=264). Ont vous rapporte ensuite les coefficients pour chacun des prédicteurs, leur erreur-type, leur <em>IC95</em> et la valeur de <em>P</em> du test de Wald pour ce coefficient particulier. La table suivante présente les hazard ratios (HR) et leur <em>IC95</em> (ce sont simplement les coefficients et leur <em>IC95</em> mis à l’exposant). Enfin, le test de rapport de vraisemblance qui vérifie si au moins un coefficient est différent de 0 est présenté (ici, <em>P</em>=0.08).</p>
+<p>Pour générer une figure de la fonction de survie de Cox, on devra utiliser la fonction <code>ggadjustedcurves()</code> de la librairie <code>survminer</code>. L’argument <code>variable="tx"</code> me permet de générer des fonctions de survie de Cox par niveaux d’un prédicteur (ici <em>tx</em>).</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="analyses-de-survie.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#La courbe de survie de Cox</span></span>
+<span id="cb33-2"><a href="analyses-de-survie.html#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span>
+<span id="cb33-3"><a href="analyses-de-survie.html#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggadjustedcurves</span>(PH_fit_pg, <span class="at">variable=</span><span class="st">&quot;tx&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning in .get_data(fit, data): The `data` argument is not provided. Data will
+## be extracted from model fit.</code></pre>
+<div class="figure"><span id="fig:unnamed-chunk-18"></span>
+<img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-18-1.png" alt="Fonction de survie de Cox par niveau de la variable traitement." width="672" />
+<p class="caption">
+Figure 9.1: Fonction de survie de Cox par niveau de la variable traitement.
+</p>
+</div>
+<div id="analyses-stratifiées" class="section level3" number="9.4.1">
+<h3><span class="header-section-number">9.4.1</span> Analyses stratifiées</h3>
+<p>On peut réaliser une analyse stratifiée par un prédicteur à l’aide de la fonction <code>strata()</code>. L’analyse stratifiée par un prédicteur pourra être utile:<br />
+- lorsque ce prédicteur ne satisfait pas à la supposition de proportionnalité des Hazard Ratio et que le prédicteur n’est pas d’intérêt direct (e.g. un facteur confondant);<br />
+- afin de prendre en compte le regroupement d’observations (la variable de stratification sera alors la variable indiquant le groupe d’appartenance; <em>herd</em> dans l’exemple suivant).</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="analyses-de-survie.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb35-2"><a href="analyses-de-survie.html#cb35-2" aria-hidden="true" tabindex="-1"></a>PH_fit_pg <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(dar, preg) <span class="sc">~</span> tx <span class="sc">+</span> lact <span class="sc">+</span> thin <span class="sc">+</span> <span class="fu">strata</span>(herd), <span class="at">data=</span>pgtrial)</span>
+<span id="cb35-3"><a href="analyses-de-survie.html#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(PH_fit_pg)</span></code></pre></div>
+<pre><code>## Call:
+## coxph(formula = Surv(dar, preg) ~ tx + lact + thin + strata(herd), 
+##     data = pgtrial)
+## 
+##   n= 319, number of events= 264 
+## 
+##           coef exp(coef) se(coef)      z Pr(&gt;|z|)
+## tx     0.20490   1.22740  0.12622  1.623    0.105
+## lact  -0.04218   0.95870  0.04101 -1.029    0.304
+## thin1 -0.13871   0.87048  0.13857 -1.001    0.317
+## 
+##       exp(coef) exp(-coef) lower .95 upper .95
+## tx       1.2274     0.8147    0.9584     1.572
+## lact     0.9587     1.0431    0.8847     1.039
+## thin1    0.8705     1.1488    0.6634     1.142
+## 
+## Concordance= 0.558  (se = 0.021 )
+## Likelihood ratio test= 5.43  on 3 df,   p=0.1
+## Wald test            = 5.44  on 3 df,   p=0.1
+## Score (logrank) test = 5.46  on 3 df,   p=0.1</code></pre>
+<p>Notez que l’effet de la variable utilisée pour stratifier n’est plus calculé maintenant.</p>
+</div>
+<div id="prédicteur-dont-la-valeur-change-dans-le-temps" class="section level3" number="9.4.2">
+<h3><span class="header-section-number">9.4.2</span> Prédicteur dont la valeur change dans le temps</h3>
+<p>Lorsqu’un prédicteur peut changer de valeur en cours de suivi, le jeu de données doit être réorganisé avec plusieurs intervalles pour chaque sujet. Ce format s’appelle le <em>counting process format</em> (<strong>CP</strong>). Le format CP est en fait adapté à plusieurs situations d’analyse de survie complexes:<br />
+- quand il y a présence de prédicteurs dont la valeur change dans le temps;<br />
+- quand l’âge plutôt que le temps est utilisé comme mesure du suivi (on voudra alors indiquer l’âge de début et l’âge de fin);<br />
+- quand il y a des évènements récurrents et/ou que l’occurrence de l’évènement ne peut être observé en continu (ex: animaux testés mensuellement pour identifier l’acquisition d’une infection).</p>
+<p>Le format général des données dans le format CP est montré à la table suivante. Pour chaque individu, il y a plusieurs lignes: chaque temps de suivi est divisé en petits intervalles de temps. Il y a aussi deux variables de temps spécifiées pour chaque individu, une indiquant le début du suivi (<em>start</em> dans ce cas) et une indiquant la fin du suivi (<em>stop</em> dans ce cas). Une variable (<em>dead2</em> dans ce cas) indique ce qui s’est produit à la fin du suivi (dans cet exemple censure=0 et mort=1).</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="analyses-de-survie.html#cb37-1" aria-hidden="true" tabindex="-1"></a>stan <span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="at">file=</span><span class="st">&quot;stanlong.csv&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">&quot;;&quot;</span>)</span>
+<span id="cb37-2"><a href="analyses-de-survie.html#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(stan)</span></code></pre></div>
+<pre><code>##   id dead surg ageaccpt trans plant start dead2 stop
+## 1  1    1    0 30.84463     0     0   0.0     1 49.0
+## 2  2    1    0 51.83573     0     0   0.0     1  5.0
+## 3  3    1    0 54.29706     1     0   0.0     0  0.1
+## 4  3    1    0 54.29706     1     1   0.1     1 15.0
+## 5  4    1    0 40.26283     1     0   0.0     0 35.0
+## 6  4    1    0 40.26283     1     1  35.0     1 38.0</code></pre>
+<p>Dans l’exemple plus haut, on voit que les individus 3 et 4 ont bien 2 intervalles de temps (2 rangées) puisque le prédicteur <em>trans</em> (indiquant s’ils ont eu ou non une transplatation cardiaque) à changé de valeur (de 0 à 1) pour ces individus durant l’étude. Ont comprend donc que l’individu 3 a reçu une transplantation très rapidement à 0.1 jour (c’est là que sons statut <em>trans</em> à changé) et il est malheureusement décédé à 15 jours. L’individu 4 a reçu une transplantation 15 jours après son accident cardio-vasculaire et il est décédé 3 jours plus tard, soit 38 jours après son accident cardio-vasculaire.</p>
+<p>Pour analyser ce genre de données, vous devrez indiquer les variables indiquant le début et la fin de chaque intervalle dans votre fonction <code>surv()</code> à la place de votre variable représentant le temps (e.g. <em>dur</em>, <em>dar</em>, ou <em>days</em>). Par exemple, le modèle suivant présente le temps d’un accident cardio-vasculaire jusqu’au décès en fonction de si le patient à reçu une transplantation cardiaque (une variable qui peut changer de valeur dans le temps) et après ajustement pour l’âge du patient.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="analyses-de-survie.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb39-2"><a href="analyses-de-survie.html#cb39-2" aria-hidden="true" tabindex="-1"></a>PH_fit_stan <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, dead2) <span class="sc">~</span> trans <span class="sc">+</span> ageaccpt, <span class="at">data=</span>stan)</span>
+<span id="cb39-3"><a href="analyses-de-survie.html#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(PH_fit_stan)</span></code></pre></div>
+<pre><code>## Call:
+## coxph(formula = Surv(start, stop, dead2) ~ trans + ageaccpt, 
+##     data = stan)
+## 
+##   n= 172, number of events= 75 
+## 
+##              coef exp(coef) se(coef)      z Pr(&gt;|z|)    
+## trans    -1.80047   0.16522  0.27225 -6.613 3.76e-11 ***
+## ageaccpt  0.06020   1.06205  0.01531  3.933 8.40e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##          exp(coef) exp(-coef) lower .95 upper .95
+## trans       0.1652     6.0525    0.0969    0.2817
+## ageaccpt    1.0620     0.9416    1.0307    1.0944
+## 
+## Concordance= 0.721  (se = 0.035 )
+## Likelihood ratio test= 44.46  on 2 df,   p=2e-10
+## Wald test            = 46.04  on 2 df,   p=1e-10
+## Score (logrank) test = 51.05  on 2 df,   p=8e-12</code></pre>
+<p>Le <em>HR</em> de décès chez les patients ayant eu une transplantation cardiaque était 0.17 (<em>IC95</em>: 0.10, 0.28) fois celui de ceux qui n’en ont pas eu. Pour cette dernière catégorie, le temps passé sans transplantation par des patients qui seront transplantés dans le futur est aussi compilé.</p>
+</div>
+<div id="prédicteur-dont-leffet-change-dans-le-temps" class="section level3" number="9.4.3">
+<h3><span class="header-section-number">9.4.3</span> Prédicteur dont l’effet change dans le temps</h3>
+<p>Avec le modèle de régression de Cox, le risque peut évoluer au cours du temps, mais il doit rester proportionnel entre sujets avec différents niveaux d’exposition. Cette suposition pourra être vérifiée (voir section évaluation du modèle). Cette supposition peut aussi être relaxée en ajoutant une interaction entre le temps et un prédicteur. Si cette interaction est significativement différente de zéro, on concluera que le risque n’était pas proportionnel et ont présentera alors les résultats du modèle avec l’interaction. Pour ce faire, la variable représentant le temps pourra être transformée (e.g., une transformation log, une catégorisation en deux ou plus de deux catégories, etc) en fonction de la biologie du phénomène étudié.</p>
+<p>Par exemple, le code suivant permettrait d’évaluer une interaction avec le temps représentant un changement d’effet de la prostaglandine entre les 5 premiers jours <em>vs.</em> le reste de la période de suivi. Ont pourrait émettre l’hypothèse que le traitement aux prostaglandines aura un effet dans les 5 jours suivants l’administration, mais aucun ou peu d’effet par la suite. <strong>Important:</strong> en ajoutant un terme d’interaction (ex: <span class="math inline">\(tx*time5\)</span> dans votre fonction <code>coxph()</code>, R incluera automatiquement les deux termes principaux pour cette interaction (<span class="math inline">\(tx\)</span> et <span class="math inline">\(time5\)</span>) en plus de l’interaction (<span class="math inline">\(tx*time5\)</span>). Or, il n’est pas possible d’estimer dans ce modèle le terme principal <span class="math inline">\(time5\)</span> puisque la notion de temps, fait également partie de l’issue. Vous devrez donc indiquer à R de retirer ce terme principal simplement en ajoutant <code>- time5</code> dans votre modèle. De cette manière, ce terme ne sera pas inclu.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="analyses-de-survie.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Je commence par créer une prédicteur &quot;temps&quot; que j&#39;ai nommer time et qui prend les valeurs 0-5 days vs. &gt;5 days</span></span>
+<span id="cb41-2"><a href="analyses-de-survie.html#cb41-2" aria-hidden="true" tabindex="-1"></a>pgtrial<span class="sc">$</span>time5 <span class="ot">&lt;-</span> <span class="fu">cut</span>(pgtrial<span class="sc">$</span>dar, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="cn">Inf</span>),<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;0-5 days&quot;</span>, <span class="st">&quot;&gt;5 days&quot;</span>))</span>
+<span id="cb41-3"><a href="analyses-de-survie.html#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="analyses-de-survie.html#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Ensuite, je peux tester une interaction entre time et tx</span></span>
+<span id="cb41-5"><a href="analyses-de-survie.html#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb41-6"><a href="analyses-de-survie.html#cb41-6" aria-hidden="true" tabindex="-1"></a>PH_fit_pg <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(dar, preg) <span class="sc">~</span>  tx<span class="sc">*</span>time5 <span class="sc">-</span>time5 <span class="sc">+</span> lact <span class="sc">+</span> thin <span class="sc">+</span> herd, <span class="at">data=</span>pgtrial)</span>
+<span id="cb41-7"><a href="analyses-de-survie.html#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(PH_fit_pg)</span></code></pre></div>
+<pre><code>## Call:
+## coxph(formula = Surv(dar, preg) ~ tx * time5 - time5 + lact + 
+##     thin + herd, data = pgtrial)
+## 
+##   n= 319, number of events= 264 
+## 
+##                       coef  exp(coef)   se(coef)      z Pr(&gt;|z|)    
+## tx                5.461468 235.442858   0.589539  9.264   &lt;2e-16 ***
+## lact             -0.055402   0.946105   0.039061 -1.418    0.156    
+## thin1            -0.170799   0.842991   0.138408 -1.234    0.217    
+## herd2            -0.217645   0.804411   0.170209 -1.279    0.201    
+## herd3            -0.037483   0.963211   0.176023 -0.213    0.831    
+## tx:time5&gt;5 days  -5.638785   0.003557   0.595293 -9.472   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##                 exp(coef) exp(-coef) lower .95 upper .95
+## tx              2.354e+02  4.247e-03 74.142836 747.65604
+## lact            9.461e-01  1.057e+00  0.876376   1.02138
+## thin1           8.430e-01  1.186e+00  0.642702   1.10570
+## herd2           8.044e-01  1.243e+00  0.576229   1.12295
+## herd3           9.632e-01  1.038e+00  0.682166   1.36004
+## tx:time5&gt;5 days 3.557e-03  2.811e+02  0.001108   0.01142
+## 
+## Concordance= 0.663  (se = 0.021 )
+## Likelihood ratio test= 199.5  on 6 df,   p=&lt;2e-16
+## Wald test            = 96.56  on 6 df,   p=&lt;2e-16
+## Score (logrank) test = 459.8  on 6 df,   p=&lt;2e-16</code></pre>
+<p>Nous notons maintenant que, comme l’hypothèse que nous avions émise, le traitement aux prostaglandine augmente le hasard de conception dans le 5 jours suivant l’injection (HR= 235). Par contre, après 5 jours, l’effet semble minime. Le coefficient après 5 jours serait de -0.18 (i.e., 5.46 + -5.64), donc un HR de 0.84. L’interaction est significative (<em>P</em>&lt; 0.001). Ont pourrait demander des contrastes pour comparer ces derniers résultats.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="analyses-de-survie.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb43-2"><a href="analyses-de-survie.html#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Je génère d&#39;abor l&#39;objet contrast à partir de mon modèle</span></span>
+<span id="cb43-3"><a href="analyses-de-survie.html#cb43-3" aria-hidden="true" tabindex="-1"></a>contrast <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(PH_fit_pg, <span class="fu">c</span>(<span class="st">&quot;tx&quot;</span>, <span class="st">&quot;time5&quot;</span>)) </span>
+<span id="cb43-4"><a href="analyses-de-survie.html#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-5"><a href="analyses-de-survie.html#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Je demande les comparaisons pairées, je voulais voir Tx=1 vs Tx=0, j&#39;ai donc du utilisé reverse=TRUE. Puis j&#39;ai ajouté les IC95 avec confint</span></span>
+<span id="cb43-6"><a href="analyses-de-survie.html#cb43-6" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">confint</span>(<span class="fu">pairs</span>(contrast, <span class="at">reverse =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb43-7"><a href="analyses-de-survie.html#cb43-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-8"><a href="analyses-de-survie.html#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Je retravaille mes résultats pour la présentation. D&#39;abord en les mettant à l&#39;exposant pour avoir des HR, puis en arrondissant.</span></span>
+<span id="cb43-9"><a href="analyses-de-survie.html#cb43-9" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span>HR <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">exp</span>(result<span class="sc">$</span>estimate), <span class="at">digits=</span><span class="dv">2</span>)</span>
+<span id="cb43-10"><a href="analyses-de-survie.html#cb43-10" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span>lowCI <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">exp</span>(result<span class="sc">$</span>asymp.LCL), <span class="at">digits=</span><span class="dv">2</span>)</span>
+<span id="cb43-11"><a href="analyses-de-survie.html#cb43-11" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span>hiCI <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">exp</span>(result<span class="sc">$</span>asymp.UCL), <span class="at">digits=</span><span class="dv">2</span>)</span>
+<span id="cb43-12"><a href="analyses-de-survie.html#cb43-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-13"><a href="analyses-de-survie.html#cb43-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Je ne conserve que les rangée (2 et 5) et les colonnes (1, 7, 8, 9) qui m&#39;intéressent</span></span>
+<span id="cb43-14"><a href="analyses-de-survie.html#cb43-14" aria-hidden="true" tabindex="-1"></a>result2 <span class="ot">&lt;-</span> result[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>),<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>)]</span>
+<span id="cb43-15"><a href="analyses-de-survie.html#cb43-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-16"><a href="analyses-de-survie.html#cb43-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb43-17"><a href="analyses-de-survie.html#cb43-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb43-18"><a href="analyses-de-survie.html#cb43-18" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span> (result2, <span class="at">caption=</span><span class="st">&quot;HR et IC95 d&#39;un traitement à la prostaglandine sur le risque de conception dans les 5 jours suivant le traitement vs. après 5 jours.&quot;</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb43-19"><a href="analyses-de-survie.html#cb43-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>()</span></code></pre></div>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:unnamed-chunk-23">Table 9.1: </span>HR et IC95 d’un traitement à la prostaglandine sur le risque de conception dans les 5 jours suivant le traitement vs. après 5 jours.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+contrast
+</th>
+<th style="text-align:right;">
+HR
+</th>
+<th style="text-align:right;">
+lowCI
+</th>
+<th style="text-align:right;">
+hiCI
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+(0-5 days 1) - (0-5 days 0)
+</td>
+<td style="text-align:right;">
+235.44
+</td>
+<td style="text-align:right;">
+51.78
+</td>
+<td style="text-align:right;">
+1070.64
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+&gt;5 days 1 - &gt;5 days 0
+</td>
+<td style="text-align:right;">
+0.84
+</td>
+<td style="text-align:right;">
+0.59
+</td>
+<td style="text-align:right;">
+1.20
+</td>
+</tr>
+</tbody>
+</table>
+<p>Dans les 5 jours suivant l’injection le HR est de 235.44 (<em>IC95</em>: 51.78, 1070.64), alors que après 5 jours, le HR est de 0.84 (<em>IC95</em>: 0.59, 1.20).</p>
+<p>Le code suivant permettrait d’évaluer une interaction avec le temps représentant un changement d’effet exponentiel durant la période de suivi (i.e., un effet qui diminue ou augmente graduellement, plutôt que de manière catégorique).</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="analyses-de-survie.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Je commence par créer une prédicteur &quot;temps&quot; logarithmique</span></span>
+<span id="cb44-2"><a href="analyses-de-survie.html#cb44-2" aria-hidden="true" tabindex="-1"></a>pgtrial<span class="sc">$</span>lntime <span class="ot">&lt;-</span> <span class="fu">log</span>(pgtrial<span class="sc">$</span>dar)</span>
+<span id="cb44-3"><a href="analyses-de-survie.html#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="analyses-de-survie.html#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Ensuite, je peux tester une interaction entre lntime et tx</span></span>
+<span id="cb44-5"><a href="analyses-de-survie.html#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb44-6"><a href="analyses-de-survie.html#cb44-6" aria-hidden="true" tabindex="-1"></a>PH_fit_pg <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(dar, preg) <span class="sc">~</span>  tx<span class="sc">*</span>lntime <span class="sc">-</span>lntime <span class="sc">+</span> lact <span class="sc">+</span> thin <span class="sc">+</span> herd, <span class="at">data=</span>pgtrial)</span>
+<span id="cb44-7"><a href="analyses-de-survie.html#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(PH_fit_pg)</span></code></pre></div>
+<pre><code>## Call:
+## coxph(formula = Surv(dar, preg) ~ tx * lntime - lntime + lact + 
+##     thin + herd, data = pgtrial)
+## 
+##   n= 319, number of events= 264 
+## 
+##                 coef  exp(coef)   se(coef)       z Pr(&gt;|z|)    
+## tx           8.04911 3131.01263    0.59026  13.636   &lt;2e-16 ***
+## lact        -0.04273    0.95817    0.03956  -1.080    0.280    
+## thin1       -0.11277    0.89336    0.14024  -0.804    0.421    
+## herd2       -0.10207    0.90297    0.16959  -0.602    0.547    
+## herd3       -0.10909    0.89665    0.17738  -0.615    0.539    
+## tx:lntime   -1.80673    0.16419    0.13385 -13.498   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##           exp(coef) exp(-coef) lower .95 upper .95
+## tx        3131.0126  0.0003194  984.5795 9956.7790
+## lact         0.9582  1.0436592    0.8867    1.0354
+## thin1        0.8934  1.1193698    0.6787    1.1760
+## herd2        0.9030  1.1074618    0.6476    1.2590
+## herd3        0.8967  1.1152585    0.6333    1.2694
+## tx:lntime    0.1642  6.0904812    0.1263    0.2134
+## 
+## Concordance= 0.75  (se = 0.019 )
+## Likelihood ratio test= 302.2  on 6 df,   p=&lt;2e-16
+## Wald test            = 191.9  on 6 df,   p=&lt;2e-16
+## Score (logrank) test = 448.9  on 6 df,   p=&lt;2e-16</code></pre>
+<p>Ici aussi l’interaction est significative (<em>P</em>&lt;0.001). Au jour 1 (<em>lntime</em>=0), l’effet du tx est un HR de exp(8.05) ou 3131! Puis, l’effet du traitement en log(HR) diminue de -1.81 à chaque augmentation de 1 log jour. Pour mieux visualiser tout ça, une figure pourrait être utile.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="analyses-de-survie.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Je génère le jeu de données avec les valeurs de temps qui m&#39;intéressent (jours 1 à 90) et j&#39;y met les coefficients dont j&#39;ai besoin.</span></span>
+<span id="cb46-2"><a href="analyses-de-survie.html#cb46-2" aria-hidden="true" tabindex="-1"></a>new <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">tx=</span><span class="fl">8.04</span>, <span class="at">tx_lntime_int=</span><span class="sc">-</span><span class="fl">1.81</span>, <span class="at">time=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">90</span>))</span>
+<span id="cb46-3"><a href="analyses-de-survie.html#cb46-3" aria-hidden="true" tabindex="-1"></a>new<span class="sc">$</span>lntime <span class="ot">&lt;-</span> <span class="fu">log</span>(new<span class="sc">$</span>time)</span>
+<span id="cb46-4"><a href="analyses-de-survie.html#cb46-4" aria-hidden="true" tabindex="-1"></a>new<span class="sc">$</span>hr <span class="ot">&lt;-</span> <span class="fu">exp</span>(new<span class="sc">$</span>tx <span class="sc">+</span> new<span class="sc">$</span>lntime<span class="sc">*</span>new<span class="sc">$</span>tx_lntime_int)</span>
+<span id="cb46-5"><a href="analyses-de-survie.html#cb46-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-6"><a href="analyses-de-survie.html#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb46-7"><a href="analyses-de-survie.html#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(new, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>time, <span class="at">y=</span>hr))<span class="sc">+</span></span>
+<span id="cb46-8"><a href="analyses-de-survie.html#cb46-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb46-9"><a href="analyses-de-survie.html#cb46-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb46-10"><a href="analyses-de-survie.html#cb46-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="at">label =</span> <span class="st">&quot;Hazard ratio&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-25"></span>
+<img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-25-1.png" alt="**Figure.** Hasard ratio présentant l'effet de la prostaglandine sur le hasard de conception en fonction des jours suivant l'injection." width="672" />
+<p class="caption">
+Figure 9.2: <strong>Figure.</strong> Hasard ratio présentant l’effet de la prostaglandine sur le hasard de conception en fonction des jours suivant l’injection.
+</p>
+</div>
+<p>On note que l’effet du traitement diminue rapidement. Notre modèle 0-5 <em>vs.</em> &gt;5 jours indiquait le même patron (et était peut-être aussi plus simple à expliquer?).</p>
+</div>
+</div>
+<div id="évaluation-du-modèle-1" class="section level2" number="9.5">
+<h2><span class="header-section-number">9.5</span> Évaluation du modèle</h2>
+<div id="linéarité-de-la-relation-pour-les-prédicteurs-quantitatifs" class="section level3" number="9.5.1">
+<h3><span class="header-section-number">9.5.1</span> Linéarité de la relation (pour les prédicteurs quantitatifs)</h3>
+<p>La linéarité de la relation est une supposition importante du modèle. Pour les prédicteurs quantitatifs, vous devrez toujours vérifier si cette supposition est bien respectée. Vous pouvez le faire simplement à l’aide du modèle polynomial comme vu précédemment (en ajoutant le <span class="math inline">\(prédicteur^2\)</span> ou le <span class="math inline">\(prédicteur^2\)</span> et le <span class="math inline">\(prédicteur^3\)</span> dans votre modèle).</p>
+<p>Une autre possibilité est l’évaluation du graphique du prédicteur quantitatif que nous désirons évaluer par les résiduels de Martingdale d’un modèle où le prédicteur quantitatif a été retiré du modèle. Une fonction de lissage (comme vu précédemment) permettra de visualiser s’il y a une courbe ou non dans la relation. Les résiduels de Martingdale peuvent être obtenus grâce à la fonction <code>resid()</code>. La relation pourra être représentée grâce à la fonction <code>ggplot</code> de la librairie <code>ggplot2</code>. Par exemple, le code suivant permet d’évaluer la linéarité de la relation entre la variable <em>lact</em> et le hasard de conception.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="analyses-de-survie.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Faire rouler le modèle sans le prédicteur continu lact</span></span>
+<span id="cb47-2"><a href="analyses-de-survie.html#cb47-2" aria-hidden="true" tabindex="-1"></a>PH_fit_pg_WO_lact <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(dar, preg) <span class="sc">~</span>  tx <span class="sc">+</span> thin <span class="sc">+</span> herd, <span class="at">data=</span>pgtrial)</span>
+<span id="cb47-3"><a href="analyses-de-survie.html#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="analyses-de-survie.html#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Ajouter les résiduels de Martingale dans mon jeu de données</span></span>
+<span id="cb47-5"><a href="analyses-de-survie.html#cb47-5" aria-hidden="true" tabindex="-1"></a>pgtrial<span class="sc">$</span>res <span class="ot">&lt;-</span> <span class="fu">resid</span>(PH_fit_pg_WO_lact) </span>
+<span id="cb47-6"><a href="analyses-de-survie.html#cb47-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-7"><a href="analyses-de-survie.html#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb47-8"><a href="analyses-de-survie.html#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pgtrial, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>lact, <span class="at">y=</span>res))<span class="sc">+</span></span>
+<span id="cb47-9"><a href="analyses-de-survie.html#cb47-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span>  <span class="co">#Je demande d&#39;ajouter le nuage de points (un &#39;scatterplot&#39;)</span></span>
+<span id="cb47-10"><a href="analyses-de-survie.html#cb47-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;loess&quot;</span>, <span class="at">span=</span><span class="dv">2</span>)<span class="sc">+</span> <span class="co">#Je demande d&#39;ajouter la courbe lissée de type loess. </span></span>
+<span id="cb47-11"><a href="analyses-de-survie.html#cb47-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() </span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p>Dans cet exemple, on note que la relation est curvilinéaire. Notez que le modèle polynomial indique également que le terme au carré est important (<em>P</em> = 0.03) et que la relation n’était donc pas linéaire (voir le code qui suit).</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="analyses-de-survie.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Lactation centrée sur 2ième parité et au carré</span></span>
+<span id="cb49-2"><a href="analyses-de-survie.html#cb49-2" aria-hidden="true" tabindex="-1"></a>pgtrial<span class="sc">$</span>lact_ct <span class="ot">&lt;-</span> pgtrial<span class="sc">$</span>lact<span class="dv">-2</span></span>
+<span id="cb49-3"><a href="analyses-de-survie.html#cb49-3" aria-hidden="true" tabindex="-1"></a>pgtrial<span class="sc">$</span>lact_ct_sq <span class="ot">&lt;-</span> (pgtrial<span class="sc">$</span>lact<span class="dv">-2</span>)<span class="sc">*</span>(pgtrial<span class="sc">$</span>lact<span class="dv">-2</span>)</span>
+<span id="cb49-4"><a href="analyses-de-survie.html#cb49-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-5"><a href="analyses-de-survie.html#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="co">#La régression de cox avec terme polynomiaux</span></span>
+<span id="cb49-6"><a href="analyses-de-survie.html#cb49-6" aria-hidden="true" tabindex="-1"></a>PH_fit_pg_lact_sq <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(dar, preg) <span class="sc">~</span>  tx <span class="sc">+</span> lact_ct <span class="sc">+</span> lact_ct_sq <span class="sc">+</span> thin <span class="sc">+</span> herd, <span class="at">data=</span>pgtrial)</span>
+<span id="cb49-7"><a href="analyses-de-survie.html#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(PH_fit_pg_lact_sq)</span></code></pre></div>
+<pre><code>## Call:
+## coxph(formula = Surv(dar, preg) ~ tx + lact_ct + lact_ct_sq + 
+##     thin + herd, data = pgtrial)
+## 
+##   n= 319, number of events= 264 
+## 
+##                coef exp(coef) se(coef)      z Pr(&gt;|z|)  
+## tx          0.19308   1.21298  0.12502  1.544   0.1225  
+## lact_ct    -0.17281   0.84129  0.07193 -2.402   0.0163 *
+## lact_ct_sq  0.04676   1.04787  0.02108  2.218   0.0266 *
+## thin1      -0.09586   0.90859  0.13897 -0.690   0.4903  
+## herd2      -0.29904   0.74153  0.16985 -1.761   0.0783 .
+## herd3       0.01297   1.01305  0.17417  0.074   0.9406  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##            exp(coef) exp(-coef) lower .95 upper .95
+## tx            1.2130     0.8244    0.9494    1.5498
+## lact_ct       0.8413     1.1886    0.7307    0.9687
+## lact_ct_sq    1.0479     0.9543    1.0054    1.0921
+## thin1         0.9086     1.1006    0.6920    1.1930
+## herd2         0.7415     1.3486    0.5316    1.0344
+## herd3         1.0131     0.9871    0.7201    1.4252
+## 
+## Concordance= 0.571  (se = 0.02 )
+## Likelihood ratio test= 14.66  on 6 df,   p=0.02
+## Wald test            = 14.66  on 6 df,   p=0.02
+## Score (logrank) test = 14.73  on 6 df,   p=0.02</code></pre>
+</div>
+<div id="valider-la-supposition-de-hasard-proportionnel" class="section level3" number="9.5.2">
+<h3><span class="header-section-number">9.5.2</span> Valider la supposition de hasard proportionnel</h3>
+<p>La supposition de risque proportionnel peut être vérifiée en ajoutant une intéraction avec le temps (comme présenté à la section “Prédicteur dont l’effet change dans le temps”). Cette intéraction peut également être une solution lorsque la supposition de risque proportionnel n’est pas respectée. Mais il existe plusieurs autres méthodes afin de vérifier la supposition de risque proportionnel.</p>
+<div id="pour-un-prédicteur-catégorique" class="section level4" number="9.5.2.1">
+<h4><span class="header-section-number">9.5.2.1</span> Pour un prédicteur catégorique:</h4>
+<p><strong>Option 1:</strong> Comparer graphiquement le log du hasard cummulatif (ln H(t)) par le log du temps pour chaque niveau du prédicteur. Ces droites devraient être parallèles si les hasards sont proportionnels. Le graphique ln H(t) * ln temps peut être produit en: 1) faisant tourner un modèle de Kaplan-Meier avec juste la variable qui nous intéresse (<em>tx</em> dans l’exemple qui suit) à l’aide de la fonction <code>survfit()</code>, puis 2) en demandant de produire la figure à partir de cet objet à l’aide de la fonction <code>plot()</code> et de l’argument <code>fun=cloglog</code> (qui indique la figure désirée).</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="analyses-de-survie.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb51-2"><a href="analyses-de-survie.html#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Le modèle de K-M avec la variable qui m&#39;intéresse</span></span>
+<span id="cb51-3"><a href="analyses-de-survie.html#cb51-3" aria-hidden="true" tabindex="-1"></a>KM_fit_pg <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(dar, preg) <span class="sc">~</span>  tx, <span class="at">data=</span>pgtrial)</span>
+<span id="cb51-4"><a href="analyses-de-survie.html#cb51-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-5"><a href="analyses-de-survie.html#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="co">#La figure ln(H(t)) par ln(temps)</span></span>
+<span id="cb51-6"><a href="analyses-de-survie.html#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(KM_fit_pg, <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="at">fun=</span><span class="st">&quot;cloglog&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;days&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Log(H(t))&quot;</span>)</span></code></pre></div>
+<p><img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>Ici, les droites ne sont clairement pas parallèles jusqu’à approximativement 20 à 50 jours.</p>
+<p><strong>Option 2:</strong> comparer graphiquement les courbes de survie produites à l’aide du modèle de Cox (qui suppose hasard proportionnel) et d’une analyse de survie non-paramétrique (Kaplan-Meier; qui ne suppose rien). Les graphiques devraient être très similaires si les hasards sont proportionnels.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="analyses-de-survie.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span>
+<span id="cb52-2"><a href="analyses-de-survie.html#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="co">#La courbe de survie de Kaplan-Meier</span></span>
+<span id="cb52-3"><a href="analyses-de-survie.html#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(KM_fit_pg)</span></code></pre></div>
+<p><img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="analyses-de-survie.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Le modèle de cox équivalent</span></span>
+<span id="cb53-2"><a href="analyses-de-survie.html#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb53-3"><a href="analyses-de-survie.html#cb53-3" aria-hidden="true" tabindex="-1"></a>PH_fit_pg <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(dar, preg) <span class="sc">~</span>  tx, <span class="at">data=</span>pgtrial)</span>
+<span id="cb53-4"><a href="analyses-de-survie.html#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="analyses-de-survie.html#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="co">#La courbe de survie de Cox</span></span>
+<span id="cb53-6"><a href="analyses-de-survie.html#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggadjustedcurves</span>(PH_fit_pg, <span class="at">variable=</span><span class="st">&quot;tx&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning in .get_data(fit, data): The `data` argument is not provided. Data will
+## be extracted from model fit.</code></pre>
+<p><img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-29-2.png" width="672" /></p>
+<p>Notez que les courbes de survie de Kaplan-Meier et de Cox sont passablement différentes entre 0 et 50 jours.</p>
+</div>
+<div id="pour-un-prédicteur-catégorique-ou-quantitatif" class="section level4" number="9.5.2.2">
+<h4><span class="header-section-number">9.5.2.2</span> Pour un prédicteur catégorique OU quantitatif</h4>
+<p>Une dernière approche qui permet d’évaluer la supposition de risque proportionnel et qui fonctionne pour des prédicteurs catégoriques <strong>ET</strong> quantitatifs est l’évaluation d’un graphique des résiduels de Schoenfeld par le logarithme du temps (t). Une fonction de lissage pourra être utilisée afin de visualiser la tendance générale. Si la supposition de risque proportionnel est respectée, une ligne de tendance horizontale (i.e. avec une pente=0) devrait être observée. Notez qu’un résiduel de Schoenfeld différent sera produit pour chacun des prédicteurs du modèle. Vous devrez donc utiliser le résiduel correspondant au prédicteur que vous désirez évaluer.</p>
+<p>Pour générer cette figure, vous devrez d’abord créer votre objet modèle de Cox (à l’aide de la fonction <code>coxph()</code>). Puis, vous devez créer un nouvel objet à partir de celui-ci à l’aide de la fonction <code>cox.zph()</code> de la librairie <code>survival</code>. Finalement, à l’aide de la librairie <code>survminer</code> vous pourrez utiliser la fonction <code>ggcoxzph()</code> sur ce dernier objet. Dans l’exemple suivant, je vérifie la supposition de hasard proportionnel pour la variable <em>lact</em>.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="analyses-de-survie.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Je génère le modèle de Cox</span></span>
+<span id="cb55-2"><a href="analyses-de-survie.html#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb55-3"><a href="analyses-de-survie.html#cb55-3" aria-hidden="true" tabindex="-1"></a>PH_fit_pg <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(dar, preg) <span class="sc">~</span> tx <span class="sc">+</span> lact <span class="sc">+</span> thin <span class="sc">+</span> herd, <span class="at">data=</span>pgtrial)</span>
+<span id="cb55-4"><a href="analyses-de-survie.html#cb55-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-5"><a href="analyses-de-survie.html#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Je génère l&#39;objet cox.zph</span></span>
+<span id="cb55-6"><a href="analyses-de-survie.html#cb55-6" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">cox.zph</span>(PH_fit_pg)</span>
+<span id="cb55-7"><a href="analyses-de-survie.html#cb55-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-8"><a href="analyses-de-survie.html#cb55-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Je demande la figure spécifiquement pour la variable lact</span></span>
+<span id="cb55-9"><a href="analyses-de-survie.html#cb55-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span>
+<span id="cb55-10"><a href="analyses-de-survie.html#cb55-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcoxzph</span>(fit, <span class="at">var=</span><span class="st">&quot;lact&quot;</span>) </span></code></pre></div>
+<p><img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>Dans tous les cas, la ligne est très près d’être horizontale (i.e. pente=0). La supposition de hasard proportionnel est donc probablement respectée pour la variable <em>lact</em>. Notez que le résultat d’un trest de Schoenfeld est également présenté. L’hypothèse nulle de ce test est que la pente n’est pas différente de zéro (i.e., la supposition de hasard proportionnel est respectée).</p>
+<p>À titre d’exemple, voici la même analyse, mais pour la variable <em>tx</em>. Rappellez-vous, nous avons déjà identifié de différentes manières que cette variable est problématique.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="analyses-de-survie.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span>
+<span id="cb56-2"><a href="analyses-de-survie.html#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcoxzph</span>(fit, <span class="at">var=</span><span class="st">&quot;tx&quot;</span>) </span></code></pre></div>
+<p><img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p>Notez la courbe au tout début (i.e. entre 0 et 28 jours). Le test est près d’être significatif (<em>P</em> = 0.06).</p>
+</div>
+</div>
+<div id="évaluer-impact-du-non-respect-de-la-supposition-de-censure-non-informative" class="section level3" number="9.5.3">
+<h3><span class="header-section-number">9.5.3</span> Évaluer impact du non-respect de la supposition de censure non-informative</h3>
+<p>On ne peut évaluer si la supposition de censure non-informative est respectée, mais ont peut cependant vérifier quel aurait été l’impact d’une censure informative. Pour cela, on doit modifier le jeu de données pour représenter les scénarios les plus extrêmes. D’une part toutes les données censurées remplacées par un échec au moment de la censure (corrélation positive). D’autre part, ont pourrait remplacer la durée de suivi des données censurées par un temps lointain, mais plausible (corrélation négative). Ensuite, on éxécutera le modèle de Cox avec ces deux scénarios et on comparera les résultats obtenus à notre modèle initial. On se demandera : 1) est-ce que les conclusions statistiques changent (e.g. un prédicteur n’est plus significatif) ; et 2) est-ce que les ratio de hasard changent beaucoup (e.g. 2.0 vs. 2.2 ou 2.0 vs. 12.0)?</p>
+<p>Par exemple:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="analyses-de-survie.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Impact de la censure</span></span>
+<span id="cb57-2"><a href="analyses-de-survie.html#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="analyses-de-survie.html#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Estimés originaux</span></span>
+<span id="cb57-4"><a href="analyses-de-survie.html#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb57-5"><a href="analyses-de-survie.html#cb57-5" aria-hidden="true" tabindex="-1"></a>PH_fit_pg <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(dar, preg) <span class="sc">~</span> tx <span class="sc">+</span> lact <span class="sc">+</span> thin <span class="sc">+</span> herd, <span class="at">data=</span>pgtrial)</span>
+<span id="cb57-6"><a href="analyses-de-survie.html#cb57-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-7"><a href="analyses-de-survie.html#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Corrélation positive complète</span></span>
+<span id="cb57-8"><a href="analyses-de-survie.html#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Je créer une nouvelle variable où toutes les observations se terminent par l&#39;événement</span></span>
+<span id="cb57-9"><a href="analyses-de-survie.html#cb57-9" aria-hidden="true" tabindex="-1"></a>pgtrial<span class="sc">$</span>preg2 <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb57-10"><a href="analyses-de-survie.html#cb57-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Le modèle avec cette variable</span></span>
+<span id="cb57-11"><a href="analyses-de-survie.html#cb57-11" aria-hidden="true" tabindex="-1"></a>PH_fit_pg_pos <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(dar, preg2) <span class="sc">~</span> tx <span class="sc">+</span> lact <span class="sc">+</span> thin <span class="sc">+</span> herd, <span class="at">data=</span>pgtrial)</span>
+<span id="cb57-12"><a href="analyses-de-survie.html#cb57-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-13"><a href="analyses-de-survie.html#cb57-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Corrélation négative complète</span></span>
+<span id="cb57-14"><a href="analyses-de-survie.html#cb57-14" aria-hidden="true" tabindex="-1"></a><span class="co">#Je créer une nouvelle variable où toutes les vaches non-gestantes auraient vécu jusqu&#39;à au moins 500 JEL sans conception avant d&#39;être finalement réformées</span></span>
+<span id="cb57-15"><a href="analyses-de-survie.html#cb57-15" aria-hidden="true" tabindex="-1"></a>pgtrial<span class="sc">$</span>dar2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(pgtrial<span class="sc">$</span>preg<span class="sc">==</span><span class="dv">1</span>,pgtrial<span class="sc">$</span>dar,<span class="dv">500</span>) </span>
+<span id="cb57-16"><a href="analyses-de-survie.html#cb57-16" aria-hidden="true" tabindex="-1"></a><span class="co">#Le modèle avec cette variable</span></span>
+<span id="cb57-17"><a href="analyses-de-survie.html#cb57-17" aria-hidden="true" tabindex="-1"></a>PH_fit_pg_neg <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(dar2, preg) <span class="sc">~</span> tx <span class="sc">+</span> lact <span class="sc">+</span> thin <span class="sc">+</span> herd, <span class="at">data=</span>pgtrial)</span>
+<span id="cb57-18"><a href="analyses-de-survie.html#cb57-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-19"><a href="analyses-de-survie.html#cb57-19" aria-hidden="true" tabindex="-1"></a><span class="co">#tableau récapitulatif</span></span>
+<span id="cb57-20"><a href="analyses-de-survie.html#cb57-20" aria-hidden="true" tabindex="-1"></a>tableau <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="st">&quot;Estimés originaux&quot;</span><span class="ot">=</span><span class="fu">exp</span>(PH_fit_pg<span class="sc">$</span>coefficients), <span class="st">&quot;Corrélation positive complète&quot;</span><span class="ot">=</span><span class="fu">exp</span>(PH_fit_pg_pos<span class="sc">$</span>coefficients), <span class="st">&quot;Corrélation négative complète&quot;</span><span class="ot">=</span><span class="fu">exp</span>(PH_fit_pg_neg<span class="sc">$</span>coefficients)) </span>
+<span id="cb57-21"><a href="analyses-de-survie.html#cb57-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-22"><a href="analyses-de-survie.html#cb57-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb57-23"><a href="analyses-de-survie.html#cb57-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb57-24"><a href="analyses-de-survie.html#cb57-24" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span> (<span class="fu">round</span>(tableau, <span class="at">digits=</span><span class="dv">2</span>), <span class="at">caption=</span><span class="st">&quot;HR d&#39;un traitement à la prostaglandine sur le risque de conception. Modèle initial, puis modèles supposant corrélation positive et négative complètes.&quot;</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb57-25"><a href="analyses-de-survie.html#cb57-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>()</span></code></pre></div>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:unnamed-chunk-32">Table 9.2: </span>HR d’un traitement à la prostaglandine sur le risque de conception. Modèle initial, puis modèles supposant corrélation positive et négative complètes.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Estimés originaux
+</th>
+<th style="text-align:right;">
+Corrélation positive complète
+</th>
+<th style="text-align:right;">
+Corrélation négative complète
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+tx
+</td>
+<td style="text-align:right;">
+1.22
+</td>
+<td style="text-align:right;">
+1.26
+</td>
+<td style="text-align:right;">
+1.12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lact
+</td>
+<td style="text-align:right;">
+0.96
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.93
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+thin1
+</td>
+<td style="text-align:right;">
+0.86
+</td>
+<td style="text-align:right;">
+0.86
+</td>
+<td style="text-align:right;">
+0.94
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+herd2
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+<td style="text-align:right;">
+0.80
+</td>
+<td style="text-align:right;">
+0.77
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+herd3
+</td>
+<td style="text-align:right;">
+1.04
+</td>
+<td style="text-align:right;">
+1.02
+</td>
+<td style="text-align:right;">
+1.05
+</td>
+</tr>
+</tbody>
+</table>
+<p>Ici, on note peu de différence des ratio de hasard d’un modèle à l’autre. Notez que la fonction <code>ggforest()</code> de la librairie <code>survminer</code> produit une autre manière de visualiser/comparer nos résultats. PAr exemple, pour nos 3 modèles:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="analyses-de-survie.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span>
+<span id="cb58-2"><a href="analyses-de-survie.html#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb58-3"><a href="analyses-de-survie.html#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggforest</span>(PH_fit_pg, <span class="at">main =</span> <span class="st">&quot;HR modèle initial&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning in .get_data(model, data = data): The `data` argument is not provided.
+## Data will be extracted from model fit.</code></pre>
+<p><img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="analyses-de-survie.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggforest</span>(PH_fit_pg_pos, <span class="at">main =</span> <span class="st">&quot;HR corrélation positive complète&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning in .get_data(model, data = data): The `data` argument is not provided.
+## Data will be extracted from model fit.</code></pre>
+<p><img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-33-2.png" width="672" /></p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="analyses-de-survie.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggforest</span>(PH_fit_pg_neg, <span class="at">main =</span> <span class="st">&quot;HR corrélation négative complète&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning in .get_data(model, data = data): The `data` argument is not provided.
+## Data will be extracted from model fit.</code></pre>
+<p><img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-33-3.png" width="672" /></p>
+
+</div>
+</div>
+<div id="travaux-pratiques-8---analyses-de-survie-non-paramétriques" class="section level2" number="9.6">
+<h2><span class="header-section-number">9.6</span> Travaux pratiques 8 - Analyses de survie non-paramétriques</h2>
+<div id="exercices-7" class="section level3" number="9.6.1">
+<h3><span class="header-section-number">9.6.1</span> Exercices</h3>
+</div>
+<div id="code-r-et-réponses-7" class="section level3" number="9.6.2">
+<h3><span class="header-section-number">9.6.2</span> Code R et réponses</h3>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="régression-pour-données-de-compte-et-dincidence.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Labo R Bookdown project.pdf", "Labo R Bookdown project.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

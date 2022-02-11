@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapitre 2 Bonnes pratiques de gestion de projet | Épidémiologie 2 - Labo informatique R (PTM-6675)</title>
+  <meta name="description" content="Chapitre 4" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapitre 2 Bonnes pratiques de gestion de projet | Épidémiologie 2 - Labo informatique R (PTM-6675)" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Chapitre 4" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapitre 2 Bonnes pratiques de gestion de projet | Épidémiologie 2 - Labo informatique R (PTM-6675)" />
+  
+  <meta name="twitter:description" content="Chapitre 4" />
+  
+
+<meta name="author" content="Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l’Université de Montréal)" />
+
+
+<meta name="date" content="2021-04-26" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="obtention-des-données-pour-les-travaux-pratiques.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Épidémiologie 2 - Labo informatique R (PTM-6675)</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> À propos</a></li>
+<li class="chapter" data-level="2" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html"><i class="fa fa-check"></i><b>2</b> Bonnes pratiques de gestion de projet</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#organiser-son-projet-de-recherche"><i class="fa fa-check"></i><b>2.1</b> Organiser son projet de recherche</a></li>
+<li class="chapter" data-level="2.2" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#où-sauvegarder-son-projet"><i class="fa fa-check"></i><b>2.2</b> Où sauvegarder son projet</a></li>
+<li class="chapter" data-level="2.3" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#où-sauvegarder-ses-données"><i class="fa fa-check"></i><b>2.3</b> Où sauvegarder ses données</a></li>
+<li class="chapter" data-level="2.4" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#scripts-danalyse"><i class="fa fa-check"></i><b>2.4</b> Scripts d’analyse</a></li>
+<li class="chapter" data-level="2.5" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#copies-de-sécurité"><i class="fa fa-check"></i><b>2.5</b> Copies de sécurité</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="obtention-des-données-pour-les-travaux-pratiques.html"><a href="obtention-des-données-pour-les-travaux-pratiques.html"><i class="fa fa-check"></i><b>3</b> Obtention des données pour les travaux pratiques</a></li>
+<li class="chapter" data-level="4" data-path="aide-de-r.html"><a href="aide-de-r.html"><i class="fa fa-check"></i><b>4</b> Aide de R</a></li>
+<li class="chapter" data-level="5" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>5</b> R Markdown</a></li>
+<li class="chapter" data-level="6" data-path="régression-linéaire.html"><a href="régression-linéaire.html"><i class="fa fa-check"></i><b>6</b> Régression linéaire</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#généralités"><i class="fa fa-check"></i><b>6.1</b> Généralités</a></li>
+<li class="chapter" data-level="6.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#ajouter-des-intervalles-de-confiance"><i class="fa fa-check"></i><b>6.2</b> Ajouter des intervalles de confiance</a></li>
+<li class="chapter" data-level="6.3" data-path="régression-linéaire.html"><a href="régression-linéaire.html#test-de-f-pour-comparer-modèles-complet-vs.-réduit"><i class="fa fa-check"></i><b>6.3</b> Test de <em>F</em> pour comparer modèles complet <em>vs.</em> réduit</a></li>
+<li class="chapter" data-level="6.4" data-path="régression-linéaire.html"><a href="régression-linéaire.html#transformer-une-variable"><i class="fa fa-check"></i><b>6.4</b> Transformer une variable</a></li>
+<li class="chapter" data-level="6.5" data-path="régression-linéaire.html"><a href="régression-linéaire.html#choisir-la-valeur-de-référence-pour-une-variable-catégorique"><i class="fa fa-check"></i><b>6.5</b> Choisir la valeur de référence pour une variable catégorique</a></li>
+<li class="chapter" data-level="6.6" data-path="régression-linéaire.html"><a href="régression-linéaire.html#comparer-les-niveaux-dun-prédicteur-catégorique-avec-2-catégories"><i class="fa fa-check"></i><b>6.6</b> Comparer les niveaux d’un prédicteur catégorique avec &gt;2 catégories</a></li>
+<li class="chapter" data-level="6.7" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluer-une-interaction-entre-2-variables"><i class="fa fa-check"></i><b>6.7</b> Évaluer une interaction entre 2 variables</a></li>
+<li class="chapter" data-level="6.8" data-path="régression-linéaire.html"><a href="régression-linéaire.html#tol-et-vif---évaluer-colinéarité"><i class="fa fa-check"></i><b>6.8</b> TOL et VIF - Évaluer colinéarité</a></li>
+<li class="chapter" data-level="6.9" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluation-du-modèle"><i class="fa fa-check"></i><b>6.9</b> Évaluation du modèle</a>
+<ul>
+<li class="chapter" data-level="6.9.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluer-la-linéarité-de-la-relation-à-laide-de-courbes-lissées-pour-prédicteur-quantitatif"><i class="fa fa-check"></i><b>6.9.1</b> Évaluer la linéarité de la relation à l’aide de courbes lissées (pour prédicteur quantitatif)</a></li>
+<li class="chapter" data-level="6.9.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#méthodes-diagnostiques-pour-les-résiduels"><i class="fa fa-check"></i><b>6.9.2</b> Méthodes diagnostiques pour les résiduels</a></li>
+<li class="chapter" data-level="6.9.3" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluation-des-observations-extrêmes-etou-influentes"><i class="fa fa-check"></i><b>6.9.3</b> Évaluation des observations extrêmes et/ou influentes</a></li>
+</ul></li>
+<li class="chapter" data-level="6.10" data-path="régression-linéaire.html"><a href="régression-linéaire.html#travaux-pratiques-1---régression-linéaire---base"><i class="fa fa-check"></i><b>6.10</b> Travaux pratiques 1 - Régression linéaire - Base</a>
+<ul>
+<li class="chapter" data-level="6.10.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#exercices"><i class="fa fa-check"></i><b>6.10.1</b> Exercices</a></li>
+<li class="chapter" data-level="6.10.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#code-r-et-réponses"><i class="fa fa-check"></i><b>6.10.2</b> Code R et réponses</a></li>
+</ul></li>
+<li class="chapter" data-level="6.11" data-path="régression-linéaire.html"><a href="régression-linéaire.html#travaux-pratiques-2---régression-linéaire---évaluation-du-modèle"><i class="fa fa-check"></i><b>6.11</b> Travaux pratiques 2 - Régression linéaire - Évaluation du modèle</a>
+<ul>
+<li class="chapter" data-level="6.11.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#exercices-1"><i class="fa fa-check"></i><b>6.11.1</b> Exercices</a></li>
+<li class="chapter" data-level="6.11.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#code-r-et-réponses-1"><i class="fa fa-check"></i><b>6.11.2</b> Code R et réponses</a></li>
+</ul></li>
+<li class="chapter" data-level="6.12" data-path="régression-linéaire.html"><a href="régression-linéaire.html#travaux-pratiques-3---régression-linéaire---construction-de-modèle"><i class="fa fa-check"></i><b>6.12</b> Travaux pratiques 3 - Régression linéaire - Construction de modèle</a>
+<ul>
+<li class="chapter" data-level="6.12.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#exercices-2"><i class="fa fa-check"></i><b>6.12.1</b> Exercices</a></li>
+<li class="chapter" data-level="6.12.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#code-r-et-réponses-2"><i class="fa fa-check"></i><b>6.12.2</b> Code R et réponses</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="régression-logistique.html"><a href="régression-logistique.html"><i class="fa fa-check"></i><b>7</b> Régression logistique</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="régression-logistique.html"><a href="régression-logistique.html#généralités-1"><i class="fa fa-check"></i><b>7.1</b> Généralités</a></li>
+<li class="chapter" data-level="7.2" data-path="régression-logistique.html"><a href="régression-logistique.html#effectuer-un-test-de-rapport-de-vraisemblance"><i class="fa fa-check"></i><b>7.2</b> Effectuer un test de rapport de vraisemblance</a></li>
+<li class="chapter" data-level="7.3" data-path="régression-logistique.html"><a href="régression-logistique.html#ajouter-des-ic95"><i class="fa fa-check"></i><b>7.3</b> Ajouter des IC95</a></li>
+<li class="chapter" data-level="7.4" data-path="régression-logistique.html"><a href="régression-logistique.html#choisir-valeur-de-référence-pour-les-variables-catégoriques"><i class="fa fa-check"></i><b>7.4</b> Choisir valeur de référence pour les variables catégoriques</a></li>
+<li class="chapter" data-level="7.5" data-path="régression-logistique.html"><a href="régression-logistique.html#produire-des-tables-de-résultats"><i class="fa fa-check"></i><b>7.5</b> Produire des tables de résultats</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="régression-logistique.html"><a href="régression-logistique.html#présenter-les-rapport-de-cotes-plutôt-que-les-log-odds"><i class="fa fa-check"></i><b>7.5.1</b> Présenter les rapport de cotes plutôt que les log odds</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="régression-logistique.html"><a href="régression-logistique.html#spécifier-pour-quelle-augmentation-dun-prédicteur-continu-le-rapport-de-cotes-est-calculé"><i class="fa fa-check"></i><b>7.6</b> Spécifier pour quelle augmentation d’un prédicteur continu le rapport de cotes est calculé</a></li>
+<li class="chapter" data-level="7.7" data-path="régression-logistique.html"><a href="régression-logistique.html#évaluer-une-interaction-entre-2-variables-1"><i class="fa fa-check"></i><b>7.7</b> Évaluer une interaction entre 2 variables</a></li>
+<li class="chapter" data-level="7.8" data-path="régression-logistique.html"><a href="régression-logistique.html#comparer-rapports-de-cotes-pour-une-combinaison-spécifique-de-prédicteurs"><i class="fa fa-check"></i><b>7.8</b> Comparer rapports de cotes pour une combinaison spécifique de prédicteurs</a></li>
+<li class="chapter" data-level="7.9" data-path="régression-logistique.html"><a href="régression-logistique.html#présenter-leffet-des-prédicteurs-sur-une-échelle-de-probabilité"><i class="fa fa-check"></i><b>7.9</b> Présenter l’effet des prédicteurs sur une échelle de probabilité</a></li>
+<li class="chapter" data-level="7.10" data-path="régression-logistique.html"><a href="régression-logistique.html#linéarité-de-la-relation-pour-prédicteur-quantitatif"><i class="fa fa-check"></i><b>7.10</b> Linéarité de la relation (pour prédicteur quantitatif)</a></li>
+<li class="chapter" data-level="7.11" data-path="régression-logistique.html"><a href="régression-logistique.html#test-de-homer-lemeshow-de-pearson-et-de-déviance"><i class="fa fa-check"></i><b>7.11</b> Test de Homer-Lemeshow, de Pearson et de déviance</a></li>
+<li class="chapter" data-level="7.12" data-path="régression-logistique.html"><a href="régression-logistique.html#évaluation-des-profils-extrêmes-etou-influents"><i class="fa fa-check"></i><b>7.12</b> Évaluation des profils extrêmes et/ou influents</a></li>
+<li class="chapter" data-level="7.13" data-path="régression-logistique.html"><a href="régression-logistique.html#travaux-pratiques-4---régression-logistique---base"><i class="fa fa-check"></i><b>7.13</b> Travaux pratiques 4 - Régression logistique - Base</a>
+<ul>
+<li class="chapter" data-level="7.13.1" data-path="régression-logistique.html"><a href="régression-logistique.html#exercices-3"><i class="fa fa-check"></i><b>7.13.1</b> Exercices</a></li>
+<li class="chapter" data-level="7.13.2" data-path="régression-logistique.html"><a href="régression-logistique.html#code-r-et-réponses-3"><i class="fa fa-check"></i><b>7.13.2</b> Code R et réponses</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publié avec bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Épidémiologie 2 - Labo informatique R (PTM-6675)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="bonnes-pratiques-de-gestion-de-projet" class="section level1" number="2">
+<h1><span class="header-section-number">Chapitre 2</span> Bonnes pratiques de gestion de projet</h1>
+<p>La réplication des résultats de recherche par des investigateurs indépendants est un des éléments fondamentaux dans l’accumulation de preuves scientifiques. Mais les recherches actuellement menées utilisent fréquemment des méthodes avancées d’analyses et des bases de données de plus en plus grandes et complexes. Un standard minimum à atteindre devrait donc être <strong>d’au moins de pouvoir reproduire ses propres résultats de recherche (Peng et al., 2006).<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></strong>. Nous allons donc nous attarder ici à quelques notes générales sur des pratiques personnelles à mettre en place pour vous assurer de pouvoir répondre positivement à cette question : suis-je capable dans 2 semaines, 2 mois, 2 ans, de reproduire les mêmes résultats qu’aujourd’hui ? Cette question pourrait tout aussi bien être formulée de cette manière : quelqu’un qui ne connaît pas ou peu mon projet (par exemple mon directeur de recherche!) peut-il, à partir de mes dossiers, comprendre clairement ce que j’ai fait et pourquoi ? Ces notes sont inspirées des travaux de Noble, Sandve et Wilson (Noble, 2009.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> ; Sandve et al., 2013.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>; Wilson et al., 2014.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>) et ne constituent en rien des règles à impérativement mettre en place, mais plutôt des inspirations à mettre en pratique selon sa méthode de travail personnelle. Notez aussi que la « reproductibilité » vous permettra de travailler plus efficacement. Par exemple, pour apporter des corrections aux analyses initialement effectuées suite aux commentaires d’un réviseur ou encore, afin de réutiliser les scripts (i.e., les codes R) préalablement utilisés sur de nouvelles données dans de nouveaux travaux de recherche.</p>
+<div id="organiser-son-projet-de-recherche" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Organiser son projet de recherche</h2>
+<p>Tous les fichiers pertinents à un projet devraient se trouver dans le même répertoire. La figure 1 est un exemple de structure de répertoire pour un projet. En utilisant toujours la même structure de répertoire d’un projet à l’autre vous vous éviterez bien des recherches de documents d’un projet à l’autre.</p>
+<div class="figure">
+<img src="C:/Users/dufours/Documents/DiskD/Enseignement%20UdM/Cours/PTM%206675-Epi%202/Labo%20R/Labo%20R%20Bookdown%20project/Figures/Figure%201.png" alt="" />
+<p class="caption">Exemple de structure de répertoire.</p>
+</div>
+</div>
+<div id="où-sauvegarder-son-projet" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Où sauvegarder son projet</h2>
+<p>La tentation peut être grande (surtout si vous êtes sous Windows) de <strong>sauvegarder ses documents sur le bureau. Ce n’est pas une bonne idée</strong> :<br />
+- Si vous êtes en réseau et que votre institution fait des sauvegardes automatiques de vos fichiers, ce qui est mis sur le bureau n’est généralement pas inclus;<br />
+- Vos fichiers sont à la vue de tous ceux qui passent près de votre ordinateur;<br />
+- Sous Windows, les fichiers sauvegardés sur le bureau sont inclus dans votre profil d’utilisateur, ce qui augmente sa taille et peut diminuer les performances de l’ordinateur;<br />
+- Si votre ordinateur Windows a un gros problème et doit être restauré par la fonction system restore de Windows, cette fonction n’inclut pas les documents sauvegardés sur le bureau. Vous perdrez donc votre travail;</p>
+<p>Il faut penser à bien choisir les noms de ses répertoires et fichiers. En effet ces noms feront partie du chemin à écrire dans vos scripts d’analyse. Un chemin court est donc préférable, p.ex.</p>
+<p><code>C: projet</code></p>
+<p><strong>Remarquez que si vous tenez absolument à avoir accès à votre fichier via le bureau, vous pouvez toujours y placer un raccourci (c’est fait pour ça!).</strong></p>
+</div>
+<div id="où-sauvegarder-ses-données" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Où sauvegarder ses données</h2>
+<p><strong>Les différentes bases de données d’un projet devraient se trouver toutes sous le même répertoire, accompagnées de méta-données.</strong> Ces méta-données permettent de décrire vos bases de données : d’où viennent-elles, leurs structures, quelles sont les variables, la légende, etc. Un simple fichier texte suffit (voir figure 1), avec un nom évocateur. Par exemple, un document <strong>README.txt</strong> pourrait décrire les différentes bases de données et des documents keyTableX.txt pourront contenir la légende pour chacune des différentes bases de données. <strong>Pensez aussi à donner à vos bases de données des noms courts et datés</strong>: Phase1_12-01-2021.csv plutôt que Données pour Jean_version3-révision _transfer_final_revue_final2.xlsx (c’est un exemple véridique d’un de mes premiers projets!). Les éléments nécessaires à l’identification des bases de données seront, de toutes façons, expliqués dans votre document README.txt. Finalement, bien que la protection de la langue française soit un objectif louable, gardez en tête que vous aurez possiblement à partager plusieurs de ces documents et bases de données avec des collaborateurs internationaux. Des noms de fichiers, de variables et des documents en anglais pourront possiblement vous épargner plusieurs heures de traduction dans le futur.</p>
+</div>
+<div id="scripts-danalyse" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Scripts d’analyse</h2>
+<p><strong>Toutes les étapes de vos analyses devraient être réalisées à partir de scripts (e.g. vos code R)</strong>: laisser faire le travail par l’ordinateur et sauvegarder les commandes qui lui sont données pour pouvoir les réutiliser plus tard. Même les données ne doivent pas être modifiées manuellement. C’est non seulement inefficace, mais source d’erreurs et (presque) impossible à reproduire. <strong>Assurez-vous d’avoir une base de données initiale bien nettoyée, par la suite, si vous devez exclure/corriger certaines observations pour une analyse donnée, faites-le dans le script de cette analyse</strong>. Votre script doit permettre d’avoir accès aux données et, idéalement, pour ce faire <strong>utiliser des chemins relatifs</strong>. Votre script d’analyse doit être compréhensible pour un « humain » : court, standardisé quant au style, format et noms des variables ou fonctions utilisées, et comprenant des commentaires. <strong>Essayer de diviser les tâches entre plusieurs scripts</strong> : un pour la manipulation des données, un pour les analyses descriptives, un pour les modélisations etc.</p>
+<p><strong>Notez que ces différents scripts (manipulation des données, analyses descriptives, modélisations, production de figures etc.) forment ensemble une chaîne, une combinaison: un workflow</strong>. Si vous faite des modifications à votre script qui vous permettait d’organiser la table de données, par exemple pour ajouter une nouvelle variable à votre table (e.g. vous venez finalement de recevoir vos résultats de PCR), vous devrez possiblement mettre à jour votre script d’analyses descriptives et l’exécuter, idem pour vos scripts de modélisation, etc.</p>
+</div>
+<div id="copies-de-sécurité" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Copies de sécurité</h2>
+<p>Le pire peut arriver et vous perdez toutes vos données! Avant qu’il ne soit trop tard, <strong>pensez à mettre en place une stratégie de sauvegarde de vos fichiers</strong>. Il n’y a pas de stratégie universelle, mais chacun doit trouver celle qui lui convient. <strong>Deux règles cependant :</strong></p>
+<p><strong>1) Des copies à jour</strong><br />
+<strong>2) Séparer physiquement les sauvegardes.</strong></p>
+<p>Vos sauvegardes doivent être <strong>régulières et entreposées dans un lieu physique différent de vos données originelles</strong>. L’idéal est d’avoir deux systèmes de sauvegarde (e.g. sur un nuage numérique et sur votre PC). Vous pouvez sauvegarder vos données sur un « nuage », tels que Dropbox, Google Drive, etc. Ces services ont cependant des licences et des obligations légales pouvant exposer vos données à des risques juridiques et compromettre la confidentialité de vos données. Tous les services cités ci-dessus sont opérés sur des serveurs aux USA. Les universités canadiennes sont soumises à la <a href="https://laws-lois.justice.gc.ca/fra/lois/a-1/">Loi sur l’accès à l’information</a> et à la <a href="https://laws-lois.justice.gc.ca/fra/Lois/P-21/index.html">Loi sur la protection des renseignements personnels</a> qui restreint la possibilité de déposer des données personnelles sur des serveurs à l’extérieur du pays. Renseignez-vous auprès de votre institution pour savoir quelles sont les meilleures possibilités pour vous. Présentement, l’Université de Montréal supporte l’utilisation de Onedrive par ses professeurs et étudiants. <a href="http://scholarsportal.info">Scholars portal</a> est un exemple de service disponible en Ontario pour les membres académiques et étudiants des Universités de cette province, permettant de créer un dépôt de données pour leur recherche.</p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p><a href="https://pubmed.ncbi.nlm.nih.gov/16510544/">Peng, R. D., F. Dominici, and S. L. Zeger. 2006. Reproducible epidemiologic research. Am J Epidemiol:783-789.</a><a href="bonnes-pratiques-de-gestion-de-projet.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p><a href="https://pubmed.ncbi.nlm.nih.gov/19649301/">Noble, W. S. 2009. A quick guide to organizing computational biology projects. PLoS computational biology:e1000424.</a><a href="bonnes-pratiques-de-gestion-de-projet.html#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p><a href="https://pubmed.ncbi.nlm.nih.gov/24204232/">Sandve, G. K., A. Nekrutenko, J. Taylor, and E. Hovig. 2013. Ten simple rules for reproducible computational research. PLoS computational biology:e1003285.</a><a href="bonnes-pratiques-de-gestion-de-projet.html#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p><a href="https://pubmed.ncbi.nlm.nih.gov/24415924/">Wilson, G., D. A. Aruliah, C. T. Brown, N. P. Chue Hong, M. Davis, R. T. Guy, S. H. Haddock, K. D. Huff, I. M. Mitchell, M. D. Plumbley, B. Waugh, E. P. White, and P. Wilson. 2014. Best practices for scientific computing. PLoS biology:e1001745.</a><a href="bonnes-pratiques-de-gestion-de-projet.html#fnref4" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="obtention-des-données-pour-les-travaux-pratiques.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Labo R Bookdown project.pdf", "Labo R Bookdown project.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

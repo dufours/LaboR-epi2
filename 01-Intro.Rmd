@@ -1,0 +1,79 @@
+---
+title: "Épidémiologie 2 - Labo informatique R (PTM-6675)"
+author: Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l'Université
+  de Montréal)
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography:
+- book.bib
+- packages.bib
+biblio-style: apalike
+link-citations: yes
+description: Chapitre 2
+output: html_document
+---
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+
+# Bonnes pratiques de gestion de projet
+La réplication des résultats de recherche par des investigateurs indépendants est un des éléments fondamentaux dans l’accumulation de preuves scientifiques. Mais les recherches actuellement menées utilisent fréquemment des méthodes avancées d’analyses et des bases de données de plus en plus grandes et complexes. Un standard minimum à atteindre devrait donc être **d'au moins de pouvoir reproduire ses propres résultats de recherche (Peng et al., 2006).[^1]**. Nous allons donc nous attarder ici à quelques notes générales sur des pratiques personnelles à mettre en place pour vous assurer de pouvoir répondre positivement à cette question : suis-je capable dans 2 semaines, 2 mois, 2 ans, de reproduire les mêmes résultats qu’aujourd’hui ? Cette question pourrait tout aussi bien être formulée de cette manière : quelqu’un qui ne connaît pas ou peu mon projet (par exemple mon directeur de recherche!) peut-il, à partir de mes dossiers, comprendre clairement ce que j’ai fait et pourquoi ? Ces notes sont inspirées des travaux de Noble, Sandve et Wilson (Noble, 2009.[^2] ; Sandve et al., 2013.[^3]; Wilson et al., 2014.[^4])  et ne constituent en rien des règles à impérativement mettre en place, mais plutôt des inspirations à mettre en pratique selon sa méthode de travail personnelle. Notez aussi que la « reproductibilité » vous permettra de travailler plus efficacement. Par exemple, pour apporter des corrections aux analyses initialement effectuées suite aux commentaires d’un réviseur ou encore, afin de réutiliser les scripts (i.e., les codes R) préalablement utilisés sur de nouvelles données dans de nouveaux travaux de recherche. 
+
+
+[^1]: [Peng, R. D., F. Dominici, and S. L. Zeger. 2006. Reproducible epidemiologic research. Am J Epidemiol:783-789.](https://pubmed.ncbi.nlm.nih.gov/16510544/)
+[^2]: [Noble, W. S. 2009. A quick guide to organizing computational biology projects. PLoS computational biology:e1000424.](https://pubmed.ncbi.nlm.nih.gov/19649301/)
+[^3]: [Sandve, G. K., A. Nekrutenko, J. Taylor, and E. Hovig. 2013. Ten simple rules for reproducible computational research. PLoS computational biology:e1003285.](https://pubmed.ncbi.nlm.nih.gov/24204232/)
+[^4]: [Wilson, G., D. A. Aruliah, C. T. Brown, N. P. Chue Hong, M. Davis, R. T. Guy, S. H. Haddock, K. D. Huff, I. M. Mitchell, M. D. Plumbley, B. Waugh, E. P. White, and P. Wilson. 2014. Best practices for scientific computing. PLoS biology:e1001745.](https://pubmed.ncbi.nlm.nih.gov/24415924/)
+
+
+## Organiser son projet de recherche
+Tous les fichiers pertinents à un projet devraient se trouver dans le même répertoire. La figure 1 est un exemple de structure de répertoire pour un projet. En utilisant toujours la même structure de répertoire d’un projet à l’autre vous vous éviterez bien des recherches de documents d’un projet à l’autre.
+
+
+![**Figure 2.1.** Exemple de structure de répertoire.](Figures\Figure 1.png)
+  
+## Où sauvegarder son projet  
+La tentation peut être grande (surtout si vous êtes sous Windows) de **sauvegarder ses documents sur le bureau. Ce n’est pas une bonne idée** :  
+  -	Si vous êtes en réseau et que votre institution fait des sauvegardes automatiques de vos fichiers, ce qui est mis sur le bureau n’est généralement pas inclus;  
+  -	Vos fichiers sont à la vue de tous ceux qui passent près de votre ordinateur;  
+  - Sous Windows, les fichiers sauvegardés sur le bureau sont inclus dans votre profil d’utilisateur, ce qui augmente sa taille et peut diminuer les performances de l’ordinateur;   
+  - Si votre ordinateur Windows a un gros problème et doit être restauré par la fonction system restore de Windows, cette fonction n’inclut pas les documents sauvegardés sur le bureau. Vous perdrez donc votre travail;  
+  
+Il faut penser à bien choisir les noms de ses répertoires et fichiers. En effet ces noms feront partie du chemin à écrire dans vos scripts d’analyse. Un chemin court est donc préférable, p.ex.  
+  
+`C: projet` 
+  
+**Remarquez que si vous tenez absolument à avoir accès à votre fichier via le bureau, vous pouvez toujours y placer un raccourci (c’est fait pour ça!).**  
+
+## Où sauvegarder ses données  
+**Les différentes bases de données d’un projet devraient se trouver toutes sous le même répertoire, accompagnées de méta-données.** Ces méta-données permettent de décrire vos bases de données : d’où viennent-elles, leurs structures, quelles sont les variables, la légende, etc. Un simple fichier texte suffit (voir figure 1), avec un nom évocateur. Par exemple, un document **README.txt** pourrait décrire les différentes bases de données et des documents keyTableX.txt pourront contenir la légende pour chacune des différentes bases de données. **Pensez aussi à donner à vos bases de données des noms courts et datés**: Phase1_12-01-2021.csv plutôt que Données pour Jean_version3-révision _transfer_final_revue_final2.xlsx (c'est un exemple véridique d'un de mes premiers projets!). Les éléments nécessaires à l’identification des bases de données seront, de toutes façons, expliqués dans votre document README.txt. Finalement, bien que la protection de la langue française soit un objectif louable, gardez en tête que vous aurez possiblement à partager plusieurs de ces documents et bases de données avec des collaborateurs internationaux. Des noms de fichiers, de variables et des documents en anglais pourront possiblement vous épargner plusieurs heures de traduction dans le futur.
+  
+
+## Scripts d'analyse
+**Toutes les étapes de vos analyses devraient être réalisées à partir de scripts (e.g. vos codes R)**: laisser faire le travail par l’ordinateur et sauvegarder les commandes qui lui sont données pour pouvoir les réutiliser plus tard. Même les données ne doivent pas être modifiées manuellement. C’est non seulement inefficace, mais source d’erreurs et (presque) impossible à reproduire. **Assurez-vous d'avoir une base de données initiale bien nettoyée, par la suite, si vous devez exclure/corriger certaines observations pour une analyse donnée, faites-le dans le script de cette analyse**. Votre script doit permettre d’avoir accès aux données et, idéalement, pour ce faire **utiliser des chemins relatifs** (notez que nous proposerons une alternative à cela, les `Projets R` dans la prochaine section). Votre script d’analyse doit être compréhensible pour un « humain » : court, standardisé quant au style, format et noms des variables ou fonctions utilisées, et comprenant des commentaires. **Essayer de diviser les tâches entre plusieurs scripts** : un pour la manipulation des données, un pour les analyses descriptives, un pour les modélisations etc.
+  
+**Notez que ces différents scripts (manipulation des données, analyses descriptives, modélisations, production de figures etc.) forment ensemble une chaîne, une combinaison: un workflow**. Si vous faite des modifications à votre script qui vous permettait d’organiser la table de données, par exemple pour ajouter une nouvelle variable à votre table (e.g. vous venez finalement de recevoir vos résultats de PCR), vous devrez possiblement mettre à jour votre script d’analyses descriptives et l’exécuter, idem pour vos scripts de modélisation, etc. 
+
+## Les projets R  
+`RStudio` permet de créer un type de fichier qui s'appelle un `Projet R`. Pour créer un `Projet R`, suivez ces instructions simples [Using RStudio Projects](https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-Projects). Après avoir créé un `Projet R` dans un fichier donné sur votre ordinateur, vous pouvez copier dans ce fichier (ou un sous-fichier de celui-ci) les bases de données qui serviront dans ce projet. C'est aussi dans ce fichier que les scripts d'analyses que vous développerez seront enregistrés. Finalement, vous pourriez aussi y enregistrer des résultats de vos analyses, par exemple des figures. Finalement vous y trouverez un élément avec une extension `.Rproj`. Si vous cliquez sur cet élément, `RStudio` s'ouvrira sur les scripts que vous utilisiez au moment où vous aviez suspendu vos analyses.  
+  
+L'avantage d'un `Projet R` est que tous les chemins d'accès (par exemple pour importer un jeu de données) seront maintenant relatifs au `Projet R` et non à l'endroit, sur votre ordinateur, où le `Projet R` est lui-même hébergé. Ce n'est pas très clair, n'est-ce pas?  
+  
+Allons-y d'un exemple. Disons que vous n'utilisez pas un `Projet R`. Dans un script d'analyse, lorsque vous voudrez importer un jeu de données, vous devrez indiquer le chemin d'accès pour ce jeu de données, par exemple:  *C:/Users/dufours/OneDrive - Universite de Montreal/Enseignement UdM/Cours/PTM 6675-Epi 2/Datadaisy2.csv*. Évidemment, si vous donnez ce script d'analyse et le jeu de données à un collègue (ou si vous déplacez vos dossiers vers un nouvel ordinateur) les scripts ne fonctionneront plus, puisque les chemins d'accès seront maintenant erronés.  
+  
+Maintenant, si vous avez plutôt créé un `Projet R` et que, dans ce fichier vous avez créé un sous-fichier *Data* dans lequel vous avez déposé les jeux de données dont vous aurez besoin dans ce projet. Dans vos scripts, le chemin d'accès pour ce jeu de données deviendra simplement *Data/Datadaisy2.csv*. Vous pouvez maintenant transférer en bloc vers un autre ordinateur le fichier qui contient votre `Projet R` avec vos scripts d'analyses, les jeux de données, etc. Tous vos scripts seront fonctionnels. On dira que vos analyses sont maintenant **portables**.   
+  
+## Copies de sécurité
+Le pire peut arriver et vous perdez toutes vos données! Avant qu’il ne soit trop tard, **pensez à mettre en place une stratégie de sauvegarde de vos fichiers**. Il n’y a pas de stratégie universelle, mais chacun doit trouver celle qui lui convient. **Deux règles cependant :**
+  
+**1) Des copies à jour**  
+**2) Séparer physiquement les sauvegardes.**  
+  
+Vos sauvegardes doivent être **régulières et entreposées dans un lieu physique différent de vos données originelles**. L’idéal est d’avoir deux systèmes de sauvegarde (e.g. sur un nuage numérique et sur votre PC). Vous pouvez sauvegarder vos données sur un « nuage », tels que Dropbox, Google Drive,  etc. Ces services ont cependant des licences et des obligations légales pouvant exposer vos données à des risques juridiques et compromettre la confidentialité de vos données. Tous les services cités ci-dessus sont opérés sur des serveurs aux USA. Les universités canadiennes sont soumises à la [Loi sur l’accès à l’information](https://laws-lois.justice.gc.ca/fra/lois/a-1/) et à la [Loi sur la protection des renseignements personnels](https://laws-lois.justice.gc.ca/fra/Lois/P-21/index.html) qui restreint la possibilité de déposer des données personnelles sur des serveurs à l’extérieur du pays. Renseignez-vous auprès de votre institution pour savoir quelles sont les meilleures possibilités pour vous. Présentement, l'Université de Montréal supporte l'utilisation de Onedrive par ses professeurs et étudiants. [Scholars portal](http://scholarsportal.info) est un autre exemple de service disponible pour les membres  académiques et étudiants de l'Université de Montréal, permettant de créer un dépôt de données pour leur recherche.
+  

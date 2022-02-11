@@ -1,0 +1,324 @@
+---
+title: "Épidémiologie 2 - Labo informatique R (PTM-6675)"
+author: "Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l'Université de Montréal)"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: Chapitre 8
+ 
+---
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+
+## Travaux pratiques 2 - Régression linéaire - Évaluation du modèle
+
+### Exercices
+Pour ce TP utilisez le fichier DAISY2 (voir description VER p.809).  
+  
+**Ne sélectionnez que les 7 troupeaux avec h7=1. **  
+  
+Nous nous intéresserons d’abord au modèle suivant qui permet d’évaluer l’effet de dystocie (*dyst*) sur le nombre de jours jusqu’à la saillie fécondante (*WPC*). Cette association est ajustée pour 3 facteurs confondants (*parity*, *herd_size* et *twin*). Un des confondants (*herd_size*) n’a pas une relation linéaire avec WPC. Cette relation a donc due être modélisée avec l’ajout d’un terme quadratique. Finalement, l’interaction entre dystocie et parité est également d’intérêt.  
+  
+$wpc = β_0 +β_1dyst + β_2parity + β_3dyst*parity + β_4herdsize + β_5herdsize^2 + β_6twin$ 
+  
+**1)**	D’abord vous pourriez créer les nouvelles variables centrées et quadratiques qui seront utilisées dans ce modèle.  
+  
+$Parity$ pourrait être centrée sur une première lactation.  
+$Herdsize$ pourrait être centré sur 250 vaches.  
+$Herdsize^2$ sera, en fait, votre variable *herd_size* centrée et mise au carré.  
+  
+Maintenant, estimez ce modèle à l’aide de la fonction `lm` et évaluer d’abord graphiquement les suppositions de normalité des résiduels (i.e. l’histogramme des résiduel et le Q-Q plot) et d’homoscédasticité de la variance (i.e. les résiduels x valeurs prédites). Quels sont vos conclusions ? Notez qu’un simple histogramme de *WPC* vous aurait possiblement aussi indiqué les problèmes potentiels avec la variable *WPC*.  
+  
+**2)** Afin d’améliorer les suppositions du modèle (i.e. normalité des résiduels et homoscédasticité), vous pourriez tenter de transformer *WPC*. Essayez les transformations suivantes et utilisées les comme variables dépendantes dans votre modèle à la place de *WPC*. Dans quels cas les suppositions de normalité et d’homoscédasticité sont améliorées et quelle transformation préféreriez-vous utiliser?  
+  
+a) Le log naturel de *WPC*    
+i.	Normalité des résiduels ?  
+ii.	Homoscédasticité ?  
+  
+b) L’inverse de *WPC* (1/*WPC*)  
+i.	Normalité des résiduels ?  
+ii.	Homoscédasticité ?  
+  
+c) La racine carrée de *WPC*   
+i.	Normalité des résiduels ?  
+ii.	Homoscédasticité ?  
+  
+**3)** Outre l’amélioration des suppositions du modèle, est-ce que la transformation par le logarithme naturel pourrait vous offrir d’autres avantages comparativement, par exemple, à la transformation par la racine carrée?  
+  
+**4)** Vous décidez donc de continuer à travailler avec le logarithme naturel de *WPC*. Rappelez-vous que lorsque vous aviez évalué la relation entre *herd_size* et *WPC*, cette relation semblait curvilinéaire. Est-ce que cela implique que la relation entre *herd_size* et le logarithme naturel de *WPC* est également curvilinéaire ?  
+  
+**5)** Évaluez graphiquement et à l’aide de termes quadratique et cubique la relation entre *herd_size* et le logarithme naturel de *WPC*. Avez-vous besoin d’inclure un terme au carré ? Un terme au cube ?  
+  
+**6)** Dans votre modèle avec le logarithme naturel de *WPC*, et *herd_size* modélisé avec les termes polynomiaux appropriés, est-ce que l’interaction entre *dyst* et *parity* est toujours statistiquement significative ?  
+  
+**7)** Si l’interaction n’est plus statistiquement significative cela signifie que:  
+  
+a.	L’effet de dystocie ne varie pas en fonction de la parité  
+b.	Le terme d’interaction n’est pas nécessaire dans le modèle  
+c.	Le coefficient de régression pour le terme d’interaction n’est pas différent de zéro  
+d.	Toutes ces réponses  
+  
+**8)** Comme vous avez pu le noter, transformer la variable dépendante vous oblige à revoir pratiquement tout votre modèle de A à Z. Mais bon, votre modèle final pourrait donc être :  
+  
+$log(wpc) = β_0 +β_1dyst + β_2parity_c + β_3herdsize _c + β_4herdsize_c^2 + β_5twin$  
+  
+Évaluez une dernière fois les suppositions de normalité des résiduels et d’homoscédasticité (puisque vous ne l’avez pas encore fait pour ce modèle sans l’interaction $dyst*parity$) et calculez dans une nouvelle table les valeurs prédites, les résiduels de Student, les leviers et les distances de Cook.  
+  
+a.	Combien d’observations ont des résiduels larges (résiduels de Student > 3.0 ou < -3.0)? Ont-elles quelque chose en commun en ce qui a trait à leurs valeurs de *WPC*, *dyst*, *parity*, *herd_size* ou *twin*?  
+  
+b.	Vous pourriez représenter graphiquement les résiduels de Student en fonction de *WPC* pour mieux visualiser où se situent ses résiduels larges. Quel genre d’observations (en termes de *WPC*) le modèle semble avoir de la difficulté à prédire?  
+  
+c.	Évaluez maintenant les 5 ou 10 observations avec les leviers les plus élevés. Encore une fois, ont-elles quelque chose en commun?   
+  
+d.	Les observations avec des résiduels ou des leviers larges (ou les deux) sont des observations qui peuvent potentiellement influencer le modèle de régression. Les distances de Cook nous permettrons d’identifier quelles observations avaient effectivement une influence sur le modèle. Évaluez donc maintenant les 5 ou 10 observations avec les distances de Cook les plus élevées. Ont-elles quelque chose en commun ?  
+  
+e.	Vérifiez maintenant jusqu’à quel point ces observations influencent vos résultats en calculant de nouveau votre modèle mais sans les observations avec les distance de Cook les plus élevées (e.g. les 7 observations avec les distances de Cook > 0.010). Est-ce que les conclusions des tests de *F* ou de *T* changent comparativement au modèle calculé au début de la question 8? Est-ce que les estimés obtenus changent beaucoup ? Pour quel paramètre l’estimé semble être le plus affecté ? Est-ce en accord avec votre réponse à la question 8.d. ?  
+  
+    
+      
+
+### Code R et réponses
+
+**1)**	D’abord vous pourriez créer les nouvelles variables centrées et quadratiques qui seront utilisées dans ce modèle. Maintenant, estimez ce modèle à l’aide de la fonction `lm` et évaluer d’abord graphiquement les suppositions de normalité des résiduels (i.e. l’histogramme des résiduel et le Q-Q plot) et d’homoscédasticité de la variance (i.e. les résiduels x valeurs prédites). Quels sont vos conclusions? Notez qu’un simple histogramme de *WPC* vous aurait possiblement aussi indiqué les problèmes potentiels avec la variable *WPC*.
+  
+```{r, fig.cap="**Figure 6.9.** Graphique Q-Q des résiduels."}
+#J'ouvre le jeu de données
+daisy2 <-read.csv(file="daisy2.csv", header=TRUE, sep=",")
+daisy2_mod<-subset(daisy2, h7==1)
+
+#Je génère les nouvelles variables
+daisy2_mod$par_ct <- daisy2_mod$parity-1
+daisy2_mod$herd_size_ct <- daisy2_mod$herd_size-250
+daisy2_mod$herd_size_ct_sq <-daisy2_mod$herd_size_ct*daisy2_mod$herd_size_ct
+
+#Je génère le modèle
+modele1<-lm(data=daisy2_mod, wpc ~ (dyst*par_ct + herd_size_ct + herd_size_ct_sq + twin))
+plot(modele1, 2) #Je demande la 2 figure Normal Q-Q
+
+```
+  
+**Réponse:** La normalité des résiduels est problématique
+  
+```{r, fig.cap="**Figure 6.10.** Graphique des résiduels x valeurs prédites."}
+plot(modele1, 1) #Je demande la la figure Residual vs Fitted
+```
+  
+**Réponse:** Il semble aussi y avoir un problème d'hétéroscédascticité (*i.e.* la variance augmente avec l'augmentation des valeurs prédites). 
+  
+**2)** Afin d’améliorer les suppositions du modèle (i.e. normalité des résiduels et homoscédasticité), vous pourriez tenter de transformer *WPC*. Essayez les transformations suivantes et utilisées les comme variables dépendantes dans votre modèle à la place de *WPC*. Dans quels cas les suppositions de normalité et d’homoscédasticité sont améliorées et quelle transformation préféreriez-vous utiliser?  
+  
+```{r}
+#Je génère les nouvelles variables en bloc:
+daisy2_mod$ln_wpc <- log(daisy2_mod$wpc)
+daisy2_mod$inv_wpc <- 1/daisy2_mod$wpc
+daisy2_mod$sqr_wpc <- sqrt(daisy2_mod$wpc)
+```
+  
+a) Le log naturel de *WPC*    
+i.	Normalité des résiduels ?  
+ii.	Homoscédasticité ?  
+```{r, fig.cap="**Figure 6.11.** Graphique des résiduels x valeurs prédites."}
+#Je génère le modèle pour log_wpc
+modele_log<-lm(data=daisy2_mod, ln_wpc ~ (dyst*par_ct + herd_size_ct + herd_size_ct_sq + twin))
+
+plot(modele_log, 1) #Je demande la la figure Residual vs Fitted
+```
+```{r, fig.cap="**Figure 6.12.** Graphique Q-Q des résiduels."}
+plot(modele_log, 2) #Je demande la 2 figure Normal Q-Q
+```
+  
+**Réponse:** Normalité est très améliorée; homoscédasticité est beaucoup mieux. Peut-être une légère diminution de la variance avec augmentation des valeurs prédites. 
+  
+b) L’inverse de *WPC* (1/*WPC*)  
+i.	Normalité des résiduels ?  
+ii.	Homoscédasticité ?  
+```{r, fig.cap="**Figure 6.13.** Graphique des résiduels x valeurs prédites."}
+#Je génère le modèle pour inv_wpc
+modele_inv<-lm(data=daisy2_mod, inv_wpc ~ (dyst*par_ct + herd_size_ct + herd_size_ct_sq + twin))
+
+plot(modele_inv, 1) #Je demande la la figure Residual vs Fitted
+```
+```{r, fig.cap="**Figure 6.14.** Graphique Q-Q des résiduels."}
+plot(modele_inv, 2) #Je demande la 2 figure Normal Q-Q
+```
+  
+    
+**Réponse:** Normalité est pire; homoscédasticité est pire aussi,variance augmente clairement avec augmentation des valeurs prédites.   
+  
+  
+c) La racine carrée de *WPC*   
+i.	Normalité des résiduels ?  
+ii.	Homoscédasticité ?  
+```{r, fig.cap="**Figure 6.15.** Graphique des résiduels x valeurs prédites."}
+#Je génère le modèle pour sqr_wpc
+modele_sqr<-lm(data=daisy2_mod, sqr_wpc ~ (dyst*par_ct + herd_size_ct + herd_size_ct_sq + twin))
+
+plot(modele_sqr, 1) #Je demande la la figure Residual vs Fitted
+```
+```{r, fig.cap="**Figure 6.16.** Graphique Q-Q des résiduels."}
+plot(modele_sqr, 2) #Je demande la 2 figure Normal Q-Q
+```
+  
+**Réponse:** Normalité des résiduels est un peu mieux que *WPC* mais encore problématique (*ln_wpc* était meilleur de ce côté). L'homoscédasticité est beaucoup mieux. Peut-être même un peu mieux que *ln_wpc* sur cet aspect.   
+    
+**3)** Outre l’amélioration des suppositions du modèle, est-ce que la transformation par le logarithme naturel pourrait vous offrir d’autres avantages comparativement, par exemple, à la transformation par la racine carrée?  
+  
+**Réponse:** Oui, côté interprétation ce sera plus facile parce que nous pourrons directement retransformer et plus facilement interpréter l’estimé (i.e. l'exposant de $β_1$) et son IC 95%. Par exemple, avec le $β$ de dyst (et IC 95%) de 0.027 (-0.163, 0.218) nous obtiendrons des valeurs retransformées de 1.03 (0.85, 1.24). Nous pourrons interpréter ces valeurs comme suit : *WPC* est multiplié par un facteur de 1.03 lorsque dystocie est présente, et nous avons 95% de certitude que la vraie valeur se situe entre une multiplication par 0.85 (i.e. une diminution du nombre de jours) et une multiplication par 1.24.
+  
+**4)** Vous décidez donc de continuer à travailler avec le logarithme naturel de *WPC*. Rappelez-vous que lorsque vous aviez évalué la relation entre *herd_size* et *WPC*, cette relation semblait curvilinéaire. Est-ce que cela implique que la relation entre *herd_size* et le logarithme naturel de *WPC* est également curvilinéaire ?  
+  
+**Réponse:** Pas nécessairement, *ln_wpc* est une variable différente. 
+  
+**5)** Évaluez graphiquement et à l’aide de termes quadratique et cubique la relation entre *herd_size* et le logarithme naturel de *WPC*. Avez-vous besoin d’inclure un terme au carré ? Un terme au cube ?  
+
+```{r fig.cap="**Figure 6.17.** Relation entre taille de troupeau (herd_size) et le nombre de jours jusqu’à la saillie fécondante (wpc) avec courbe lissée avec un facteur de 2.", warning=FALSE, message=FALSE}
+library(ggplot2)
+ggplot(daisy2_mod, aes(herd_size, ln_wpc)) + 
+  geom_point() +  
+  geom_smooth(method="loess", span=2)+ 
+  theme_bw() 
+```
+  
+**Réponse:** Graphiquement, la relation avec *ln_wpc* semble aussi curvilinéaire.  
+  
+```{r}
+#Je génère le modèle avec le terme au carré
+modele_log2<-lm(data=daisy2_mod, ln_wpc ~ (herd_size_ct + herd_size_ct_sq))
+summary(modele_log2)
+```
+  
+**Réponse:** Aussi, le terme au carré est significatif (*P* < 0.001), cela confirme la relation curvilinéaire.  
+  
+```{r}
+#Je genère la variable au cube
+daisy2_mod$herd_size_ct_cu <-daisy2_mod$herd_size_ct*daisy2_mod$herd_size_ct*daisy2_mod$herd_size_ct
+#Je génère le modèle avec le terme au cube
+modele_log3<-lm(data=daisy2_mod, ln_wpc ~ (herd_size_ct + herd_size_ct_sq + herd_size_ct_cu))
+summary(modele_log3)
+```
+  
+**Réponse:** Par contre le terme au cube n’est pas nécessaire (*P*=0.83) je pourrais l'enlever du modèle.  
+  
+**6)** Dans votre modèle avec le logarithme naturel de *WPC*, et *herd_size* modélisé avec les termes polynomiaux appropriés, est-ce que l’interaction entre *dyst* et *parity* est toujours statistiquement significative ?  
+  
+```{r}
+#Je génère le modèle pour log_wpc
+modele_log<-lm(data=daisy2_mod, ln_wpc ~ (dyst*par_ct + herd_size_ct + herd_size_ct_sq + twin))
+summary(modele_log)
+```
+  
+**Réponse:** Non, *P* =0.0945
+  
+**7)** Si l’interaction n’est plus statistiquement significative cela signifie que:  
+  
+a.	L’effet de dystocie ne varie pas en fonction de la parité  
+b.	Le terme d’interaction n’est pas nécessaire dans le modèle  
+c.	Le coefficient de régression pour le terme d’interaction n’est pas différent de zéro  
+d.	Toutes ces réponses  
+  
+**Réponse:** d. Toutes ces réponses.  
+  
+
+**8)** Comme vous avez pu le noter, transformer la variable dépendante vous oblige à revoir pratiquement tout votre modèle de A à Z. Mais bon, votre modèle final pourrait donc être :  
+  
+$log(wpc) = β_0 +β_1dyst + β_2parity_c + β_3herdsize _c + β_4herdsize_c^2 + β_5twin$  
+  
+Évaluez une dernière fois les suppositions de normalité des résiduels et d’homoscédasticité (puisque vous ne l’avez pas encore fait pour ce modèle sans l’interaction $dyst*parity$) et calculez dans une nouvelle table les valeurs prédites, les résiduels de Student, les leviers et les distances de Cook.
+  
+```{r, fig.cap="**Figure 6.18.** Graphique des résiduels x valeurs prédites."}
+#Générons le modèle sans l'interaction
+modele_final<-lm(data=daisy2_mod, ln_wpc ~ (dyst + par_ct + herd_size_ct + herd_size_ct_sq + twin))
+summary(modele_final)
+#Vérifions d'abord les suppositions:
+plot(modele_final, 2)
+```
+```{r, fig.cap="**Figure 6.19.** Graphique Q-Q des résiduels."}
+plot(modele_final, 1)
+```
+  
+**Réponses:** OK, les suppositions semblent respectées.  
+  
+```{r}
+#Enregistrons les valeurs prédites, les résiduels de Student, les leviers et les distance de Cook
+library(broom)
+diag <- augment(modele_final) #Je viens de créer une nouvelle table dans laquelle les résiduels, distance de cook, etc se trouvent maintenant
+```
+  
+  
+a.	Combien d’observations ont des résiduels larges (résiduels de Student > 3.0 ou < -3.0)? Ont-elles quelque chose en commun en ce qui a trait à leurs valeurs de *WPC*, *dyst*, *parity*, *herd_size* ou *twin*?  
+  
+```{r}
+#Je pourrais maintenant filtrer cette table pour ne conserver que les résiduels standardisés larges
+diag_res <- subset(diag, (.std.resid >=3.0 | .std.resid<=-3.0))
+diag_res
+```
+  
+**Réponse:** 5 observations ont des résiduels larges. Elles ont toutes des WPC très courts (*i.e.* des *log_wpc* près de 0 ou 1), pas de jumeaux (*twin*=0) et pas de dystocie (*dyst*=0).   
+   
+b.	Vous pourriez représenter graphiquement les résiduels de Student en fonction de *WPC* pour mieux visualiser où se situent ses résiduels larges. Quel genre d’observations (en termes de *WPC*) le modèle semble avoir de la difficulté à prédire?  
+   
+```{r, fig.cap="**Figure 6.20.** Relation entre résiduels standardisés et le nombre de jours jusqu’à la saillie fécondante (wpc) avec courbe lissée avec un facteur de 2.", message=FALSE, warning=FALSE}
+library(ggplot2)
+ggplot(data=diag, aes(ln_wpc, .std.resid, colour=.std.resid)) + 
+  geom_point() +  
+  theme_bw()+
+  geom_hline (aes(yintercept=3)) + 
+  geom_hline (aes(yintercept=-3))
+```
+  
+**Réponse:** Le modèle semble avoir de la difficulté à prédire les vaches avec *log_WPC* très courts.  
+  
+c.	Évaluez maintenant les 5 ou 10 observations avec les leviers les plus élevés. Encore une fois, ont-elles quelque chose en commun?   
+```{r}
+#Je pourrais maintenant ordonner cette table pour voir les 10 observations avec les leviers les plus larges
+diag_hat <- diag[order(-diag$.hat),]
+head(diag_hat, 10)
+```
+  
+**Réponse:** Ces vaches ont toutes eu des jumeaux.  
+  
+d.	Les observations avec des résiduels ou des leviers larges (ou les deux) sont des observations qui peuvent potentiellement influencer le modèle de régression. Les distances de Cook nous permettrons d’identifier quelles observations avaient effectivement une influence sur le modèle. Évaluez donc maintenant les 5 ou 10 observations avec les distances de Cook les plus élevées. Ont-elles quelque chose en commun ?  
+```{r}
+#Je pourrais maintenant ordonner cette table pour voir les 10 observations avec les distance de Cook les plus larges
+diag_cook <- diag[order(-diag$.cooksd),]
+head(diag_cook, 10)
+```
+  
+**Réponse:** Les vaches qui ont eu des jumeaux sont les pires. Les *log_WPC* courts (i.e. résiduels larges) ne semble pas influencer beaucoup le modèle.
+  
+e.	Vérifiez maintenant jusqu’à quel point ces observations influencent vos résultats en calculant de nouveau votre modèle mais sans les observations avec les distance de Cook les plus élevées (e.g. les 7 observations avec les distances de Cook > 0.010).    
+  
+```{r}
+#Je génère un jeu de données sans les 7 observations avec les distances de Cook les plus grandes
+outlier <- subset(diag, .cooksd<0.01)
+#Je refais le modèle sur ce jeu de données réduit
+modele_outlier<-lm(data=outlier, ln_wpc ~ (dyst + par_ct + herd_size_ct + herd_size_ct_sq + twin))
+summary(modele_outlier)
+```
+  
+Est-ce que les conclusions des tests de *F* ou de *T* changent comparativement au modèle calculé au début de la question 8?  
+  
+**Réponse:** Les valeurs de *P* changent un peu mais aucune des conclusions n'est modifiée.  
+  
+Est-ce que les estimés obtenus changent beaucoup ? Pour quel paramètre l’estimé semble être le plus affecté ? Est-ce en accord avec votre réponse à la question 8.d. ?  
+  
+**Réponse:** Les estimés ne changent pas beaucoup. Le paramètre qui semble être le plus affecté est *twin*. Ce dernier passe de +0.45 *log_wpc* à +0.66 *log_wpc* lorsque les observations influentes sont retirées. C’est bien certainement en accord avec le fait que les observations les plus influentes sont des observations où *twin*=1.
+    
+        
+
+
+
+
+
+
+

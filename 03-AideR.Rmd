@@ -1,0 +1,27 @@
+---
+title: "Épidémiologie 2 - Labo informatique R (PTM-6675)"
+author: Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l'Université
+  de Montréal)
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography:
+- book.bib
+- packages.bib
+biblio-style: apalike
+link-citations: yes
+description: Chapitre 4
+---
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+# Aide de R  
+Si vous avez besoin d'aide concernant une fonction particulière, par exemple la fonction [`lm`] pour les modèles linéaires, il y a évidemment beaucoup de matériel sur l'internet, mais vous trouverez aussi du contenu dans la section d'aide de RStudio.  
+  
+![**Figure 4.1.** Section aide de RStudio.](Figures\Figure 2 help.png)
