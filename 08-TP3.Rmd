@@ -435,9 +435,8 @@ add_footnote(
 ```{r echo=FALSE}
 #Pour faire cela, je dois créer une table avec les valeurs de mes prédicteurs pour lesquelles je voudrais une prédiction
 # Create a dataframe of new diamond data
-cellcount.new <- data.frame(kgmilk_ct = c(10, 10, 10, 20, 20, 20, 30, 30, 30),
-                           kgmilk_ct_sq = c(100, 100, 100, 400, 400, 400, 900, 900, 900),
-                           kgmilk_ct_cu = c(1000, 1000, 1000, 8000, 8000, 8000, 27000, 27000, 27000),
+cellcount.new <- data.frame(kgmilk_ct = c(-10, -10, -10, 0, 0, 0, 10, 10, 10),
+                           kgmilk_ct_sq = c(100, 100, 100, 0, 0, 0, 100, 100, 100),
                            parity_ct = c(0, 1, 2, 0, 1, 2, 0, 1, 2),
                            parity_ct_sq = c(0, 1, 4, 0, 1, 4, 0, 1, 4),
                            breed = c("1", "1", "1", "1", "1", "1", "1", "1", "1"))
