@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Épidémiologie 2 - Labo informatique R (PTM-6675)</title>
+  <meta name="description" content="Chapitre 18" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Épidémiologie 2 - Labo informatique R (PTM-6675)" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Chapitre 18" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Épidémiologie 2 - Labo informatique R (PTM-6675)" />
+  
+  <meta name="twitter:description" content="Chapitre 18" />
+  
+
+<meta name="author" content="Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l’Université de Montréal)" />
+
+
+<meta name="date" content="2022-02-24" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="bonnes-pratiques-de-gestion-de-projet.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Épidémiologie 2 - Labo informatique R (PTM-6675)</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> À propos</a></li>
+<li class="chapter" data-level="2" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html"><i class="fa fa-check"></i><b>2</b> Bonnes pratiques de gestion de projet</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#organiser-son-projet-de-recherche"><i class="fa fa-check"></i><b>2.1</b> Organiser son projet de recherche</a></li>
+<li class="chapter" data-level="2.2" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#où-sauvegarder-son-projet"><i class="fa fa-check"></i><b>2.2</b> Où sauvegarder son projet</a></li>
+<li class="chapter" data-level="2.3" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#où-sauvegarder-ses-données"><i class="fa fa-check"></i><b>2.3</b> Où sauvegarder ses données</a></li>
+<li class="chapter" data-level="2.4" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#scripts-danalyse"><i class="fa fa-check"></i><b>2.4</b> Scripts d’analyse</a></li>
+<li class="chapter" data-level="2.5" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#les-projets-r"><i class="fa fa-check"></i><b>2.5</b> Les projets R</a></li>
+<li class="chapter" data-level="2.6" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#copies-de-sécurité"><i class="fa fa-check"></i><b>2.6</b> Copies de sécurité</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="obtention-des-données-pour-les-travaux-pratiques.html"><a href="obtention-des-données-pour-les-travaux-pratiques.html"><i class="fa fa-check"></i><b>3</b> Obtention des données pour les travaux pratiques</a></li>
+<li class="chapter" data-level="4" data-path="aide-de-r.html"><a href="aide-de-r.html"><i class="fa fa-check"></i><b>4</b> Aide de R</a></li>
+<li class="chapter" data-level="5" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>5</b> R Markdown</a></li>
+<li class="chapter" data-level="6" data-path="régression-linéaire.html"><a href="régression-linéaire.html"><i class="fa fa-check"></i><b>6</b> Régression linéaire</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#généralités"><i class="fa fa-check"></i><b>6.1</b> Généralités</a></li>
+<li class="chapter" data-level="6.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#ajouter-des-intervalles-de-confiance"><i class="fa fa-check"></i><b>6.2</b> Ajouter des intervalles de confiance</a></li>
+<li class="chapter" data-level="6.3" data-path="régression-linéaire.html"><a href="régression-linéaire.html#test-de-f-pour-comparer-modèles-complet-vs.-réduit"><i class="fa fa-check"></i><b>6.3</b> Test de <em>F</em> pour comparer modèles complet <em>vs.</em> réduit</a></li>
+<li class="chapter" data-level="6.4" data-path="régression-linéaire.html"><a href="régression-linéaire.html#transformer-une-variable"><i class="fa fa-check"></i><b>6.4</b> Transformer une variable</a></li>
+<li class="chapter" data-level="6.5" data-path="régression-linéaire.html"><a href="régression-linéaire.html#choisir-la-valeur-de-référence-pour-une-variable-catégorique"><i class="fa fa-check"></i><b>6.5</b> Choisir la valeur de référence pour une variable catégorique</a></li>
+<li class="chapter" data-level="6.6" data-path="régression-linéaire.html"><a href="régression-linéaire.html#comparer-les-niveaux-dun-prédicteur-catégorique-avec-2-catégories"><i class="fa fa-check"></i><b>6.6</b> Comparer les niveaux d’un prédicteur catégorique avec &gt;2 catégories</a></li>
+<li class="chapter" data-level="6.7" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluer-une-interaction-entre-2-variables"><i class="fa fa-check"></i><b>6.7</b> Évaluer une interaction entre 2 variables</a></li>
+<li class="chapter" data-level="6.8" data-path="régression-linéaire.html"><a href="régression-linéaire.html#tol-et-vif---évaluer-colinéarité"><i class="fa fa-check"></i><b>6.8</b> TOL et VIF - Évaluer colinéarité</a></li>
+<li class="chapter" data-level="6.9" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluation-du-modèle"><i class="fa fa-check"></i><b>6.9</b> Évaluation du modèle</a>
+<ul>
+<li class="chapter" data-level="6.9.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluer-la-linéarité-de-la-relation-à-laide-de-courbes-lissées-pour-prédicteur-quantitatif"><i class="fa fa-check"></i><b>6.9.1</b> Évaluer la linéarité de la relation à l’aide de courbes lissées (pour prédicteur quantitatif)</a></li>
+<li class="chapter" data-level="6.9.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#méthodes-diagnostiques-pour-les-résiduels"><i class="fa fa-check"></i><b>6.9.2</b> Méthodes diagnostiques pour les résiduels</a></li>
+<li class="chapter" data-level="6.9.3" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluation-des-observations-extrêmes-etou-influentes"><i class="fa fa-check"></i><b>6.9.3</b> Évaluation des observations extrêmes et/ou influentes</a></li>
+</ul></li>
+<li class="chapter" data-level="6.10" data-path="régression-linéaire.html"><a href="régression-linéaire.html#travaux-pratiques-1---régression-linéaire---base"><i class="fa fa-check"></i><b>6.10</b> Travaux pratiques 1 - Régression linéaire - Base</a>
+<ul>
+<li class="chapter" data-level="6.10.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#exercices"><i class="fa fa-check"></i><b>6.10.1</b> Exercices</a></li>
+<li class="chapter" data-level="6.10.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#code-r-et-réponses"><i class="fa fa-check"></i><b>6.10.2</b> Code R et réponses</a></li>
+</ul></li>
+<li class="chapter" data-level="6.11" data-path="régression-linéaire.html"><a href="régression-linéaire.html#travaux-pratiques-2---régression-linéaire---évaluation-du-modèle"><i class="fa fa-check"></i><b>6.11</b> Travaux pratiques 2 - Régression linéaire - Évaluation du modèle</a>
+<ul>
+<li class="chapter" data-level="6.11.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#exercices-1"><i class="fa fa-check"></i><b>6.11.1</b> Exercices</a></li>
+<li class="chapter" data-level="6.11.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#code-r-et-réponses-1"><i class="fa fa-check"></i><b>6.11.2</b> Code R et réponses</a></li>
+</ul></li>
+<li class="chapter" data-level="6.12" data-path="régression-linéaire.html"><a href="régression-linéaire.html#travaux-pratiques-3---régression-linéaire---construction-de-modèle"><i class="fa fa-check"></i><b>6.12</b> Travaux pratiques 3 - Régression linéaire - Construction de modèle</a>
+<ul>
+<li class="chapter" data-level="6.12.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#exercices-2"><i class="fa fa-check"></i><b>6.12.1</b> Exercices</a></li>
+<li class="chapter" data-level="6.12.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#code-r-et-réponses-2"><i class="fa fa-check"></i><b>6.12.2</b> Code R et réponses</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="régression-logistique.html"><a href="régression-logistique.html"><i class="fa fa-check"></i><b>7</b> Régression logistique</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="régression-logistique.html"><a href="régression-logistique.html#généralités-1"><i class="fa fa-check"></i><b>7.1</b> Généralités</a></li>
+<li class="chapter" data-level="7.2" data-path="régression-logistique.html"><a href="régression-logistique.html#effectuer-un-test-de-rapport-de-vraisemblance"><i class="fa fa-check"></i><b>7.2</b> Effectuer un test de rapport de vraisemblance</a></li>
+<li class="chapter" data-level="7.3" data-path="régression-logistique.html"><a href="régression-logistique.html#ajouter-des-ic95"><i class="fa fa-check"></i><b>7.3</b> Ajouter des IC95</a></li>
+<li class="chapter" data-level="7.4" data-path="régression-logistique.html"><a href="régression-logistique.html#choisir-valeur-de-référence-pour-les-variables-catégoriques"><i class="fa fa-check"></i><b>7.4</b> Choisir valeur de référence pour les variables catégoriques</a></li>
+<li class="chapter" data-level="7.5" data-path="régression-logistique.html"><a href="régression-logistique.html#produire-des-tables-de-résultats"><i class="fa fa-check"></i><b>7.5</b> Produire des tables de résultats</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="régression-logistique.html"><a href="régression-logistique.html#présenter-les-rapport-de-cotes-plutôt-que-les-log-odds"><i class="fa fa-check"></i><b>7.5.1</b> Présenter les rapport de cotes plutôt que les log odds</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="régression-logistique.html"><a href="régression-logistique.html#spécifier-pour-quelle-augmentation-dun-prédicteur-continu-le-rapport-de-cotes-est-calculé"><i class="fa fa-check"></i><b>7.6</b> Spécifier pour quelle augmentation d’un prédicteur continu le rapport de cotes est calculé</a></li>
+<li class="chapter" data-level="7.7" data-path="régression-logistique.html"><a href="régression-logistique.html#évaluer-une-interaction-entre-2-variables-1"><i class="fa fa-check"></i><b>7.7</b> Évaluer une interaction entre 2 variables</a></li>
+<li class="chapter" data-level="7.8" data-path="régression-logistique.html"><a href="régression-logistique.html#comparer-rapports-de-cotes-pour-une-combinaison-spécifique-de-prédicteurs"><i class="fa fa-check"></i><b>7.8</b> Comparer rapports de cotes pour une combinaison spécifique de prédicteurs</a></li>
+<li class="chapter" data-level="7.9" data-path="régression-logistique.html"><a href="régression-logistique.html#présenter-leffet-des-prédicteurs-sur-une-échelle-de-probabilité"><i class="fa fa-check"></i><b>7.9</b> Présenter l’effet des prédicteurs sur une échelle de probabilité</a></li>
+<li class="chapter" data-level="7.10" data-path="régression-logistique.html"><a href="régression-logistique.html#linéarité-de-la-relation-pour-prédicteur-quantitatif"><i class="fa fa-check"></i><b>7.10</b> Linéarité de la relation (pour prédicteur quantitatif)</a></li>
+<li class="chapter" data-level="7.11" data-path="régression-logistique.html"><a href="régression-logistique.html#test-de-fit-de-hosmer-lemeshow-et-de-pearson"><i class="fa fa-check"></i><b>7.11</b> Test de ‘fit’ de Hosmer-Lemeshow et de Pearson</a></li>
+<li class="chapter" data-level="7.12" data-path="régression-logistique.html"><a href="régression-logistique.html#évaluation-des-profils-extrêmes-etou-influents"><i class="fa fa-check"></i><b>7.12</b> Évaluation des profils extrêmes et/ou influents</a></li>
+<li class="chapter" data-level="7.13" data-path="régression-logistique.html"><a href="régression-logistique.html#sensibilité-spécificité-et-courbe-roc"><i class="fa fa-check"></i><b>7.13</b> Sensibilité, spécificité et courbe ROC</a></li>
+<li class="chapter" data-level="7.14" data-path="régression-logistique.html"><a href="régression-logistique.html#travaux-pratiques-4---régression-logistique---base"><i class="fa fa-check"></i><b>7.14</b> Travaux pratiques 4 - Régression logistique - Base</a>
+<ul>
+<li class="chapter" data-level="7.14.1" data-path="régression-logistique.html"><a href="régression-logistique.html#exercices-3"><i class="fa fa-check"></i><b>7.14.1</b> Exercices</a></li>
+<li class="chapter" data-level="7.14.2" data-path="régression-logistique.html"><a href="régression-logistique.html#code-r-et-réponses-3"><i class="fa fa-check"></i><b>7.14.2</b> Code R et réponses</a></li>
+</ul></li>
+<li class="chapter" data-level="7.15" data-path="régression-logistique.html"><a href="régression-logistique.html#travaux-pratiques-5---régression-logistique---évaluation-du-modèle"><i class="fa fa-check"></i><b>7.15</b> Travaux pratiques 5 - Régression logistique - Évaluation du modèle</a>
+<ul>
+<li class="chapter" data-level="7.15.1" data-path="régression-logistique.html"><a href="régression-logistique.html#exercices-4"><i class="fa fa-check"></i><b>7.15.1</b> Exercices</a></li>
+<li class="chapter" data-level="7.15.2" data-path="régression-logistique.html"><a href="régression-logistique.html#code-r-et-réponses-4"><i class="fa fa-check"></i><b>7.15.2</b> Code R et réponses</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html"><i class="fa fa-check"></i><b>8</b> Régression pour données de compte et d’incidence</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#régression-de-poisson"><i class="fa fa-check"></i><b>8.1</b> Régression de Poisson</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#indiquer-un-offset-dénominateur-e.g.-nombre-danimal-temps-à-risque"><i class="fa fa-check"></i><b>8.1.1</b> Indiquer un Offset-dénominateur (e.g., nombre d’animal-temps à risque)</a></li>
+<li class="chapter" data-level="8.1.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#test-de-rapport-de-vraisemblance"><i class="fa fa-check"></i><b>8.1.2</b> Test de rapport de vraisemblance</a></li>
+<li class="chapter" data-level="8.1.3" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#présenter-les-ratios-dincidence"><i class="fa fa-check"></i><b>8.1.3</b> Présenter les ratios d’incidence</a></li>
+<li class="chapter" data-level="8.1.4" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#calculer-un-compte-prédit-dévènements"><i class="fa fa-check"></i><b>8.1.4</b> Calculer un compte prédit d’évènements</a></li>
+<li class="chapter" data-level="8.1.5" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#comparer-les-niveaux-dun-prédicteur-catégorique-avec-2-catégories-1"><i class="fa fa-check"></i><b>8.1.5</b> Comparer les niveaux d’un prédicteur catégorique avec &gt; 2 catégories</a></li>
+<li class="chapter" data-level="8.1.6" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#linéarité-de-la-relation-pour-prédicteur-continu"><i class="fa fa-check"></i><b>8.1.6</b> Linéarité de la relation (pour prédicteur continu)</a></li>
+<li class="chapter" data-level="8.1.7" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#test-de-chi-carré-de-pearson"><i class="fa fa-check"></i><b>8.1.7</b> Test de chi-carré de Pearson</a></li>
+<li class="chapter" data-level="8.1.8" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#profils-extrêmes-ou-influents"><i class="fa fa-check"></i><b>8.1.8</b> Profils extrêmes ou influents</a></li>
+<li class="chapter" data-level="8.1.9" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#comparer-les-comptes-observés-et-prédits"><i class="fa fa-check"></i><b>8.1.9</b> Comparer les comptes observés et prédits</a></li>
+<li class="chapter" data-level="8.1.10" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#erreurs-type-mise-à-léchelle-scaled-se"><i class="fa fa-check"></i><b>8.1.10</b> Erreurs-type mise à l’échelle (scaled SE)</a></li>
+<li class="chapter" data-level="8.1.11" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#variance-robuste"><i class="fa fa-check"></i><b>8.1.11</b> Variance robuste</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#régression-binomiale-négative"><i class="fa fa-check"></i><b>8.2</b> Régression binomiale négative</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#comparer-les-modèles-poisson-et-binomial-négatif"><i class="fa fa-check"></i><b>8.2.1</b> Comparer les modèles Poisson et Binomial négatif</a></li>
+<li class="chapter" data-level="8.2.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#évaluer-les-résiduels-dun-modèle-binomial-négatif"><i class="fa fa-check"></i><b>8.2.2</b> Évaluer les résiduels d’un modèle Binomial négatif</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#modèles-zéro-enflés"><i class="fa fa-check"></i><b>8.3</b> Modèles zéro-enflés</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#généralités-2"><i class="fa fa-check"></i><b>8.3.1</b> Généralités</a></li>
+<li class="chapter" data-level="8.3.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#test-de-vuong-comparer-modèle-zéros-enflés-au-modèle-régulier"><i class="fa fa-check"></i><b>8.3.2</b> Test de Vuong – Comparer modèle zéros-enflés au modèle régulier</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#calcul-du-risque-relatif-à-laide-dune-régression-de-poisson"><i class="fa fa-check"></i><b>8.4</b> Calcul du risque relatif à l’aide d’une régression de Poisson</a></li>
+<li class="chapter" data-level="8.5" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#travaux-pratiques-6---régression-de-poisson-et-binomiale-négative"><i class="fa fa-check"></i><b>8.5</b> Travaux pratiques 6 - Régression de Poisson et Binomiale négative</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#exercices-5"><i class="fa fa-check"></i><b>8.5.1</b> Exercices</a></li>
+<li class="chapter" data-level="8.5.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#code-r-et-réponses-5"><i class="fa fa-check"></i><b>8.5.2</b> Code R et réponses</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#travaux-pratiques-7---modèles-modifiés-en-zéro-et-calcul-dun-risque-relatif"><i class="fa fa-check"></i><b>8.6</b> Travaux pratiques 7 - Modèles modifiés en zéro et calcul d’un risque relatif</a>
+<ul>
+<li class="chapter" data-level="8.6.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#exercices-6"><i class="fa fa-check"></i><b>8.6.1</b> Exercices</a></li>
+<li class="chapter" data-level="8.6.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#code-r-et-réponses-6"><i class="fa fa-check"></i><b>8.6.2</b> Code R et réponses</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html"><i class="fa fa-check"></i><b>9</b> Analyses de survie</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#généralités-3"><i class="fa fa-check"></i><b>9.1</b> Généralités</a></li>
+<li class="chapter" data-level="9.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#format-des-données-pour-une-analyse-de-survie"><i class="fa fa-check"></i><b>9.2</b> Format des données pour une analyse de survie</a></li>
+<li class="chapter" data-level="9.3" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#analyses-non-paramétriques-kaplan-meier"><i class="fa fa-check"></i><b>9.3</b> Analyses non-paramétriques (Kaplan-Meier)</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#table-de-kaplan-meier-et-temps-median-de-survie"><i class="fa fa-check"></i><b>9.3.1</b> Table de Kaplan-Meier et temps median de survie</a></li>
+<li class="chapter" data-level="9.3.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#courbe-de-survie-de-kaplan-meier"><i class="fa fa-check"></i><b>9.3.2</b> Courbe de survie de Kaplan-Meier</a></li>
+<li class="chapter" data-level="9.3.3" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#estimer-la-probabilité-de-survie-pour-un-temps-donnée"><i class="fa fa-check"></i><b>9.3.3</b> Estimer la probabilité de survie pour un temps donnée</a></li>
+<li class="chapter" data-level="9.3.4" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#comparaisons-entre-niveaux-dun-prédicteur-catégorique"><i class="fa fa-check"></i><b>9.3.4</b> Comparaisons entre niveaux d’un prédicteur catégorique</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#régression-de-cox-à-hasard-proportionnel"><i class="fa fa-check"></i><b>9.4</b> Régression de Cox à hasard proportionnel</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#analyses-stratifiées"><i class="fa fa-check"></i><b>9.4.1</b> Analyses stratifiées</a></li>
+<li class="chapter" data-level="9.4.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#prédicteur-dont-la-valeur-change-dans-le-temps"><i class="fa fa-check"></i><b>9.4.2</b> Prédicteur dont la valeur change dans le temps</a></li>
+<li class="chapter" data-level="9.4.3" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#prédicteur-dont-leffet-change-dans-le-temps"><i class="fa fa-check"></i><b>9.4.3</b> Prédicteur dont l’effet change dans le temps</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#évaluation-du-modèle-1"><i class="fa fa-check"></i><b>9.5</b> Évaluation du modèle</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#linéarité-de-la-relation-pour-les-prédicteurs-quantitatifs"><i class="fa fa-check"></i><b>9.5.1</b> Linéarité de la relation (pour les prédicteurs quantitatifs)</a></li>
+<li class="chapter" data-level="9.5.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#valider-la-supposition-de-hasard-proportionnel"><i class="fa fa-check"></i><b>9.5.2</b> Valider la supposition de hasard proportionnel</a></li>
+<li class="chapter" data-level="9.5.3" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#évaluer-impact-du-non-respect-de-la-supposition-de-censure-non-informative"><i class="fa fa-check"></i><b>9.5.3</b> Évaluer impact du non-respect de la supposition de censure non-informative</a></li>
+<li class="chapter" data-level="9.5.4" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#observations-extrêmes"><i class="fa fa-check"></i><b>9.5.4</b> Observations extrêmes</a></li>
+<li class="chapter" data-level="9.5.5" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#observations-influentes"><i class="fa fa-check"></i><b>9.5.5</b> Observations influentes</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#pour-aller-plus-loin"><i class="fa fa-check"></i><b>9.6</b> Pour aller plus loin</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#erreurs-types-robustes"><i class="fa fa-check"></i><b>9.6.1</b> Erreurs-types robustes</a></li>
+<li class="chapter" data-level="9.6.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#régression-de-cox-à-fragilité-partagée"><i class="fa fa-check"></i><b>9.6.2</b> Régression de Cox à fragilité partagée</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#travaux-pratiques-8---analyses-de-survie-non-paramétriques"><i class="fa fa-check"></i><b>9.7</b> Travaux pratiques 8 - Analyses de survie non-paramétriques</a>
+<ul>
+<li class="chapter" data-level="9.7.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#exercices-7"><i class="fa fa-check"></i><b>9.7.1</b> Exercices</a></li>
+<li class="chapter" data-level="9.7.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#code-r-et-réponses-7"><i class="fa fa-check"></i><b>9.7.2</b> Code R et réponses</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#travaux-pratiques-9---analyses-de-survie-semi-paramétriques"><i class="fa fa-check"></i><b>9.8</b> Travaux pratiques 9 - Analyses de survie semi-paramétriques</a>
+<ul>
+<li class="chapter" data-level="9.8.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#exercices-8"><i class="fa fa-check"></i><b>9.8.1</b> Exercices</a></li>
+<li class="chapter" data-level="9.8.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#code-r-et-réponses-8"><i class="fa fa-check"></i><b>9.8.2</b> Code R et réponses</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publié avec bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Épidémiologie 2 - Labo informatique R (PTM-6675)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Épidémiologie 2 - Labo informatique R (PTM-6675)</h1>
+<p class="author"><em>Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l’Université de Montréal)</em></p>
+<p class="date"><em>2022-02-24</em></p>
+</div>
+<div id="à-propos" class="section level1" number="1">
+<h1><span class="header-section-number">Chapitre 1</span> À propos</h1>
+<p><img src="Figures/Ordi.jpg" /></p>
+<p>Dans ce document, vous trouverez les différentes manières d’utiliser R pour vos analyses statistiques de base. Notez que les <strong>notions théoriques relatives aux tests statistiques utilisés n’y sont pas présentées</strong>. Pour cela, vous pouvez vous référrer au livre <a href="https://projects.upei.ca/ver">Veterinary Epidemiologic Research (Dohoo et al., 2009)</a> ou au cours PTM-6675. Dans ce document, nous supposons que vous savez déjà:<br />
+- Importer ou créer des bases de données dans R<br />
+- Modifier des variables ou sélectionner une partie d’un jeu de données<br />
+- Produire des tables de fréquence<br />
+- Produire des figures de base avec le package ggplot2</p>
+<p>Nous supposons que vous avez quelques connaissances de base de <code>R</code>. Si vous n’avez jamais travaillé avec <code>R</code> auparavant ou si vous vous sentez un peu rouillé, voici quelques ressources pour vous aider à vous préparer :</p>
+<ul>
+<li><p>Les chapitres 1, 2 et 4 de <a href="https://www.codecademy.com/learn/learn-r">CodeCademy “Learn R” course</a> vous donneront un bon aperçu des concepts de base de <code>R</code>.</p></li>
+<li><p>Si vous êtes familier avec <code>R</code> et que vous souhaitez approfondir vos connaissances, <a href="https://r4ds.had.co.nz/">Hadley Wickham’s “R for Data Science”</a> est une excellente ressource.</p></li>
+</ul>
+<p>N’oubliez pas qu’il existe souvent de nombreuses façons différentes de réaliser un travail donné dans <code>R</code>. Dans ce document, nous avons essayé de nous en tenir aux approches les plus simples (par exemple, le code le plus court, le nombre minimal de bibliothèques <code>R</code>).</p>
+<p>Dans ce document, nous couvrirons quelques <strong>généralités sur la gestion de projets d’analyses</strong>, puis sur les fonctions de bases qui vous permettrons de réaliser vos projets de:<br />
+<strong>- Régression linéaire; </strong><br />
+<strong>- Régression logistique; </strong><br />
+<strong>- Régression pour des données de comptes ou d’incidence; </strong><br />
+<strong>- Analyse de survie; </strong><br />
+<strong>- Modèles mixtes pour données structurées (les fameux modèles avec intercepts et/ou pentes aléatoires). </strong></p>
+<p>Tout au long du texte, vous trouverez des exemples de code R agrémentés de commentaires. <strong>Le code R utilisé se trouve dans les encadrés en gris (comme l’exemple qui suit)</strong>. C’est le code que vous pourrez utiliser pour vos propres analyses. <strong>Les lignes précédées du signe # sont un commentaire</strong>, elles ne sont pas considérées lorsque R les lit. Après chaque encadré gris, suivra un <strong>encadré blanc où les résultats de l’analyse sont présentées</strong>. <strong>N’oubliez pas, R est sensible aux majuscules</strong>. Par exemple, voici un code R où je demande simplement de présenter les statistiques principales des variables du jeu de données <code>cars</code>. Ce jeu de données contient 2 variables, speed et dist:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Ceci est un commentaire. R ignorera cette ligne</span></span>
+<span id="cb1-2"><a href="index.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#La fonction summary() produit les principales statistiques pour un jeu de données</span></span>
+<span id="cb1-3"><a href="index.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars)</span></code></pre></div>
+<pre><code>##      speed           dist       
+##  Min.   : 4.0   Min.   :  2.00  
+##  1st Qu.:12.0   1st Qu.: 26.00  
+##  Median :15.0   Median : 36.00  
+##  Mean   :15.4   Mean   : 42.98  
+##  3rd Qu.:19.0   3rd Qu.: 56.00  
+##  Max.   :25.0   Max.   :120.00</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="index.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#On peut aussi, par exemple demander les statistique d&#39;une variable précise dans un jeu  de données de cette façon:</span></span>
+<span id="cb3-2"><a href="index.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars<span class="sc">$</span>speed)</span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##     4.0    12.0    15.0    15.4    19.0    25.0</code></pre>
+<p>Tout au long du document, dans le texte, j’utiliserai:<br />
+- L’italique pour les ensembles de données ou les variables. Par exemple, la variable <em>speed</em> de l’ensemble de données <em>cars</em>.<br />
+- Les cases grisées pour les bibliothèques <code>R</code> (par exemple, <code>episensr</code>) et les fonctions (par exemple, <code>summary()</code>).</p>
+<p>Dans <code>R</code>, nous pouvons d’abord appeler une bibliothèque donnée et ensuite utiliser les fonctions liées à chaque bibliothèque ou nous pouvons nommer la bibliothèque suivie de <code>::</code> et ensuite la fonction. Par exemple, les deux morceaux de code suivants sont équivalents :</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="index.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-2"><a href="index.html#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>cars, <span class="at">mapping=</span>(<span class="fu">aes</span>(<span class="at">x=</span>speed)))<span class="sc">+</span></span>
+<span id="cb5-3"><a href="index.html#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span>
+<span id="cb5-4"><a href="index.html#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="index.html#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="do">##OR##</span></span>
+<span id="cb5-6"><a href="index.html#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="index.html#cb5-7" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data=</span>cars, <span class="at">mapping=</span>(<span class="fu">aes</span>(<span class="at">x=</span>speed)))<span class="sc">+</span></span>
+<span id="cb5-8"><a href="index.html#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div>
+<p>Cette dernière solution peut améliorer la reproductibilité, mais au prix de scripts plus longs. Dans tout le document, nous appellerons toujours d’abord la bibliothèque puis nous exécuterons les fonctions afin de garder des codes plus courts.</p>
+<p>Une dernière chose, lors de l’utilisation d’une fonction donnée, il n’est pas obligatoire de nommer tous les arguments, du moment qu’ils sont présentés dans l’ordre attendu par cette fonction. Par exemple, la fonction <code>ggplot()</code> que nous avons utilisée dans le morceau de code précédent s’attend à voir d’abord un jeu de données (<code>data=</code>), puis un attribut de cartographie (<code>mapping=</code>) et, dans cet attribut de cartographie, une variable x (<code>x=</code>). Nous pourrions raccourcir le code en omettant tous ces éléments. Les deux morceaux de code suivants sont donc équivalents :</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="index.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb6-2"><a href="index.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>cars, <span class="at">mapping=</span>(<span class="fu">aes</span>(<span class="at">x=</span>speed)))<span class="sc">+</span></span>
+<span id="cb6-3"><a href="index.html#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span>
+<span id="cb6-4"><a href="index.html#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="index.html#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="do">##OR##  </span></span>
+<span id="cb6-6"><a href="index.html#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="index.html#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb6-8"><a href="index.html#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cars, (<span class="fu">aes</span>(speed)))<span class="sc">+</span></span>
+<span id="cb6-9"><a href="index.html#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div>
+<p>Tout au long de ce document, cependant, nous utiliserons le script le plus long, avec tous les arguments nommés. Étant donné que vous êtes en train d’apprendre ces nouvelles fonctions, il serait assez difficile d’utiliser le script le plus court dès le début. Mais vous pourrez certainement adopter les scripts les plus courts plus tard.</p>
+<p><strong>COMMENÇONS!</strong></p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="bonnes-pratiques-de-gestion-de-projet.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Labo R Bookdown project.pdf", "Labo R Bookdown project.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
