@@ -5,26 +5,25 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Page not found | Épidémiologie 2 - Labo informatique R (PTM-6675)</title>
-  <meta name="description" content="Chapitre 18" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="description" content="Chapitre 6" />
+  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Page not found | Épidémiologie 2 - Labo informatique R (PTM-6675)" />
   <meta property="og:type" content="book" />
   
-  
-  <meta property="og:description" content="Chapitre 18" />
+  <meta property="og:description" content="Chapitre 6" />
   
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Page not found | Épidémiologie 2 - Labo informatique R (PTM-6675)" />
   
-  <meta name="twitter:description" content="Chapitre 18" />
+  <meta name="twitter:description" content="Chapitre 6" />
   
 
 <meta name="author" content="Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l’Université de Montréal)" />
 
 
-<meta name="date" content="2022-02-24" />
+<meta name="date" content="2023-01-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +32,6 @@
   
 
 
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,17 +49,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
-<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
-<script src="libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
-<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
-<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -146,7 +136,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Épidémiologie 2 - Labo informatique R (PTM-6675)</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> À propos</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> À propos</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#spécificités-de-r"><i class="fa fa-check"></i><b>1.1</b> Spécificités de R</a></li>
+</ul></li>
 <li class="chapter" data-level="2" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html"><i class="fa fa-check"></i><b>2</b> Bonnes pratiques de gestion de projet</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#organiser-son-projet-de-recherche"><i class="fa fa-check"></i><b>2.1</b> Organiser son projet de recherche</a></li>
@@ -168,12 +161,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.5" data-path="régression-linéaire.html"><a href="régression-linéaire.html#choisir-la-valeur-de-référence-pour-une-variable-catégorique"><i class="fa fa-check"></i><b>6.5</b> Choisir la valeur de référence pour une variable catégorique</a></li>
 <li class="chapter" data-level="6.6" data-path="régression-linéaire.html"><a href="régression-linéaire.html#comparer-les-niveaux-dun-prédicteur-catégorique-avec-2-catégories"><i class="fa fa-check"></i><b>6.6</b> Comparer les niveaux d’un prédicteur catégorique avec &gt;2 catégories</a></li>
 <li class="chapter" data-level="6.7" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluer-une-interaction-entre-2-variables"><i class="fa fa-check"></i><b>6.7</b> Évaluer une interaction entre 2 variables</a></li>
-<li class="chapter" data-level="6.8" data-path="régression-linéaire.html"><a href="régression-linéaire.html#tol-et-vif---évaluer-colinéarité"><i class="fa fa-check"></i><b>6.8</b> TOL et VIF - Évaluer colinéarité</a></li>
+<li class="chapter" data-level="6.8" data-path="régression-linéaire.html"><a href="régression-linéaire.html#tol-et-vif---évaluer-la-colinéarité"><i class="fa fa-check"></i><b>6.8</b> TOL et VIF - Évaluer la colinéarité</a></li>
 <li class="chapter" data-level="6.9" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluation-du-modèle"><i class="fa fa-check"></i><b>6.9</b> Évaluation du modèle</a>
 <ul>
 <li class="chapter" data-level="6.9.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluer-la-linéarité-de-la-relation-à-laide-de-courbes-lissées-pour-prédicteur-quantitatif"><i class="fa fa-check"></i><b>6.9.1</b> Évaluer la linéarité de la relation à l’aide de courbes lissées (pour prédicteur quantitatif)</a></li>
-<li class="chapter" data-level="6.9.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#méthodes-diagnostiques-pour-les-résiduels"><i class="fa fa-check"></i><b>6.9.2</b> Méthodes diagnostiques pour les résiduels</a></li>
-<li class="chapter" data-level="6.9.3" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluation-des-observations-extrêmes-etou-influentes"><i class="fa fa-check"></i><b>6.9.3</b> Évaluation des observations extrêmes et/ou influentes</a></li>
+<li class="chapter" data-level="6.9.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluer-la-linéarité-de-la-relation-à-laide-de-termes-polynomiaux-pour-prédicteur-quantitatif"><i class="fa fa-check"></i><b>6.9.2</b> Évaluer la linéarité de la relation à l’aide de termes polynomiaux (pour prédicteur quantitatif)</a></li>
+<li class="chapter" data-level="6.9.3" data-path="régression-linéaire.html"><a href="régression-linéaire.html#méthodes-diagnostiques-pour-les-résiduels"><i class="fa fa-check"></i><b>6.9.3</b> Méthodes diagnostiques pour les résiduels</a></li>
+<li class="chapter" data-level="6.9.4" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluation-des-observations-extrêmes-etou-influentes"><i class="fa fa-check"></i><b>6.9.4</b> Évaluation des observations extrêmes et/ou influentes</a></li>
 </ul></li>
 <li class="chapter" data-level="6.10" data-path="régression-linéaire.html"><a href="régression-linéaire.html#travaux-pratiques-1---régression-linéaire---base"><i class="fa fa-check"></i><b>6.10</b> Travaux pratiques 1 - Régression linéaire - Base</a>
 <ul>
@@ -391,7 +385,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

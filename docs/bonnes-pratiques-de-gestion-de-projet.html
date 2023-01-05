@@ -5,26 +5,25 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapitre 2 Bonnes pratiques de gestion de projet | Épidémiologie 2 - Labo informatique R (PTM-6675)</title>
-  <meta name="description" content="Chapitre 18" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="description" content="Chapitre 4" />
+  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapitre 2 Bonnes pratiques de gestion de projet | Épidémiologie 2 - Labo informatique R (PTM-6675)" />
   <meta property="og:type" content="book" />
   
-  
-  <meta property="og:description" content="Chapitre 18" />
+  <meta property="og:description" content="Chapitre 4" />
   
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapitre 2 Bonnes pratiques de gestion de projet | Épidémiologie 2 - Labo informatique R (PTM-6675)" />
   
-  <meta name="twitter:description" content="Chapitre 18" />
+  <meta name="twitter:description" content="Chapitre 4" />
   
 
 <meta name="author" content="Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l’Université de Montréal)" />
 
 
-<meta name="date" content="2022-02-24" />
+<meta name="date" content="2023-01-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +32,6 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="obtention-des-données-pour-les-travaux-pratiques.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,83 +49,11 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
-<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
-<script src="libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
-<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
-<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
 
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -146,7 +72,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Épidémiologie 2 - Labo informatique R (PTM-6675)</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> À propos</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> À propos</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#spécificités-de-r"><i class="fa fa-check"></i><b>1.1</b> Spécificités de R</a></li>
+</ul></li>
 <li class="chapter" data-level="2" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html"><i class="fa fa-check"></i><b>2</b> Bonnes pratiques de gestion de projet</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#organiser-son-projet-de-recherche"><i class="fa fa-check"></i><b>2.1</b> Organiser son projet de recherche</a></li>
@@ -319,19 +248,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="bonnes-pratiques-de-gestion-de-projet" class="section level1" number="2">
-<h1><span class="header-section-number">Chapitre 2</span> Bonnes pratiques de gestion de projet</h1>
-<p>La réplication des résultats de recherche par des investigateurs indépendants est un des éléments fondamentaux dans l’accumulation de preuves scientifiques. Mais les recherches actuellement menées utilisent fréquemment des méthodes avancées d’analyses et des bases de données de plus en plus grandes et complexes. Un standard minimum à atteindre devrait donc être <strong>d’au moins de pouvoir reproduire ses propres résultats de recherche (Peng et al., 2006).<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></strong>. Nous allons donc nous attarder ici à quelques notes générales sur des pratiques personnelles à mettre en place pour vous assurer de pouvoir répondre positivement à cette question : suis-je capable dans 2 semaines, 2 mois, 2 ans, de reproduire les mêmes résultats qu’aujourd’hui ? Cette question pourrait tout aussi bien être formulée de cette manière : quelqu’un qui ne connaît pas ou peu mon projet (par exemple mon directeur de recherche!) peut-il, à partir de mes dossiers, comprendre clairement ce que j’ai fait et pourquoi ? Ces notes sont inspirées des travaux de Noble, Sandve et Wilson (Noble, 2009.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> ; Sandve et al., 2013.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>; Wilson et al., 2014.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>) et ne constituent en rien des règles à impérativement mettre en place, mais plutôt des inspirations à mettre en pratique selon sa méthode de travail personnelle. Notez aussi que la « reproductibilité » vous permettra de travailler plus efficacement. Par exemple, pour apporter des corrections aux analyses initialement effectuées suite aux commentaires d’un réviseur ou encore, afin de réutiliser les scripts (i.e., les codes R) préalablement utilisés sur de nouvelles données dans de nouveaux travaux de recherche.</p>
-<div id="organiser-son-projet-de-recherche" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Organiser son projet de recherche</h2>
-<p>Tous les fichiers pertinents à un projet devraient se trouver dans le même répertoire. La figure 1 est un exemple de structure de répertoire pour un projet. En utilisant toujours la même structure de répertoire d’un projet à l’autre vous vous éviterez bien des recherches de documents d’un projet à l’autre.</p>
+<div id="bonnes-pratiques-de-gestion-de-projet" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapitre 2</span> Bonnes pratiques de gestion de projet<a href="bonnes-pratiques-de-gestion-de-projet.html#bonnes-pratiques-de-gestion-de-projet" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>La réplication des résultats de recherche par des investigateurs indépendants est un des éléments fondamentaux dans l’accumulation de preuves scientifiques. Mais les recherches actuellement menées utilisent fréquemment des méthodes avancées d’analyses et des bases de données de plus en plus grandes et complexes. Un standard minimum à atteindre devrait donc être <strong>d’au moins de pouvoir reproduire ses propres résultats de recherche (Peng et al., 2006).<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></strong>. Nous allons donc nous attarder ici à quelques notes générales sur des pratiques personnelles à mettre en place pour vous assurer de pouvoir répondre positivement à cette question : suis-je capable dans 2 semaines, 2 mois, 2 ans, de reproduire les mêmes résultats qu’aujourd’hui ? Cette question pourrait tout aussi bien être formulée de cette manière : quelqu’un qui ne connaît pas ou peu mon projet (par exemple mon directeur de recherche!) peut-il, à partir de mes dossiers, comprendre clairement ce que j’ai fait et pourquoi ? Ces notes sont inspirées des travaux de Noble, Sandve et Wilson (Noble, 2009.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> ; Sandve et al., 2013.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>; Wilson et al., 2014.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>) et ne constituent en rien des règles à impérativement mettre en place, mais plutôt des inspirations à mettre en pratique selon sa méthode personnelle de travail. Notez aussi que la «reproductibilité» vous permettra de travailler plus efficacement. Par exemple, pour apporter des corrections aux analyses initialement effectuées à la suite des commentaires d’un réviseur ou encore, afin de réutiliser les scripts (i.e., les codes R) préalablement utilisés sur de nouvelles données dans de nouveaux travaux de recherche.</p>
+<div id="organiser-son-projet-de-recherche" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Organiser son projet de recherche<a href="bonnes-pratiques-de-gestion-de-projet.html#organiser-son-projet-de-recherche" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Tous les fichiers pertinents à un projet devraient se trouver dans le même répertoire. La Figure 2.1 plus bas est un exemple de structure de répertoire pour un projet. En utilisant toujours la même structure de répertoire d’un projet à l’autre vous vous éviterez bien des recherches de documents d’un projet à l’autre.</p>
 <div class="figure">
 <img src="Figures/Figure%201.png" alt="" />
-<p class="caption"><strong>Figure 2.1.</strong> Exemple de structure de répertoire.</p>
+<p class="caption"><strong>Figure 2.1</strong> Exemple de structure de répertoire.</p>
 </div>
 </div>
-<div id="où-sauvegarder-son-projet" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Où sauvegarder son projet</h2>
+<div id="où-sauvegarder-son-projet" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Où sauvegarder son projet<a href="bonnes-pratiques-de-gestion-de-projet.html#où-sauvegarder-son-projet" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La tentation peut être grande (surtout si vous êtes sous Windows) de <strong>sauvegarder ses documents sur le bureau. Ce n’est pas une bonne idée</strong> :<br />
 - Si vous êtes en réseau et que votre institution fait des sauvegardes automatiques de vos fichiers, ce qui est mis sur le bureau n’est généralement pas inclus;<br />
 - Vos fichiers sont à la vue de tous ceux qui passent près de votre ordinateur;<br />
@@ -341,28 +270,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><code>C: projet</code></p>
 <p><strong>Remarquez que si vous tenez absolument à avoir accès à votre fichier via le bureau, vous pouvez toujours y placer un raccourci (c’est fait pour ça!).</strong></p>
 </div>
-<div id="où-sauvegarder-ses-données" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Où sauvegarder ses données</h2>
-<p><strong>Les différentes bases de données d’un projet devraient se trouver toutes sous le même répertoire, accompagnées de méta-données.</strong> Ces méta-données permettent de décrire vos bases de données : d’où viennent-elles, leurs structures, quelles sont les variables, la légende, etc. Un simple fichier texte suffit (voir figure 1), avec un nom évocateur. Par exemple, un document <strong>README.txt</strong> pourrait décrire les différentes bases de données et des documents keyTableX.txt pourront contenir la légende pour chacune des différentes bases de données. <strong>Pensez aussi à donner à vos bases de données des noms courts et datés</strong>: Phase1_12-01-2021.csv plutôt que Données pour Jean_version3-révision _transfer_final_revue_final2.xlsx (c’est un exemple véridique d’un de mes premiers projets!). Les éléments nécessaires à l’identification des bases de données seront, de toutes façons, expliqués dans votre document README.txt. Finalement, bien que la protection de la langue française soit un objectif louable, gardez en tête que vous aurez possiblement à partager plusieurs de ces documents et bases de données avec des collaborateurs internationaux. Des noms de fichiers, de variables et des documents en anglais pourront possiblement vous épargner plusieurs heures de traduction dans le futur.</p>
+<div id="où-sauvegarder-ses-données" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Où sauvegarder ses données<a href="bonnes-pratiques-de-gestion-de-projet.html#où-sauvegarder-ses-données" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Les différentes bases de données d’un projet devraient se trouver toutes sous le même répertoire, accompagnées de méta-données.</strong> Ces méta-données permettent de décrire vos bases de données : d’où viennent-elles, leurs structures, qu’elles sont les variables, la légende, etc. Un simple fichier texte suffit (voir la Figure 2.1), avec un nom évocateur. Par exemple, un document <strong>README.txt</strong> pourrait décrire les différentes bases de données et des documents keyTableX.txt pourront contenir la légende pour chacune des différentes bases de données. <strong>Pensez aussi à donner à vos bases de données des noms courts et datés</strong>: Phase1_12-01-2021.csv plutôt que Données pour Jean_version3-révision _transfer_final_revue_final2.xlsx (c’est un exemple véridique d’un de mes premiers projets!). Les éléments nécessaires à l’identification des bases de données seront, de toutes façons, expliqués dans votre document README.txt. Finalement, bien que la protection de la langue française soit un objectif louable, gardez en tête que vous aurez possiblement à partager plusieurs de ces documents et bases de données avec des collaborateurs internationaux. Des noms de fichiers, de variables et des documents en anglais pourront possiblement vous épargner plusieurs heures de traduction dans le futur.</p>
 </div>
-<div id="scripts-danalyse" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> Scripts d’analyse</h2>
-<p><strong>Toutes les étapes de vos analyses devraient être réalisées à partir de scripts (e.g. vos codes R)</strong>: laisser faire le travail par l’ordinateur et sauvegarder les commandes qui lui sont données pour pouvoir les réutiliser plus tard. Même les données ne doivent pas être modifiées manuellement. C’est non seulement inefficace, mais source d’erreurs et (presque) impossible à reproduire. <strong>Assurez-vous d’avoir une base de données initiale bien nettoyée, par la suite, si vous devez exclure/corriger certaines observations pour une analyse donnée, faites-le dans le script de cette analyse</strong>. Votre script doit permettre d’avoir accès aux données et, idéalement, pour ce faire <strong>utiliser des chemins relatifs</strong> (notez que nous proposerons une alternative à cela, les <code>Projets R</code> dans la prochaine section). Votre script d’analyse doit être compréhensible pour un « humain » : court, standardisé quant au style, format et noms des variables ou fonctions utilisées, et comprenant des commentaires. <strong>Essayer de diviser les tâches entre plusieurs scripts</strong> : un pour la manipulation des données, un pour les analyses descriptives, un pour les modélisations etc.</p>
-<p><strong>Notez que ces différents scripts (manipulation des données, analyses descriptives, modélisations, production de figures etc.) forment ensemble une chaîne, une combinaison: un workflow</strong>. Si vous faite des modifications à votre script qui vous permettait d’organiser la table de données, par exemple pour ajouter une nouvelle variable à votre table (e.g. vous venez finalement de recevoir vos résultats de PCR), vous devrez possiblement mettre à jour votre script d’analyses descriptives et l’exécuter, idem pour vos scripts de modélisation, etc.</p>
+<div id="scripts-danalyse" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Scripts d’analyse<a href="bonnes-pratiques-de-gestion-de-projet.html#scripts-danalyse" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Toutes les étapes de vos analyses devraient être réalisées à partir de scripts (e.g. vos codes R)</strong>: laisser faire le travail par l’ordinateur et sauvegarder les commandes qui lui sont données pour pouvoir les réutiliser plus tard. Même les données ne doivent pas être modifiées manuellement. C’est non seulement inefficace, mais c’est une source d’erreurs et (presque) impossible à reproduire. <strong>Assurez-vous d’avoir une base de données initiale bien nettoyée, par la suite, si vous devez exclure/corriger certaines observations pour une analyse donnée, faites-le dans le script de cette analyse</strong>. Votre script doit permettre d’avoir accès aux données et, idéalement, pour ce faire <strong>utiliser des chemins relatifs</strong> (notez que nous proposerons une alternative à cela, les <code>Projets R</code> dans la prochaine section). Votre script d’analyse doit être compréhensible pour un « humain » : court, standardisé quant au style, format et noms des variables ou fonctions utilisées, et comprenant des commentaires. <strong>Essayer de diviser les tâches entre plusieurs scripts</strong> : un pour la manipulation des données, un pour les analyses descriptives, un pour les modélisations, etc.</p>
+<p><strong>Notez que ces différents scripts (manipulation des données, analyses descriptives, modélisations, production de figures, etc.) forment ensemble une chaîne, une combinaison, un “workflow”</strong>. Si vous faite des modifications à votre script qui vous permettait d’organiser la table de données, par exemple pour ajouter une nouvelle variable à votre table (e.g. vous venez finalement de recevoir vos résultats de PCR), vous devrez possiblement mettre à jour votre script d’analyses descriptives et l’exécuter, idem pour vos scripts de modélisation, etc.</p>
 </div>
-<div id="les-projets-r" class="section level2" number="2.5">
-<h2><span class="header-section-number">2.5</span> Les projets R</h2>
+<div id="les-projets-r" class="section level2 hasAnchor" number="2.5">
+<h2><span class="header-section-number">2.5</span> Les projets R<a href="bonnes-pratiques-de-gestion-de-projet.html#les-projets-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><code>RStudio</code> permet de créer un type de fichier qui s’appelle un <code>Projet R</code>. Pour créer un <code>Projet R</code>, suivez ces instructions simples <a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-Projects">Using RStudio Projects</a>. Après avoir créé un <code>Projet R</code> dans un fichier donné sur votre ordinateur, vous pouvez copier dans ce fichier (ou un sous-fichier de celui-ci) les bases de données qui serviront dans ce projet. C’est aussi dans ce fichier que les scripts d’analyses que vous développerez seront enregistrés. Finalement, vous pourriez aussi y enregistrer des résultats de vos analyses, par exemple des figures. Finalement vous y trouverez un élément avec une extension <code>.Rproj</code>. Si vous cliquez sur cet élément, <code>RStudio</code> s’ouvrira sur les scripts que vous utilisiez au moment où vous aviez suspendu vos analyses.</p>
 <p>L’avantage d’un <code>Projet R</code> est que tous les chemins d’accès (par exemple pour importer un jeu de données) seront maintenant relatifs au <code>Projet R</code> et non à l’endroit, sur votre ordinateur, où le <code>Projet R</code> est lui-même hébergé. Ce n’est pas très clair, n’est-ce pas?</p>
 <p>Allons-y d’un exemple. Disons que vous n’utilisez pas un <code>Projet R</code>. Dans un script d’analyse, lorsque vous voudrez importer un jeu de données, vous devrez indiquer le chemin d’accès pour ce jeu de données, par exemple: <em>C:/Users/dufours/OneDrive - Universite de Montreal/Enseignement UdM/Cours/PTM 6675-Epi 2/Datadaisy2.csv</em>. Évidemment, si vous donnez ce script d’analyse et le jeu de données à un collègue (ou si vous déplacez vos dossiers vers un nouvel ordinateur) les scripts ne fonctionneront plus, puisque les chemins d’accès seront maintenant erronés.</p>
-<p>Maintenant, si vous avez plutôt créé un <code>Projet R</code> et que, dans ce fichier vous avez créé un sous-fichier <em>Data</em> dans lequel vous avez déposé les jeux de données dont vous aurez besoin dans ce projet. Dans vos scripts, le chemin d’accès pour ce jeu de données deviendra simplement <em>Data/Datadaisy2.csv</em>. Vous pouvez maintenant transférer en bloc vers un autre ordinateur le fichier qui contient votre <code>Projet R</code> avec vos scripts d’analyses, les jeux de données, etc. Tous vos scripts seront fonctionnels. On dira que vos analyses sont maintenant <strong>portables</strong>.</p>
+<p>Maintenant, si vous avez plutôt créé un <code>Projet R</code> et que, dans ce fichier vous avez créé un sous-fichier <em>Data</em> dans lequel vous avez déposé les jeux de données dont vous aurez besoin dans ce projet. Dans vos scripts, le chemin d’accès pour ce jeu de données deviendra simplement <em>Data/Datadaisy2.csv</em>. Vous pouvez maintenant transférer en bloc vers un autre ordinateur le fichier qui contient votre <code>Projet R</code> avec vos scripts d’analyses, les jeux de données, etc. Tous vos scripts seront fonctionnels. On dira que vos analyses sont maintenant <strong>“portables”</strong>.</p>
 </div>
-<div id="copies-de-sécurité" class="section level2" number="2.6">
-<h2><span class="header-section-number">2.6</span> Copies de sécurité</h2>
+<div id="copies-de-sécurité" class="section level2 hasAnchor" number="2.6">
+<h2><span class="header-section-number">2.6</span> Copies de sécurité<a href="bonnes-pratiques-de-gestion-de-projet.html#copies-de-sécurité" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Le pire peut arriver et vous perdez toutes vos données! Avant qu’il ne soit trop tard, <strong>pensez à mettre en place une stratégie de sauvegarde de vos fichiers</strong>. Il n’y a pas de stratégie universelle, mais chacun doit trouver celle qui lui convient. <strong>Deux règles cependant :</strong></p>
 <p><strong>1) Des copies à jour</strong><br />
 <strong>2) Séparer physiquement les sauvegardes.</strong></p>
-<p>Vos sauvegardes doivent être <strong>régulières et entreposées dans un lieu physique différent de vos données originelles</strong>. L’idéal est d’avoir deux systèmes de sauvegarde (e.g. sur un nuage numérique et sur votre PC). Vous pouvez sauvegarder vos données sur un « nuage », tels que Dropbox, Google Drive, etc. Ces services ont cependant des licences et des obligations légales pouvant exposer vos données à des risques juridiques et compromettre la confidentialité de vos données. Tous les services cités ci-dessus sont opérés sur des serveurs aux USA. Les universités canadiennes sont soumises à la <a href="https://laws-lois.justice.gc.ca/fra/lois/a-1/">Loi sur l’accès à l’information</a> et à la <a href="https://laws-lois.justice.gc.ca/fra/Lois/P-21/index.html">Loi sur la protection des renseignements personnels</a> qui restreint la possibilité de déposer des données personnelles sur des serveurs à l’extérieur du pays. Renseignez-vous auprès de votre institution pour savoir quelles sont les meilleures possibilités pour vous. Présentement, l’Université de Montréal supporte l’utilisation de Onedrive par ses professeurs et étudiants. <a href="http://scholarsportal.info">Scholars portal</a> est un autre exemple de service disponible pour les membres académiques et étudiants de l’Université de Montréal, permettant de créer un dépôt de données pour leur recherche.</p>
+<p>Vos sauvegardes doivent être <strong>régulières et entreposées dans un lieu physique différent de vos données originelles</strong>. L’idéal est d’avoir deux systèmes de sauvegarde (e.g. sur un nuage numérique et sur votre PC). Vous pouvez sauvegarder vos données sur un « nuage », tels que Dropbox, Google Drive, etc. Ces services ont cependant des licences et des obligations légales pouvant exposer vos données à des risques juridiques et compromettre la confidentialité de vos données. Tous les services cités ci-dessus sont opérés sur des serveurs aux USA. Les universités canadiennes sont soumises à la <a href="https://laws-lois.justice.gc.ca/fra/lois/a-1/">Loi sur l’accès à l’information</a> et à la <a href="https://laws-lois.justice.gc.ca/fra/Lois/P-21/index.html">Loi sur la protection des renseignements personnels</a> qui restreint la possibilité de déposer des données personnelles sur des serveurs à l’extérieur du pays. Renseignez-vous auprès de votre institution pour savoir quelles sont les meilleures possibilités pour vous. Présentement, l’Université de Montréal supporte l’utilisation de Onedrive par ses professeurs et étudiants. <a href="https://borealisdata.ca/fr/">Borealis: le dépôt Dataverse canadien</a> est un autre exemple de service disponible pour les membres académiques et étudiants de l’Université de Montréal, permettant de créer un dépôt de données pour leur recherche.</p>
 
 </div>
 </div>
@@ -435,20 +364,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

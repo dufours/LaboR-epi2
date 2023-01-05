@@ -45,7 +45,7 @@ Dans ce document, nous couvrirons quelques **généralités sur la gestion de pr
   **-  Analyse de survie;  **  
   **-  Modèles mixtes pour données structurées (les fameux modèles avec intercepts et/ou pentes aléatoires). **  
   
-Tout au long du texte, vous trouverez des exemples de code R agrémentés de commentaires. **Le code R utilisé se trouve dans les encadrés en gris (comme l'exemple qui suit)**. C'est le code que vous pourrez utiliser pour vos propres analyses. **Les lignes précédées du signe # sont un commentaire**, elles ne sont pas considérées lorsque R les lit. Aussi, n'oubliez pas que R est sensible aux majuscules. Après chaque encadré gris suivra un **encadré blanc où les résultats de l'analyse sont présentés**. Par exemple, voici un code R où nous demandons simplement de présenter les statistiques principales des variables du jeu de données `cars`. Ce jeu de données contient 2 variables, speed et dist:
+Tout au long du texte, vous trouverez des exemples de code R agrémentés de commentaires. **Le code R utilisé se trouve dans les encadrés en gris (comme l'exemple qui suit)**. C'est le code que vous pourrez utiliser pour vos propres analyses. **Les lignes précédées du signe # sont un commentaire**, elles ne sont pas considérées lorsque R les lit. Aussi, n'oubliez pas que R est sensible aux majuscules. Après chaque encadré gris suivra un 2ième encadré où les résultats de l'analyse sont présentés. Par exemple, voici un code R où nous demandons simplement de présenter les statistiques principales des variables du jeu de données `cars`. Ce jeu de données contient 2 variables, speed et dist:
 
 ```{r cars}
 #Ceci est un commentaire. R ignorera cette ligne
@@ -66,7 +66,8 @@ Dans `R`, nous pouvons d'abord appeler une bibliothèque donnée et ensuite util
 ```{r, eval=FALSE}
 library(ggplot2)
 ggplot(data=cars, 
-       mapping=(aes(x=speed))) +
+       mapping=(
+         aes(x=speed))) +
   geom_histogram()
 
 ##OR##
