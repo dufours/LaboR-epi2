@@ -24,15 +24,20 @@ knitr::write_bib(c(
 La fonction de base dans R pour la régression linéaire est la fonction `lm()`. Pour les exemples suivants, nous allons utiliser que les troupeaux du jeu de données Daisy2.xlsx avec h7=1. 
 
 ```{r}
-daisy2 <-read.csv(file="daisy2.csv", header=TRUE, sep=",")
-daisy2_mod<-subset(daisy2, h7==1)
+daisy2 <- read.csv(file="daisy2.csv", 
+                  header=TRUE, 
+                  sep=",")
+daisy2_mod <- subset(daisy2, 
+                     h7==1)
 ```
 
 Une régression linéaire dans sa plus simple expression pourrait être:
 
 ```{r}
-modele<-lm(data=daisy2_mod, milk120 ~ (parity+twin)) #J'ai créé un nouvel objet qui s'appelle modele et qui est une régression des variables parity et twin sur milk120
-modele #Je demande à voir l'objet modele
+modele <- lm(data=daisy2_mod, 
+             milk120 ~ (parity+twin)
+             ) #Nous avons créé un nouvel objet qui s'appelle modele et qui est une régression des variables parity et twin sur milk120
+modele #Nous demandons à voir l'objet modele
 ```
 Les résultats présentés sont simplement l'intercept et les coefficients de *parity* et de *twin*. Pour une vache avec *parity*=0 et *twin*=0 le modèle prédit 2734,9kg de lait en 120 jours. On ajoute 172,5kg pour chaque augmentation de 1 unité de *parity* et on enlève 150,6kg lorsque *twin* est présent. Si vous préférez:  
 
@@ -40,7 +45,7 @@ $$ milk120 = 2734,9 + 172,5*parity - 150,6*twin $$
 
 Pour avoir un peu plus d'informations sur ce modèle, vous pouvez demander:
 ```{r}
-summary(modele) #Je demande un résumé de l'objet modele
+summary(modele) #Nous demandons un résumé de l'objet modele
 ```
 Quelques infos sont alors présentées sur:  
 - Les **résiduels** (par exemple, le min et le max).  
@@ -51,18 +56,20 @@ Quelques infos sont alors présentées sur:
   
 Vous pouvez demander à voir la **table ANOVA** à l'aide de la fonction `aov()`.  
 ```{r}
-aov<-aov(modele) #Je créer un objet aov
-summary(aov) #Je demande de résumer cet objet aov
+aov<-aov(modele) #Nous créons un objet aov
+summary(aov) #Nous demandons de résumer cet objet aov
 ```
   
   
-Finalement, notez que *parity* a été traitée comme une variable quantitative. **Si vous désirez qu'elle soit traitée comme une variable catégorique**, vous pourriez soit créer une nouvelle variable catégorique et l'utiliser dans le modele.
+Finalement, notez que *parity* a été traitée comme une variable quantitative. **Si vous désirez qu'elle soit traitée comme une variable catégorique**, vous pourriez soit créer une nouvelle variable catégorique et l'utiliser dans le modèle.
 ```{r}
-daisy2_mod$par_cat<-factor(daisy2_mod$parity)
+daisy2_mod$par_cat <- factor(daisy2_mod$parity)
 ```
-Soit l'écrire directement dans le modele.
+Soit l'écrire directement dans le modèle.
 ```{r}
-modele1<-lm(data=daisy2_mod, milk120 ~ (factor(parity)+twin)) #Factor() me permet d'indiquer qu'une variable est catégorique
+modele1 <- lm(data=daisy2_mod, 
+              milk120 ~ (factor(parity)+twin)
+              ) #Factor() nous permet d'indiquer qu'une variable est catégorique
 modele1 
 ```
 Il y aura maintenant un coefficient pour chaque niveau de la variable *parity* sauf le niveau de référence (*parity*=1 a été choisi comme référence ici).
@@ -71,17 +78,22 @@ Il y aura maintenant un coefficient pour chaque niveau de la variable *parity* s
 Des IC95% pour chacun des paramètres estimés seront obtenus comme suit à l'aide de la fonction `confint()`:
 
 ```{r}
-confint(modele, level= 0.95)
+confint(modele, 
+        level= 0.95)
 ```
 
 ## Test de *F* pour comparer modèles complet *vs.* réduit
-Tester si quelques coefficients spécifiques sont différents de zéro (i.e., comparer un modèle complet et un modèle réduit) est très simple dans `R`. Il faut d'abbord faire rouler chaque modèle. Par exemple, dans le modèle suivant, pour tester les 4 problèmes de reproduction (*twin*, *dyst*, *rp* et *vag_disch*) ensemble, vous devrez exécuter les 2 modèles suivants
+Tester si quelques coefficients spécifiques sont différents de zéro (i.e., comparer un modèle complet et un modèle réduit) est très simple dans `R`. Il faut d'abord faire rouler chaque modèle. Par exemple, dans le modèle suivant, pour tester les 4 problèmes de reproduction (*twin*, *dyst*, *rp* et *vag_disch*) ensemble, vous devrez exécuter les 2 modèles suivants
 ```{r}
-modele_complet <- lm(data=daisy2_mod, milk120 ~ (parity+twin+dyst+rp+vag_disch))
-modele_reduit <- lm(data=daisy2_mod, milk120 ~ (parity))
+modele_complet <- lm(data=daisy2_mod, 
+                     milk120 ~ (parity+twin+dyst+rp+vag_disch)
+                     )
+modele_reduit <- lm(data=daisy2_mod, 
+                    milk120 ~ (parity)
+                    )
 ```
 
-Ensuite, ont peut utiliser la fonction `anova()` pour comparer les modèles.
+Ensuite, on peut utiliser la fonction `anova()` pour comparer les modèles.
 ```{r}
 anova(modele_complet, modele_reduit)
 ```
@@ -91,9 +103,11 @@ Dans ce cas, on obtient une valeur de *P* de 0.11. Donc, le modèle complet n'es
 Pour transformer une variable **(e.g. centrer, mettre à l’échelle, mettre au carré ou au cube)**, vous pouvez simplement utiliser les notions de base pour créer une nouvelle variable dans votre jeu de données. Vous pourrez ensuite utiliser cette nouvelle variable dans votre modèle. Par exemple, le code suivant permet de créer 3 nouvelles variables.
 
 ```{r}
-daisy2_mod$parity_ct<-daisy2_mod$parity-1 
-daisy2_mod$herd_size_ct_sc <-(daisy2_mod$herd_size-250)/100
-daisy2_mod$herd_size_sq <-daisy2_mod$herd_size_ct_sc*daisy2_mod$herd_size_ct_sc
+daisy2_mod$parity_ct <- daisy2_mod$parity-1 
+
+daisy2_mod$herd_size_ct_sc <- (daisy2_mod$herd_size-250)/100
+
+daisy2_mod$herd_size_sq <- daisy2_mod$herd_size_ct_sc*daisy2_mod$herd_size_ct_sc
 ```
 - Une variable parity centrée sur la valeur 1 (i.e., le 1 devient le zéro pour cette nouvelle variable);  
 - Une nouvelle variable herd_size_ct_sc centrée sur 250 vaches et mise à l’échelle pour représenter une augmentation de 100 vaches;   
@@ -102,31 +116,40 @@ daisy2_mod$herd_size_sq <-daisy2_mod$herd_size_ct_sc*daisy2_mod$herd_size_ct_sc
 ## Choisir la valeur de référence pour une variable catégorique
 Notez que pour les variables catégoriques, `R` décide (et pas toujours bien) de la valeur de référence. On peut tout de même forcer la valeur de référence qui nous intéresse. Dans le code suivant, j'ai indiqué en utilisant la fonction `relevel()` que, pour la variable *par_cat* créée précédemment, la valeur 2 sera la catégorie de référence. Lorsque j'utilise ensuite cette variable dans un modèle statistique, la valeur 2 est automatiquement utilisée comme référence. 
 ```{r}
-daisy2_mod<-within(daisy2_mod, par_cat<-relevel(par_cat, ref=2)) #Sélection de la valeur de référence par_cat=2
-modele2<-lm(data=daisy2_mod, milk120 ~ (par_cat+twin))
+daisy2_mod <- within(daisy2_mod, 
+                   par_cat <- relevel(par_cat, ref=2)
+                   ) #Sélection de la valeur de référence par_cat=2
+
+modele2 <- lm(data=daisy2_mod, 
+              milk120 ~ (par_cat+twin)
+              )
 summary(modele2)
 ```
 ## Comparer les niveaux d’un prédicteur catégorique avec >2 catégories
 Pour un prédicteur catégorique avec plus de 2 catégories, on voudra d’abord savoir si le prédicteur est significativement associé à la variable dépendante (i.e. test de *F*). Si c’est le cas, on voudra alors comparer les niveaux entre eux (i.e. tests de *T*). Deux problèmes se posent alors :  
-     1) Problème de comparaisons multiples; on voudra ajuster nos valeurs de *P* ou nos *IC 95%* en fonction du nombre de comparaison effectuées.  
-     2) La table avec les coefficients de régression nous rapporte le test de *T* pour chaque coefficient lorsque comparé au niveau de référence, mais pas entre eux.  
+     1) Problème de comparaisons multiples; on voudra ajuster nos valeurs de *P* ou nos *IC 95%* en fonction du nombre de comparaisons effectuées.  
+     2) La table avec les coefficients de régression nous rapporte le test de *T* pour chaque coefficient, lorsque comparé au niveau de référence, mais pas entre eux.  
 Par exemple, avec une variable parity_cat avec 3 catégories : 1=parité 1, 2=parité 2 et 3=parité ≥ 3, on aura  
 
 ```{r}
-#Je créé une variable parity catégorique:
-daisy2_mod$par_cat <- cut(daisy2_mod$parity, breaks = c(0, 1, 2, Inf),
-                  labels = c("First", "Second", "Third or more"))
-#Ma régression
-modele<-lm(data=daisy2_mod, milk120 ~ (par_cat))
+#Nous créons une variable parity catégorique:
+daisy2_mod$par_cat <- cut(daisy2_mod$parity, 
+                          breaks = c(0, 1, 2, Inf), 
+                          labels = c("First", "Second", "Third or more")
+                          )
+#La régression
+modele <- lm(data=daisy2_mod, 
+             milk120 ~ (par_cat)
+             )
 summary(modele)
 ```
 Dans les résultats, les tests de *T* nous indiquent que *Second* est différent de *First* (la catégorie de référence) et que *Third or more* est différent de *First*. Mais on ne peut comparer *Second* avec *Third or more* et ces valeurs de *T* ne sont pas ajustées pour les comparaisons multiples. La fonction `emmeans()` du package `emmeans` permettra de générer les informations nécessaires pour faire les contrastes. La fonction `pairs()` calculera ces contrastes. Par défaut la méthode d'ajustement *a posteriori* pour comparaison multiple de Tukey-Kramer est utilisée.
-```{r}
+```{r, warning=FALSE, message=FALSE}
 library(emmeans)
-contrast <- emmeans(modele, "par_cat") #Ici j'ai créé un objet nommé contrast qui contient les éléments dont j'aurai besoin pour comparer les catégories de par_cat
-pairs(contrast) #Je demande ensuite les estimés des différentes catégories. 
+contrast <- emmeans(modele, "par_cat") #Ici nous avons créé un objet nommé contrast qui contient les éléments dont nous aurons besoin pour comparer les catégories de par_cat
+pairs(contrast) #Nous demandons ensuite les estimés des différentes catégories. 
 ```
-Nous voyons maintenant toutes les comparaisons possibles. Par exemple les 2ième lactation produisaient 109kg de lait de moins que les 3ième lactation. Et les valeurs de *P* présentées sont ajustées *a posteriori* pour les comparaisons multiples.Notez que vous pourriez aussi simplement faire un ajustement *a priori* (e.g. Bonferroni). Vous n’aurez pas alors à modifier le calcul des valeurs de *P* ou de vos *IC 95%*, mais simplement votre seuil *α*.  
+Nous voyons maintenant toutes les comparaisons possibles. Par exemple les vaches de 2ième lactation produisaient 109kg de lait de moins que les 3ième lactation. Et les valeurs de *P* présentées sont ajustées *a posteriori* pour les comparaisons multiples.Notez que vous pourriez aussi simplement faire un ajustement *a priori* (e.g. Bonferroni). Vous n’aurez pas alors à modifier le calcul des valeurs de *P* ou de vos *IC 95%*, mais simplement votre seuil *α*.  
   
 Si vous désirez plutôt l'estimé (i.e., le least square means) pour chaque catégorie et son intervalle de confiance, vous pouvez alors simplement utiliser la fonction `confint()` sur votre contraste:
 
@@ -134,32 +157,35 @@ Si vous désirez plutôt l'estimé (i.e., le least square means) pour chaque cat
 confint(pairs(contrast))
 ```
 
-On verra alors les différences de production moyenne par catégorie et leurs *IC 95*. Par exemple, les 1ères lactation produisaient en moyenne 715kg de moins que les 2ième (*IC 95*: 616, 815). Ces *IC 95* sont également ajusté pour les comparaisons multiples.
+On verra alors les différences de production moyenne par catégorie et leurs *IC 95*. Par exemple, les vaches de 1ère lactation produisaient en moyenne 715kg de moins que les 2ième (*IC 95*: 616, 815). Ces *IC 95* sont également ajustés pour les comparaisons multiples.
   
 ## Évaluer une interaction entre 2 variables
 L’interaction entre 2 variables peut être modélisée de manière très simple, vous n’avez qu’à indiquer dans votre modèle l'interaction entre les variables (*parity* x *dyst*). La fonction `lm()` se chargera alors d'inclure tous les termes nécessaires (i.e., *dyst* + *parity* + *dyst* x *parity*).
 ```{r}
-modele<-lm(data=daisy2_mod, milk120 ~ (parity*dyst)) #parity*dyst demandera d'inclure dans le modèle: dyst + parity + dyst*parity
+modele <- lm(data=daisy2_mod, 
+             milk120 ~ (parity*dyst)) #parity*dyst demandera d'inclure dans le modèle: dyst + parity + dyst*parity
 summary(modele)
 anova(modele)
 ```
-Ici, on voit les estimés du modèle et le test de *F* pour l'interaction (*P*=0.498).  
+Ici, on voit les valeurs estimées du coefficient de chacun des paramètres du modèle et le test de *F* pour l'interaction (*P*=0.498).  
   
-C'est également possible de demander à voir un graphique illustrant cette interaction (ce sera parfois plus facile à interpréter). Le package `sjPlot` permet de générer toutes sortes de graphiques à partir de modèles estimés à l'aide des fonctions `lm`, `glm`, `lme`, `lmerMod`, etc. La fonction `plot_model` permet de générer une figure, j'indique le nom du modèle (dans ce cas, je l'avais simplement nommé *modele*) et le type de figure demandée. Ici je demande une figure `int` illustrant les effets des termes d'intéractions. Le fonction `plot_model` cherchera les termes d'interaction dans le modèle et fera une figure à l'aide de ceux-ci. La variable apparaissant en premier dans le modèle sera utilisée pour l'axe des x. Pour plus de détails voir [Plotting interaction effects of regression models](https://cran.r-project.org/web/packages/sjPlot/vignettes/plot_interactions.html).
+C'est également possible de demander à voir un graphique illustrant cette interaction (ce sera parfois plus facile à interpréter). Le package `sjPlot` permet de générer toutes sortes de graphiques à partir de modèles estimés à l'aide des fonctions `lm`, `glm`, `lme`, `lmerMod`, etc. La fonction `plot_model` permet de générer une figure, j'indique le nom du modèle (dans ce cas, je l'avais simplement nommé *modele*) et le type de figure demandée. Ici je demande une figure `int` illustrant les effets des termes d'intéractions. La fonction `plot_model` cherchera les termes d'interaction dans le modèle et fera une figure à l'aide de ceux-ci. La variable apparaissant en premier dans le modèle sera utilisée pour l'axe des x. Pour plus de détails voir [Plotting interaction effects of regression models](https://cran.r-project.org/web/packages/sjPlot/vignettes/plot_interactions.html).
 
-```{r fig.cap="**Figure 6.1.** Effet de parité et dystocie sur la production laitière entre 0 et 120 jours en lait.", echo=TRUE, message=FALSE}
+```{r fig.cap="Effet de parité et dystocie sur la production laitière entre 0 et 120 jours en lait.", echo=TRUE, message=FALSE, warning=FALSE}
 library(sjPlot)
 plot_model(modele, type="int")
 ```
 
 
 
-Notez que, si un de vos termes d'interaction est catégorique avec > 2 catégories et que vous avez utilisé la fonction `factor()` qui vous aura permis de bien identifier que cette variable est catégorique, les variables indicateurs seront alors créées automatiquement pour vous (ce qui sera très utile lorsque vous aurez des interactions avec des prédicteurs catégoriques avec > 2 catégories).
+Notez que, si un de vos termes d'interaction est catégorique avec > 2 catégories et que vous avez utilisé la fonction `factor()` qui vous aura permis de bien identifier que cette variable est catégorique, les variables indicatrices seront alors créées automatiquement pour vous (ce qui sera très utile lorsque vous aurez des interactions avec des prédicteurs catégoriques avec > 2 catégories).
 
-## TOL et VIF - Évaluer colinéarité 
-Afin de détecter les problèmes de colinéarité, on peut demander le calcul du « variance inflation factor » (VIF) à l'aide du package `car` et de la fonction `vif`. La tolérance sera simplement (1/VIF). Un VIF > 10 (ou tolérance < 0.10) indiquera un problème sévère de colinéarité.
+## TOL et VIF - Évaluer la colinéarité 
+Afin de détecter les problèmes de colinéarité, on peut demander le calcul du « variance inflation factor » (VIF) à l'aide du package `car` et de la fonction `vif()`. La tolérance sera simplement (1/VIF). Un VIF > 10 (ou tolérance < 0.10) indiquera un problème sévère de colinéarité.
 ```{r, message=FALSE, warning=FALSE}
-modele1<-lm(data=daisy2_mod, milk120 ~ (dyst + parity))
+modele1<-lm(data=daisy2_mod, 
+            milk120 ~ (dyst + parity)
+            )
 library(car)
 vif(modele1)
 ```
@@ -169,30 +195,77 @@ On a donc un VIF de 1.02 (ou une tolérance de 0.98).
 L’évaluation du modèle est basée sur différentes procédures diagnostiques. L’évaluation de graphiques constitue une part importante de ce travail.
 
 ### Évaluer la linéarité de la relation à l'aide de courbes lissées (pour prédicteur quantitatif) 
-La linéarité de la relation est une supposition importante du modèle. Pour les prédicteurs quantitatifs, vous devrez toujours vérifier si cette supposition est bien respectée. Vous pouvez le faire à l’aide du modèle polynomial (en ajoutant le $prédicteur^2$  ou le $prédicteur^2$ et le $prédicteur^3$ dans votre modèle). Si les coefficients de ces termes sont significativement différents de zéro (i.e. P < 0.05), ont concluera que la relation est une courbe, ou une courbe avec un ou plusieurs points d’inflexion, respectivement.  
-Mais une représentation graphique de la relation facilite toujours la compréhension. Les courbes lissées (e.g. loess, kernel) permettent de bien visualiser cette relation. Le package `ggplot2` et les fonctions `ggplot`, `geom_point` et `geom_smooth` vous permet de réaliser ce genre de graphique. Le code suivant permet de visualiser la relation entre 2 variables continues (`wpc` et `milk120`). En jouant avec l'argument `span` vous pouvez changer le lissage de la courbe. Une petite valeur produira une courbe qui sautille beaucoup, une plus grande valeur produira une courbe plus lisse.
-```{r fig.cap="**Figure 6.2.** Relation entre le nombre de jours jusqu’à la saillie fécondante (wpc) et la production de lait en 120j (milk120) avec courbe lissée avec un facteur de 2.", warning=FALSE, message=FALSE}
+La linéarité de la relation est une supposition importante du modèle. Pour les prédicteurs quantitatifs, vous devrez toujours vérifier si cette supposition est bien respectée. Vous pouvez le faire à l’aide du modèle polynomial (en ajoutant le $prédicteur^2$  ou le $prédicteur^2$ et le $prédicteur^3$ dans votre modèle; voir prochaine section). Si les coefficients de ces termes sont significativement différents de zéro (i.e. P < 0.05), ont concluera que la relation est une courbe, ou une courbe avec un ou plusieurs points d’inflexion, respectivement.  
+  
+Mais une représentation graphique de la relation facilite toujours la compréhension. Les courbes lissées (e.g. loess, kernel) permettent de bien visualiser cette relation. Le package `ggplot2` et les fonctions `ggplot()`, `geom_point()` et `geom_smooth()` vous permettent de réaliser ce genre de graphique. Le code suivant permet de visualiser la relation entre 2 variables continues (`wpc` et `milk120`). En jouant avec l'argument `span` vous pouvez changer le lissage de la courbe. Une petite valeur produira une courbe qui sautille beaucoup, une plus grande valeur produira une courbe plus lisse.
+```{r fig.cap="Relation entre le nombre de jours jusqu’à la saillie fécondante (wpc) et la production de lait en 120j (milk120) avec courbe lissée avec un facteur de 2.", warning=FALSE, message=FALSE}
 library(ggplot2)
-ggplot(daisy2_mod, aes(wpc, milk120)) + #Ici j'ai simplement indiqué le jeu de données, puis les variables d'intérêt
-  geom_point() +  #Je demande d'ajouter le nuage de points (un 'scatterplot')
-  geom_smooth(method="loess", span=2)+ #Je demande d'ajouter la courbe lissée de type loess. L'argument span me permet d'ajuster le lissage 
-  theme_bw() #J'aime bien avoir un fond blanc pour mes figures (un thème noir et blanc; theme_bw). C'est futile, mais bon...
+ggplot(daisy2_mod, aes(wpc, milk120)) + #Ici nous avons simplement indiqué le jeu de données, puis les variables d'intérêt
+  geom_point() +  #Nous demandons d'ajouter le nuage de points (un 'scatterplot')
+  geom_smooth(method="loess", span=2)+ #Nous demandons d'ajouter la courbe lissée de type loess. L'argument span nous permet d'ajuster le lissage 
+  theme_bw() #C'est joli un fond blanc pour les figures (un thème noir et blanc: theme_bw()). C'est futile, mais bon...
 ```
+Ici, la relation entre *wpc* et *milk120* semble être une droite.  
+  
+### Évaluer la linéarité de la relation à l'aide de termes polynomiaux (pour prédicteur quantitatif)  
+Une autre manière d'évaluer la linéarité de la relation entre un prédicteur quantitatif et votre variable dépendante est de vérifier si des termes polynomiaux sont significatifs lorsque ajoutés au modèle. Par exemple, le modèle suivant suppose que la relation entre *wpc* et *milk120* est une droite.   
+  
+$$ milk120 = Intercept + \beta1*wpc $$  
+  
+En ajoutant une variable $wpc^2$ au carré à ce modèle, nous permettons maintenant une relation curvilinéaire.  
+  
+$$ milk120 = Intercept + \beta1*wpc + \beta2*wpc^2$$  
+  
+Nous pourrions maintenant vérifier si le coefficient du terme $wpc^2$ dans ce dernier modèle est statistiquement significatif. Si ce n'est pas le cas, nous avons alors confirmation que la relation est une droite. Si ce coefficient est statistiquement significatif, nous devons alors conclure à une relation curvilinéaire. Ce serait alors sage de vérifier s'il s'agit d'une simple courbe, ou plutôt d'une courbe avec un ou plusieurs points d'inflexion. Cela peut être fait en ajoutant un terme au cube, comme suit.  
+  
+$$ milk120 = Intercept + \beta1*wpc + \beta2*wpc^2 + \beta3*wpc^3$$  
+  
+Cette fois, nous évaluerons si le coefficent du terme $wpc^3$ est statistiquement significatif. Si ce n'est pas le cas, nous avons alors confirmation que la relation est une simple courbe. Si ce coefficient est statistiquement significatif, nous devons alors conclure à une relation curvilinéaire avec un ou plusieurs points d'inflexion.  
+  
+Dans `R`, deux options s'offrent à nous afin de vérifier ces modèles avec des termes polynomiaux. Nous pouvonc évidemment créer manuellement ces nouvelles variables au carré et au cube et les inclure dans le modèle. Cependant, la fonction `poly()` permet de créer automatiquement ces variables.   
+  
+Par exemple, en créant manuellement les variables:  
+  
+```{r}
+daisy2_mod$wpc_sq <- daisy2_mod$wpc*daisy2_mod$wpc
+daisy2_mod$wpc_cu <- daisy2_mod$wpc*daisy2_mod$wpc*daisy2_mod$wpc
 
+modele<-lm(data=daisy2_mod, 
+            milk120 ~ (wpc + wpc_sq))
+
+summary(modele)
+
+```
+  
+Dans ce cas, nous voyons que le terme au carré n'est pas statistiquement significatif (P=0.279). Nous pourrions donc conclure que la relation entre *wpc* et *milk120* est une droite. Dans ce cas, c'est alors inutile de vérifier le modèle avec termes au carré et au cube.  
+  
+Nous pourrions obtenir les mêmes résultats avec la fonction `poly()`:  
+  
+```{r}
+modele<-lm(data=daisy2_mod, 
+            milk120 ~ (poly(wpc, 
+                            degree=2,  #degree=2 demande le terme principal + celui au carré. Avec degree=3, nous aurions alors les 3 termes
+                            raw=TRUE)))
+
+summary(modele)
+```
+  
 ### Méthodes diagnostiques pour les résiduels
 La fonction `plot()` demande les principaux graphiques qui serviront à évaluer l’adéquation du modèle (i.e. l’homoscédasticité et la normalité des résiduels).  
 Les plus intéressants sont probablement :  
-•	Le graphique des Résiduels x valeurs prédites (Residual vs Fitted). Ce graphique vous permettra de visualiser si la variance est homogène en fonction des valeurs prédites. On désire une « bande » horizontale égale (semble assez problématique pour cette exemple; la bande va en augmentant)  
+•	Le graphique des Résiduels x valeurs prédites (Residual vs Fitted). Ce graphique vous permettra de visualiser si la variance est homogène en fonction des valeurs prédites. On désire une « bande » horizontale égale (semble assez problématique pour cet exemple; la bande va en augmentant)  
 •	Le graphique des quantiles x résiduels (Normal Q-Q) permet d’évaluer la normalité des résiduels. On désire que les points forment une ligne de 45º qui se superpose à la ligne pointillée dans la figure (encore assez problématique dans cet exemple) 
-```{r fig.cap="**Figure 6.3** Graphique des résiduels x valeurs prédites."}
-modele2<-lm(data=daisy2_mod, wpc ~ (dyst + parity + herd_size + twin))
-plot(modele2, 1) #Je demande la première figure du 'pannel plot' de diagnostique (c'est la figure Residual vs Fitted)
+```{r fig.cap="Graphique des résiduels x valeurs prédites."}
+modele2 <- lm(data=daisy2_mod, 
+              wpc ~ (dyst + parity + herd_size + twin)
+              )
+plot(modele2, 1) #Nous demandons la première figure du 'pannel plot' de diagnostique (c'est la figure Residual vs Fitted)
 ```
 
-```{r fig.cap="**Figure 6.4.** Graphique Q-Q des résiduels."}
-plot(modele2, 2) #Je demande la 2ième figure du 'pannel plot' de diagnostique (c'est la figure Normal Q-Q)
+```{r fig.cap="Graphique Q-Q des résiduels."}
+plot(modele2, 2) #Nous demandons la 2ième figure du 'pannel plot' de diagnostique (c'est la figure Normal Q-Q)
 
-#Alternativement, je pourrais ne pas spécifier les figures qui m'intéressent et simplement tout demander ainsi:
+#Alternativement, nous pourrions ne pas spécifier les figures qui nous intéressent et simplement tout demander ainsi:
 #plot(modele2)
 #Vous aurez alors toute la série (n=4) de graphiques
 ```
@@ -201,12 +274,12 @@ plot(modele2, 2) #Je demande la 2ième figure du 'pannel plot' de diagnostique (
 ### Évaluation des observations extrêmes et/ou influentes
 
 Certaines observations peuvent être très différentes des autres et avoir un effet important sur les résultats
-de la régression. Cette observation peut être une observation extrême (outlier), c’est-à-dire une observation avec une combinaison inhabituelle de valeurs pour la variable dépendante et les variables indépendantes. Ce peut être une observation avec une valeur extrême pour un prédicteur, que l’on appelle variable à effet levier (leverage). Enfin ce peut être une observation qui, si elle est soustraite à l’analyse, change les estimés des coefficients (influence).  
+de la régression. Cette observation peut être une observation extrême (outlier), c’est-à-dire une observation avec une combinaison inhabituelle de valeurs pour la variable dépendante et les variables indépendantes. Ce peut être une observation avec une valeur extrême pour un prédicteur, que l’on appelle variable à effet levier (leverage). Enfin ce peut être une observation qui, si elle est soustraite à l’analyse, change substantiellement les estimés des coefficients (influence).  
 
-Dans `R`, vous pouvez facilement ajouter dans votre base de données les valeurs prédites par le modèle, les résiduels, distances de Cook, leviers, etc avec la fonction `augment()` du package `broom`. Vous pourrez ensuite trier cette table pour identifier, par exemple, les observations avec les résiduels, leviers ou distance de Cook les plus extrêmes et essayer de comprendre si ces observations ont quelque chose en commun.
+Dans `R`, vous pouvez facilement ajouter dans votre base de données les valeurs prédites par le modèle, les résiduels, les distances de Cook, les leviers, etc avec la fonction `augment()` du package `broom`. Vous pourrez ensuite trier cette table pour identifier, par exemple, les observations avec les résiduels, les leviers ou les distances de Cook les plus extrêmes et essayer de comprendre si ces observations ont quelque chose en commun.
 ```{r, message=FALSE, warning=FALSE}
 library(broom)
-diag <- augment(modele2) #Je viens de créer une nouvelle table dans laquelle les résiduels, distance de cook, etc se trouvent maintenant
+diag <- augment(modele2) #Nous avons créé une nouvelle table dans laquelle les résiduels, distance de cook, etc se trouvent maintenant
 head(diag)
 ```
 Les nouvelles variables correspondent à:  
@@ -217,12 +290,16 @@ Les nouvelles variables correspondent à:
 - Résiduel standardisé (*.std.resid*)  
   
 À l'aide de la fonction `ggplot` vous pourrez alors produire les graphiques qui vous intéressent. Par exemple : 
-```{r fig.cap="**Figure 6.5.** Graphique des résiduels de Student par jours jusqu’à la saillie fécondante (wpc)."}
-ggplot(diag, aes(wpc, .std.resid, colour=.std.resid)) + #J'indique les variables d'intérêt. Je me sui permis une petite fantaisie ici, je change la couleur des points en fonction de la valeur du résiduel standardisé
-  geom_point() + #Je demande un graphique nuage de points
+```{r fig.cap="Graphique des résiduels de Student par jours jusqu’à la saillie fécondante (wpc)."}
+ggplot(diag, 
+       aes(x=wpc, 
+           y=.std.resid, 
+           colour=.std.resid)
+       ) + #Nous indiquons les variables d'intérêt. Nous nous sommes permis une petite fantaisie ici, nous modifions la couleur des points en fonction de la valeur du résiduel standardisé
+  geom_point() + #Nous demandons un graphique nuage de points
   geom_hline (aes(yintercept=3)) + #Une autre fantaisie, ajoutons des barres horizontales qui permettent de marquer les valeurs -3 et +3 (pour identifier les résiduels 'extrêmes')
   geom_hline (aes(yintercept=-3)) +
-  theme_bw() #Mon fameux fond blanc!
+  theme_bw() #Le fameux fond blanc!
 ```
 Dans ce cas, on voit que seulement les vaches avec un WPC long (> 250j) ont des résiduels larges (i.e. > 3.0 ou < -3.0). Le modèle semble donc avoir de la difficulté à bien prédire ces observations.
 

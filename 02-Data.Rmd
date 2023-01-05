@@ -28,7 +28,7 @@ Les données utilisées pour les TP sont obtenues à partir du site web du livre
 #Importation de la table Daisy2.xlsx 
 #Vous pouvez importer en format XLSX comme suit:
 #library(readxl) #Ouvrir le package qui lit les fichiers excel
-#daisy2 <- read_excel("C:/Users/dufours/Documents/DiskD/Enseignement UdM/Cours/PTM 6675-Epi 2/Labo R/Data/ver2_data_excel/Daisy2.xlsx") #Indiquez votre chemin d'accès. Notez  les 'forward slash' plutôt que les 'backslash'
+#daisy2 <- read_excel("C:/Users/dufours/Documents/DiskD/Enseignement UdM/Cours/PTM 6675-Epi 2/Labo R/Data/ver2_data_excel/Daisy2.xlsx") #Indiquez votre chemin d'accès. Notez les 'forward slash' plutôt que les 'backslash'
 
 #Ou en format CSV
 daisy2 <-read.csv(file="daisy2.csv", header=TRUE, sep=",")

@@ -32,13 +32,13 @@ Vous pourrez aussi inclure une table dans votre texte:
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 library(knitr)
 library(kableExtra)
-kable(mtcars[1:5, ], caption="**Table 5.1.** Une table produite avec la fonction knitr.")%>%
+kable(mtcars[1:5, ], caption="Une table produite avec la fonction knitr.")%>%
   kable_styling()
 ```
 
 Ou une figure:
 
-```{r fig.cap="**Figure 5.1.** Une figure produite avec la librairie ggplot2.", echo=FALSE, message=FALSE}
+```{r fig.cap="Une figure produite avec la librairie ggplot2.", echo=FALSE, message=FALSE, warning=FALSE}
 library(ggplot2)
 ggplot(data=cars, aes(x=speed))+
   geom_histogram(fill="light blue", colour="black")+

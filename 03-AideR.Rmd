@@ -22,6 +22,6 @@ knitr::write_bib(c(
 ```
 
 # Aide de R  
-Si vous avez besoin d'aide concernant une fonction particulière, par exemple la fonction [`lm`] pour les modèles linéaires, il y a évidemment beaucoup de matériel sur l'internet, mais vous trouverez aussi du contenu dans la section d'aide de RStudio.  
+Si vous avez besoin d'aide concernant une fonction particulière, par exemple la fonction `lm()` pour les modèles linéaires, il y a évidemment beaucoup de matériel sur l'internet, mais vous trouverez aussi du contenu dans la section d'aide de RStudio, en bas à droite.  
   
 ![**Figure 4.1.** Section aide de RStudio.](Figures\Figure 2 help.png)
