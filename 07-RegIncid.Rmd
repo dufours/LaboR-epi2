@@ -1,0 +1,546 @@
+---
+title: "Épidémiologie 2 - Labo informatique R (PTM-6675)"
+author: Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l'Université
+  de Montréal)
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography:
+- book.bib
+- packages.bib
+biblio-style: apalike
+link-citations: yes
+description: Chapitre 8
+---
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+library(knitr)
+```
+
+
+# Régression pour données de compte et d’incidence  
+  
+Les régressions pour données de compte et d’incidence (e.g. Poisson, binomiale négative, zero-inflated Poisson (ZIP) et zero-inflated binomiale negative (ZINB)) peuvent être réalisées dans `R` avec différentes librairies et fonctions. 
+
+
+La figure suivante schématise les différentes méthodes qui pourront être utilisées.  
+  
+![Méthodes de régression pour données de compte et d’incidence.](Figures\Fig incid.png)
+  
+Le jeu de données *tb_real.csv* sera utilisé pour cette section.  
+```{r}
+#Nous importons ce jeu de données
+tb <-read.csv(file="tb_real.csv", 
+              header=TRUE, 
+              sep=";"
+              )
+head(tb)
+#Nous indiquons les variables catégoriques dans le jeu de données. Nous allons aussi ajouter des étiquettes pour faciliter l'interprétation plus tard.
+tb$farm_id <- factor(tb$farm_id) 
+tb$type <- factor(tb$type, 
+                  levels=c(1,2,3,4), 
+                  labels=c("laitier",
+                           "boucherie", 
+                           "cervidé", 
+                           "autre")
+                  )
+tb$sex <- factor(tb$sex, 
+                 levels=c(0,1), 
+                 labels=c("femelle",
+                          "mâle")
+                 )
+tb$age <- factor(tb$age, 
+                 levels=c(0:2), 
+                 labels=c("0-12 mois",
+                          "12-24 mois",
+                          ">24 mois")
+                 )
+```
+  
+## Régression de Poisson
+La fonction `glm()` que vous avez déjà utilisée pour la régression logistique pourra effectuer la régression de Poisson lorsque la variable dépendante est simplement un compte d’événements, par exemple un nombre d’animaux positifs à un test de tuberculine dans un groupe d'animaux (i.e. la variable *reactors* dans le jeu de données *tb_real.csv*) et qu’il n’y a pas de dénominateur à prendre en considération (i.e., que le nombre d’animal-temps à risque ne varie pas par unité d'étude). Dans ce cas, on n'aura qu’à indiquer la famille (`family="poisson"`). Notez que la fonction `glm()` supposera automatiquement que la fonction de lien est le `log` et que la fonction de la variance est $variance = moyenne$.  
+  
+Par exemple, le modèle suivant permettrait d’effectuer une régression de Poisson avec les prédicteurs *type*, *sex* et *age*. D'abord en supposant que ce n’est pas nécessaire de prendre en compte un dénominateur (i.e. un nombre d’animal-temps à risque). Évidemment, cette supposition est incorrecte dans ce cas.
+  
+```{r}
+#En indiquant family="poisson", la fonction glm suppose une distribution de Poisson et un lien log
+modele_incid <- glm( data=tb,
+                     reactors ~ type + sex + age, 
+                     family="poisson")
+summary(modele_incid)
+```
+  
+L'intercept et le coefficient de chacun des prédicteurs sont rapportés, de même que leur erreur-type, et la valeur de *P* correspondante. 
+  
+### Indiquer un "offset" (i.e., un dénominateur, par exemple un nombre d'animal-temps à risque)
+Souvent, un dénominateur (e.g. un nombre d’animal-temps à risque par unité d’étude) doit être pris en compte pour les données d’incidence ou de compte. Par exemple, dans le jeu de données *tb_real.csv*, la variable *par* représente le nombre d’animal-jour à risque par groupe et l’on voit que celui-ci varie passablement (de 30 à 118 084 animal-jour à risque). Bien sûr, ce ne serait pas valide de donner le même poids à des groupes avec des dénominateurs passablement différents (e.g. 3 positifs/30 animal-jours à risque est très différent de 3 positifs/118 084 animal-jour à risque). Dans ce cas, on devra indiquer au modèle une variable offset (i.e. un terme qui ne sert qu’à calibrer le poids de chaque observation et pour lequel aucun coefficient de régression n’est calculé). L’option `offset()` permettra d’indiquer la variable qui servira d’offset. Notez que, puisque la transformation logarithmique est utilisée comme fonction de lien pour la régression de compte et d’incidence, vous devrez d’abord transformer de la même façon (i.e. faire le log naturel) de votre variable qui représentait le nombre d’animal-jour à risque. Cette nouvelle variable représentera le log du nombre d’animal-jour à risque.  
+  
+Par exemple, le modèle suivant permettrait d’effectuer une régression de Poisson en prenant en compte le dénominateur (i.e. le nombre d’animal-temps à risque ; variable *par* dans ce cas) de chacun des troupeaux. Ce modèle serait, évidemment, plus approprié dans notre cas.
+  
+```{r}
+#En premier lieu créons une variable offset qui représentera le nombre d'animaux-jour à risque, mais sur une échelle logarithmique
+tb$log_par<-log(tb$par)
+
+#Nous devons indiquer cette variable directement dans le modèle avec + offset()
+modele_incid <- glm(data=tb, 
+                    reactors ~ type + sex + age + offset(log_par), 
+                    family="poisson"
+                    )
+summary(modele_incid)
+
+```
+  
+### Test de rapport de vraisemblance
+On pourra demander le test de rapport de vraisemblance comme vu en régression logistique.  
+  
+```{r, message=FALSE, warning=FALSE}
+library(lmtest)
+lrtest(modele_incid) #test du rapport de vraisemblance du modèle
+```  
+   
+Dans ce cas, le modèle est significatif (*P*< 0.001).
+  
+### Présenter les ratios d'incidence
+En mettant à l'exposant les coefficients de régression, ils représenteront maintenant les ratios d'incidence (RI) lorsqu'un prédicteur continu augmente d'une unité ou pour un niveau d'un prédicteur catégorique comparativement au niveau de référence. Par exemple, on pourrait demander ces coefficients transformés et leur intervalle de confiance.
+  
+```{r, warning=FALSE, message=FALSE}
+library(jtools)
+#Nous utilisons la librairie jtools pour obtenir une table avec les coefficients et les IC95
+j <- summ(modele_incid, 
+          confint = TRUE
+          )
+#Nous utilisons round() pour ajuster la précision des valeurs dans les tables
+round(exp(j$coeftable), 
+      digits=2
+      )
+```
+  
+Par exemple, le RI de *boucherie* comparativement à la valeur de référence *laitier* est de 1.56 (IC95: 0.98, 2.47).
+  
+### Calculer un compte prédit d'évènements
+On pourra également demander le compte attendu d'évènements pour un individu avec un profil de prédicteurs donné. Il faudrait alors simplement additionner manuellement l'intercept, puis les niveaux des prédicteurs qui nous intéressent et, ensuite, mettre cette somme à l'exposant. Plus pratiquement, on pourra demander dans `R` une prédiction pour une combinaison donnée. Par exemple, dans le code qui suit nous génèrons un petit jeu de données qui contiendra les valeurs des prédicteurs pour lesquelles nous voudrons obtenir le compte prédit d'évènements. Par exemple, troupeau laitier (*type*=1), femelle (*sex*=0) et 0-12 mois d'âge (*age*=0). Nous avons aussi indiqué que la variable *log_par* (l'offset) prendrait la valeur log(100 000). On aura donc un compte d'évènements pour 100 000 animaux-jours à risque.  
+  
+Puis, nous demandons simplement la prédiction à l'aide de la fonction `predict()`. Nous y indiquons l'objet modèle qui a préalablement été créé (*modele_incid*) et le petit jeu de données qui contient les valeurs que nous venons de créer (*new.tb*). Il ne reste qu'à mettre le tout à l'exposant avec la fonction `exp()`.  
+  
+```{r}
+#Nous générons le jeu de données avec les valeurs pour lesquelles nous voudrons obtenir le compte prédit d'évènements.
+new.tb <- data.frame(type="laitier", 
+                     sex="femelle", 
+                     age="0-12 mois", 
+                     log_par=(log(100000)
+                              )
+                     ) 
+
+#Nous générons la prédiction pour cette combinaison de prédicteurs.
+exp(predict(modele_incid, 
+            newdata=new.tb
+            )
+    )
+```
+  
+Le modèle prédit donc 0.84 cas de TB par 100 000 animaux-jours à risque chez les troupeaux de femelles laitières de 0-12 mois.  
+  
+### Comparer les niveaux d’un prédicteur catégorique avec > 2 catégories
+Comme pour la régression logistique, les fonctions `emmeans()` et `pairs()` du package `emmeans` vous permettent de comparer toutes les combinaisons possibles d'un ou plusieurs prédicteurs catégoriques et/ou quantitatifs.  
+  
+Par exemple, le code suivant permet de comparer les catégories de la variable *type* entre elles. Notez qu'en indiquant `type="response"`, les résultats seront présentés sous forme de ratio d'incidence (RI). Ils sont aussi déjà ajustés pour les comparaisons multiples avec l'ajustement de Tukey-Kramer.
+
+```{r, warning=FALSE, message=FALSE}
+library(emmeans)
+contrast <- emmeans(modele_incid, 
+                    c("type")
+                    ) 
+confint(pairs(contrast, 
+              type="response")
+        )
+```
+  
+On note, par exemple, que les laitiers ont une incidence 0.64 fois plus faible (IC95: 0.35, 1.18) que les boucheries. Si vous voulez voir les comparaisons dans l'autre sens (boucherie comparé à laitier, plutôt que laitier comparé à boucherie), vous pouvez ajouter l'option `reverse=TRUE` dans la fonction `pairs()`.
+  
+
+```{r}
+library(emmeans)
+contrast <- emmeans(modele_incid, 
+                    c("type")
+                    ) 
+confint(pairs(contrast, 
+              reverse=TRUE, 
+              type="response")
+        )
+```  
+  
+### Linéarité de la relation (pour prédicteur continu)
+La linéarité de la relation est une supposition importante du modèle. Pour les prédicteurs continus, vous devrez toujours vérifier si cette supposition est bien respectée. Vous pouvez le faire simplement à l’aide du modèle polynomial, comme vu précédemment (en ajoutant le $prédicteur^2$  ou le $prédicteur^2$ et le $prédicteur^3$ dans votre modèle).  
+  
+### Test de chi-carré de Pearson
+Nous pouvons calculer la somme des résiduels de $Pearson^2$ de la façon suivante:
+  
+```{r, warning=FALSE, message=FALSE}
+library(broom)
+diag <- augment(modele_incid, 
+                type.residuals = "pearson") #Nous venons de créer une nouvelle table avec les résiduels, etc. 
+
+#Nous calculons la somme de ces résiduels au carré. Dans ce cas: 1105.7
+s <- sum(diag$.resid^2)
+s
+
+#Nous vérifions à quelle probabilité la valeur 1105.7 correspond dans une distribution de chi-carré avec les degrés de liberté (n - le nombre de coefficients-1).
+P <- 1-pchisq(s, 
+              df=(134-6-1) 
+              )
+P
+
+#Nous pouvons aussi calculer le paramètre de dispersion
+disp <- s/(134-6-1)
+disp
+```
+  
+Dans ce cas la valeur de *P* est très petite (i.e. *P* est près de 0), le test de $X^2$ de Pearson nous permet donc de conclure que le modèle n’est pas adéquat pour ces données. Il s’agit probablement d’un problème de surdispersion puisque la somme des résiduels de Pearson divisée par les ddl est égale à 8.7 (ce qui est beaucoup plus grand que 1.25). La variance est donc > que la moyenne dans ce jeu de données.  
+  
+### Profils extrêmes ou influents 
+Comme pour la régression logistique, vous pouvez demander de créer une nouvelle table contenant, en plus de vos variables originales, les différentes valeurs (e.g. résiduels de Pearson, de Déviance, probabilité prédite, leviers) qui serviront à évaluer votre modèle. La fonction `augment()` du package `broom` vous permet de le faire. Vous pourrez ensuite trier cette table pour identifier, par exemple, les observations avec les résiduels, leviers ou distance de Cook les plus extrêmes et essayer de comprendre si ces observations ont quelque chose en commun.  
+```{r}
+library(broom)
+diag <- augment(modele_incid) #Nous venons de créer une nouvelle table dans laquelle les résiduels, distance de cook, etc se trouvent maintenant
+head(diag)
+```
+
+Notez que les valeurs prédites sont sur une échelle de log(compte). Les valeurs prédites sur une échelle de compte par 1 animal-jour à risque ont cependant été conservées dans votre objet modèle. Vous pouvez donc simplement les ajouter à votre table de diagnostic, si vous le désirez. Vous pourriez aussi les multiplier par 100 000 pour avoir un taux par 100 000 animaux-jour (ou par 100 et par 365 pour un taux par 100 animaux-année).
+```{r}
+diag$pred_count <- modele_incid$fitted.values
+head(diag)
+```
+  
+À partir de cette table, vous pourriez produire les graphiques qui vous intéresseront à l’aide de la fonction `ggplot()` ou simplement classer la table pour voir les résiduels les plus grands, comme nous l'avons déjà fait précédemment.  
+  
+### Comparer les comptes observés et prédits
+Vous pourrez représenter graphiquement les comptes observés *vs.* prédits de la manière suivante, en utilisant les résultats de votre modèle et la fonction `ggplot()` de la libraire `ggplot2`. Dans votre objet "modèle", la variable *y* représente le compte observé d'évènements et la variable *fitted.values* représente le compte prédit d'évènements. Vous pouvez les mettre ensemble dans une même base de données et ensuite produire des histogrammes pour chacune de ces valeurs ou encore, comme à la figure 18.2 du livre **VER**, un polygone de fréquence.
+```{r, message=FALSE, warning=FALSE, fig.cap="Comparaison des comptes d'animaux réactifs observés (bleu) et prédits (rouge)."}
+#En premier, nous réunissons les valeurs observées et prédites dans un même jeu de données.
+obs_pred <- data.frame(cbind(obs=modele_incid$y, 
+                             pred=modele_incid$fitted.values)
+                       )
+
+#Ensuite nous générons les deux polygones de fréquence dans une même figure.
+library(ggplot2)
+ggplot(data=obs_pred, 
+       mapping=aes(x=obs)
+       ) +
+  geom_freqpoly(color="blue") + #Nous demandons d'abord une ligne pour les valeurs observées
+  guides(color=FALSE) + #Nous demandons à ne pas avoir de légende dans ce cas
+  geom_freqpoly(mapping=aes(x=pred, 
+                            color="red")
+                ) + #Nous demandons ensuite une ligne pour les valeurs prédites
+  xlim(0, 
+       NA) + #Nous limitons l'axe à zéro
+  theme_bw() #Un thème blanc
+```
+    
+Dans ce cas, on note un certain écart entre les comptes observés et prédits dans les troupeaux avec 0 animal positif (près de 87 troupeaux avaient 0 animal positif alors que le modèle prédit moins de troupeaux avec des comptes s'approchant de 0). Pour les autres valeurs, le modèle prédit des valeurs assez près des valeurs observées, mais est incapable de prédire des valeurs très élevées (e.g., 29 cas dans un troupeau).  
+  
+### Erreurs-type mises à l’échelle (scaled SE)
+Une solution à la sur-dispersion est d’utiliser des erreurs-types mises à l’échelle (i.e. scaled SE). En fait, les erreurs-type sont alors simplement multipliées par la racine carrée du paramètre de dispersion de Pearson. Ce paramètre étant simplement la somme des résiduels de Pearson divisé par les degrés de liberté. En spécifiant `family="quasipoisson"` ce sera alors les erreurs-types mises à l'échelle qui vous seront présentées et qui serviront à calculer les IC95.
+  
+```{r}
+modele_scaled <- glm(data=tb, 
+                     reactors ~ type + sex + age + offset(log_par), 
+                     family="quasipoisson"
+                     )
+summary(modele_scaled)
+```
+  
+On note que les erreurs-types sont 2.9 fois plus grandes que ce qu'elles étaient avant. Notre facteur de dispersion était justement 8.7 et la racine carré de 8.7 est 2.9.  
+  
+### Variance robuste
+Les erreurs-types robustes peuvent aussi être utilisées lorsqu’il y a problème de sur-dispersion (ou de nombreux autres problèmes comme la dépendance des données). La fonction `sandwich()` de la librairie `sandwich` permet de calculer la variance robuste pour le modèle, nous obtiendrons alors les erreurs-types robustes avec la racine carrée de ces variances.  
+  
+```{r, message=FALSE, warning=FALSE}
+library(sandwich)
+#Nous demandons la variance robuste
+rob_var<-sandwich(modele_incid) 
+#Les valeurs qui nous intéressent sont sur la diagonale, la fonction diag nous permet de les isoler
+rob_var<-diag(rob_var)
+#Et maintenant nous appliquons la racine carrée
+rob_SE <- sqrt(rob_var)
+
+#Vous auriez aussi pu faire:
+#rob_SE <-sqrt(diag(sandwich(modele_incid)))
+
+#Pour faciliter la lecture, nous pourrions ajouter ces erreurs-types robustes à nos coefficients dans une même table
+tab_SE <- data.frame(cbind(Estimate=modele_incid$coefficients, 
+                           robust_SE=rob_SE)
+                     )
+library(knitr)
+library(kableExtra)
+kable(round(tab_SE, 
+            digits=3), 
+      caption="Modèle de Poisson avec erreurs-types robustes.")%>%
+  kable_styling()
+```
+  
+Notez que, si vous désirez utiliser des erreurs-types robustes **ET** les intégrer dans un ajustement pour comparaisons multiples, c'est un peu plus compliqué. Vous devrez combiner la librairie `multcomp` et la librairie `sandwich`. Nous utilisons la fonction `glht()` de cette première librairie pour obtenir des comparaisons multiples et l'option `vcov=sandwich`pour utiliser la variance robuste.   
+  
+```{r, warning=FALSE, message=FALSE}
+library(multcomp)
+library(sandwich)
+#Ici nous demandons une comparaison multiple avec ajustement de Tukey et les erreur-types robustes
+tukey <- glht(modele_incid, 
+              linfct = mcp(type="Tukey", 
+                           age="Tukey", 
+                           sex="Tukey"), 
+              vcov = sandwich)
+
+#Nous ajoutons les IC95
+with_ci <- confint(tukey)
+
+#Nous les transformons en IR
+tukey_results <- exp(with_ci$confint)
+
+#Nous présentons la table en arrondissant les IR à 2 décimales.
+library(knitr)
+library(kableExtra)
+kable(round(tukey_results, 
+            digits=2), 
+      caption="IR du modèle de Poisson avec erreur-types robustes et IC95 ajustées pour comparaisons multiples.")%>%
+  kable_styling()
+
+```
+  
+## Régression binomiale négative
+Pour effectuer une régression binomiale négative, vous devez utiliser la fonction `glm.nb()` de la librairie `MASS` comme suit.
+  
+```{r}
+library(MASS)
+modele_nb <- glm.nb(data=tb, 
+                    reactors ~ type + sex + age + offset(log_par)
+                    )
+summary(modele_nb)
+```
+ 
+Le paramètre de dispersion (Theta) et son erreur-type sont rapportés en bas.
+  
+### Comparer les modèles Poisson et Binomial négatif
+Un test de rapport de vraisemblance peut être utilisé pour vérifier si l'ajout du facteur de dispersion est statistiquement significatif (i.e., pour vérifier si le modèle Binomial négatif est statistiquement meilleur que le Poisson).  
+  
+```{r}
+library(lmtest)
+lrtest(modele_incid, 
+       modele_nb)
+```
+  
+Dans ce cas, on note que l'ajout du facteur de dispersion est statistiquement significatif (*P* < 0.001).  
+  
+### Évaluer les résiduels d'un modèle Binomial négatif
+Malheureusement, la librairie `broom` que nous avons utilisée jusqu'à présent pour générer une table de diagnostic ne fonctionne plus avec le modèle Binomial négatif estimé avec la fonction `glm.nb()` de la librairie `MASS`. Ces résiduels peuvent cependant être générés avec la fonction `simulateResiduals()` de la librairie`DHARMa`. 
+  
+```{r, message=FALSE, warning=FALSE}
+library(DHARMa)
+#Permet de générer des résiduels par simulation
+negbin_simulation <- simulateResiduals(fittedModel = modele_nb)
+
+#Permet de visualiser les résiduels vs les valeurs prédites.
+plotSimulatedResiduals(simulationOutput = negbin_simulation)
+
+#Tester avec le Pearson chi-square test s'il y a surdispersion 
+testDispersion(negbin_simulation, type="PearsonChisq")
+
+```
+  
+Dans ce cas, il semble y avoir encore une très légère surdispersion (Pearson/DDL=2.95 > 1.25)...
+  
+## Modèles zéro-enflés
+### Généralités
+Parfois le nombre de zéros est plus grand ou plus petit que ce que l’on attend avec une distribution de Poisson ou Binomiale négative. On peut alors avoir recours à un modèle pour excès de zéros (un modèle zéros-enflés de Poisson ou zéros-enflés Binomial négatif, respectivement abréviés ZIP ou ZINB) ou le modèle à barrière (hurdle model). S’il n’y a pas de zéros, on peut alors utiliser un modèle à zéros tronqués (zero-truncated model) ou simplement soustraire la valeur 1 de notre variable dépendante.  
+  
+Pour cette section, nous travaillerons avec la base de données *fec.csv*. Celle-ci décrit le nombre d'oeufs de parasite/5g de fèces en fonction de différents prédicteurs. Dans cet exemple, il n’y a pas de dénominateur à prendre en compte (i.e. pas de variable offset).   
+  
+```{r, warning=FALSE, message=FALSE}
+#Nous importons la base de données
+fec <-read.csv(file="fec.csv", 
+               header=TRUE, 
+               sep=";"
+               )
+
+#Nous recodons certaines variables
+fec$fec<-as.numeric(fec$fec)
+fec$lact<-as.factor(fec$lact)
+fec$past_lact<-as.factor(fec$past_lact)
+fec$man_heif<-as.factor(fec$man_heif)
+fec$man_lact<-as.factor(fec$man_lact)
+
+#Visualisons la base de données
+head(fec)
+
+#Distribution de notre variable dépendante (fec)
+library(ggplot2)
+ggplot(fec, 
+       aes(x=fec)
+       ) +
+  geom_histogram(colour="black", 
+                 fill="grey") +
+  theme_bw() +
+  xlab("Nombre d'oeufs/5g de fèces") +
+  ylab("Nombre de vaches")
+
+```
+  
+On note une distribution qui s'étire vers la droite et avec beaucoup de vaches avec la valeur zéro. 
+  
+La fonction `zeroinfl()` de la librairie `pscl` permettra de générer les modèles zéros-enflés de Poisson ou Binomial négatif. Les modèles pour excès de zéros travaillent en appliquant simultanément une régression logistique et une régression de Poisson (ou Binomiale négative). Les deux parties du modèle peuvent avoir les mêmes prédicteurs, mais ce n’est pas obligatoire. Notez que la partie logistique du modèle prédit la probabilité d’avoir un compte de zéro (et donc les coefficients ont un signe opposé à ce qu’ils auraient dans une régression logistique « conventionnelle », où les "1" seraient prédits).   
+  
+Le code suivant permet d’évaluer un modèle zéros-enflés Binomial négatif évaluant l’effet de différents prédicteurs (*lact*= multipare, *past_lac*= accès au pâturage, *man_heif*= fumier étendu sur pâturage des taures, *man_lac*=fumier étendu sur pâturage des vaches adultes) sur le compte d’œufs de parasites/5g de fèces.   
+  
+```{r, warning=FALSE, message=FALSE}
+library(pscl)
+modele_zinb <- zeroinfl(data=fec,
+                        fec ~ lact + past_lact + man_heif + man_lact, 
+                        dist="negbin"
+                        )
+summary(modele_zinb)
+```
+  
+Notez que les résultats présentés sont passablement différents. Vous avez deux tables avec les estimés des paramètres, une (Count model coefficients) pour la partie binomiale négative (i.e. les comptes) et l'autre (Zero-inflation model coefficients) pour la partie zéros-enflés (i.e. la partie logistique ou, si vous préférez, l’excès de zéros). 
+  
+On pourrait ajouter nos *IC95* et mettre nos coefficients à l'exposant pour mieux visualiser les résultats. Notez que la librairie `jtools` (qui faisait automatiquement de jolies tables de résultats) ne fonctionne pas avec ce genre de modèle. Dommage... 
+
+```{r, echo=FALSE}
+options(scipen=10)
+```
+  
+```{r}
+# LA PARTIE LOGISTIQUE
+# Extraire les coefficients et les erreurs types de la partie logistique (binomiale) du modèle dans une même table
+coefs_logi <- as.data.frame(summary(modele_zinb)$coefficients$zero[,1:2])
+names(coefs_logi)[2] = "SE"
+# Calculer les IC95
+coefs_logi$lower.ci <- coefs_logi$Estimate-1.96*coefs_logi$SE
+coefs_logi$upper.ci <- coefs_logi$Estimate+1.96*coefs_logi$SE
+#Ici on pourrait déjà, si on le voulait, inverser tous les coefficients et les CI
+
+# Mettre à l'exposant les coefficients
+OR <- exp(coefs_logi)
+# Retirer l'intercept (la 1ère rangée) et les erreurs-types
+OR <- OR[-c(1), ]
+OR <- subset(OR, select = -c(SE))
+
+
+# LA PARTIE COMPTE
+# Extraire les coefficients et les erreurs types de la partie Binomiale négative du modèle dans une même table
+coefs <- as.data.frame(summary(modele_zinb)$coefficients$count[,1:2])
+names(coefs)[2] = "SE"
+# Calculer les IC95
+coefs$lower.ci <- coefs$Estimate-1.96*coefs$SE
+coefs$upper.ci <- coefs$Estimate+1.96*coefs$SE
+# Mettre à l'exposant les coefficients
+IR <- exp(coefs)
+# Retirer l'intercept (la 1ère rangée), le paramètre de dispersion (la 6ième rangée) et les erreurs-types
+IR <- IR[-c(1, 6), ]
+IR <- subset(IR, select=-c(SE))
+
+
+#Finalement, on pourra demander à voir ces tables
+library(knitr)
+library(kableExtra)
+kable(round(OR, digits=2), caption="Partie logistique du modèle zéro-enflé Binomial négatif (ZINB).")%>%
+  kable_styling()
+kable(round(IR, digits=2), caption="Partie binomiale négative du modèle zéro-enflé Binomial négatif (ZINB).")%>%
+  kable_styling()
+```
+  
+L’interprétation des coefficients de régression, par exemple pour la variable *lact* (primipare=0 est la valeur de référence et multipare=1) se fera comme suit : Les vaches multipares avaient 2.4 fois (IC95: 1.3, 4.4) les odds d’avoir aucun œufs de parasites dans leurs fèces comparativement aux primipares et elles avaient 0.31 fois (IC95: 0.25, 0.39) le compte d’œufs  de parasites des primipares.  
+  
+Bien sûr, vous pouvez encore utiliser certaines fonctions que vous avez maintenant l’habitude d’utiliser, par exemple les fonctions `emmeans()` et `pairs()` du package `emmeans` .
+  
+### Test de Vuong – Comparer modèle zéros-enflés au modèle conventionnel
+On peut vérifier si un modèle pour excès de zéros est plus approprié que le modèle de Poisson ou Binomial négatif équivalent grâce au test de Vuong. Pour ce faire, on devra d'abord générer un objet modèle Poisson et un autre objet modèle zéro-enflé Poisson (ou un Binomial négatif et un zéro-enflé Binomial négatif). Ensuite, la fonction `vuong()` de la librairie `pscl` permettra de comparer ces modèles.
+  
+```{r, message=FALSE, warning=FALSE}
+# Le modèle NB
+library(MASS)
+modele_nb <- glm.nb(data=fec, 
+                    fec ~ lact + past_lact + man_heif + man_lact
+                    ) 
+
+# Le modèle ZINB
+library(pscl)
+modele_zinb <- zeroinfl(data=fec, 
+                        fec ~ lact + past_lact + man_heif + man_lact, 
+                        dist="negbin"
+                        )
+
+#Le test de Vuong
+vuong(modele_nb, 
+      modele_zinb)
+```
+  
+Trois tests statistiques différents sont réalisés. Dans tous les cas le modèle zéros-enflés (le #2) semble préférable et deux de ces tests indiquent une différence statistiquement significative entre les modèles ZINB et NB.
+  
+## Calcul du risque relatif à l’aide d’une régression de Poisson
+Avec une variable dépendante qui ne peut prendre que 2 valeurs (0/1), on utilise en général la régression logistique et ont présente donc un rapport de cotes (i.e. un odds ratio). Dans certaines situations, cependant, on préfèrerait présenter un risque relatif plutôt qu’un rapport de cotes. Par exemple, pour faciliter la compréhension des résultats (i.e. le risque relatif est plus facile à comprendre que le rapport de cotes) ou pour permettre le calcul d’autres mesures d’association (e.g. la fraction attribuable dans la population).  
+  
+Si la maladie est rare (prévalence < 5%), le rapport de cotes ≈ le risque relatif. Mais si la maladie est relativement fréquente, on ne pourra se servir de cette particularité. On peut, cependant, utiliser une régression de Poisson et un lien log avec une variable dépendante binaire. L’exposant des coefficients sera alors un risque relatif (plutôt qu’un rapport de cotes). Les IC 95% seront, cependant, un peu trop conservateurs (i.e. trop larges). On pourra y remédier en utilisant des erreurs-types robustes. Voir (Barros et Hirakata, 2003.[^7] pour plus de détails.
+
+[^7]: [Barros, A. J. D. and V. N. Hirakata. 2003. Alternatives for logistic regression in cross-sectional studies: an empirical comparison of models that directly estimate the prevalence ratio. BMC Med Res Methodol.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC521200/pdf/1471-2288-3-21.pdf)
+  
+Le code suivant permet de calculer des risques relatifs (plutôt que des rapports de cotes) pour le risque de Nocardiose en fonction des traitements au tarissement utilisés.
+  
+```{r}
+#Nous importons le jeu de données
+nocardia <-read.csv(file="nocardia.csv", 
+                    header=TRUE, 
+                    sep=";"
+                    )
+
+#Nous indiquons les variables catégoriques dans le jeu de données
+nocardia$dbarn <- factor(nocardia$dbarn) 
+nocardia$dneo <- factor(nocardia$dneo) 
+nocardia$dclox <- factor(nocardia$dclox) 
+
+#Nous effectuons une régression de Poisson
+modele_poisson <- glm(data=nocardia,
+                      casecont ~ dclox + dneo + dcpct, family="poisson"
+                      )
+
+#Nous demandons la variance robuste
+library(sandwich)
+rob_SE <-sqrt(diag(sandwich(modele_poisson)))
+
+#Pour faciliter la lecture, nous pourrions ajouter ces erreurs-types robustes à nos coefficients dans une table
+tab_SE <- data.frame(cbind(Estimate=modele_poisson$coefficients, 
+                           robust_SE=rob_SE)
+                     )
+
+#Puis calculer les IC95
+tab_SE$lower.ci <- tab_SE$Estimate-1.96*tab_SE$robust_SE
+tab_SE$upper.ci <- tab_SE$Estimate+1.96*tab_SE$robust_SE
+
+#Enlever l'intercept, les SE et mettre tout à l'exposant pour avoir des RR 
+tab_SE <- tab_SE[-c(1), ]
+tab_SE <- exp(subset(tab_SE, 
+                     select=-c(robust_SE)
+                     )
+              )
+
+library(knitr)
+library(kableExtra)
+kable(round(tab_SE, digits=2), 
+      caption="Modèle de Poisson avec erreurs-types robustes pour estimer le risque relatif de Nocardiose.")%>%
+  kable_styling()
+```
+  
+Le risque relatif (RR) de Nocardiose dans les troupeaux utilisant la néomycine (*vs.* ceux qui ne l'utilisaient pas) était est donc de 3.56 (IC95: 1.55, 8.14).  
+  
+  
+```{r child="TP6.Rmd"}
+#To add the following chapter
+```
+  
+  
+```{r child="TP7.Rmd"}
+#To add the following chapter
+```

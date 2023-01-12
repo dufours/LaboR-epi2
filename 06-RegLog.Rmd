@@ -1,0 +1,361 @@
+---
+title: "Épidémiologie 2 - Labo informatique R (PTM-6675)"
+author: Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l'Université
+  de Montréal)
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography:
+- book.bib
+- packages.bib
+biblio-style: apalike
+link-citations: yes
+description: Chapitre 7
+---
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+
+# Régression logistique  
+  
+## Généralités  
+  
+Il existe aussi plusieurs procédures dans `R` permettant d’effectuer une régression logistique. Nous travaillerons principalement avec la fonction `glm()` qui comblera la plupart de vos besoins de ce côté. Notez que nous utiliserons cette même fonction pour d'autres types de modèles que nous verrons plus tard (e.g., Poisson, binomiale négative). Puisque la fonction `glm()` peut être utilisée pour plusieurs types de régression, il faudra donc indiquer la famille de régression qui nous intéresse, dans ce cas-ci l'argument `family=binomial` indiquera que notre variable dépendante est binomiale (i.e., elle prend seulement 2 valeurs, par exemple 0 ou 1). Dans ce cas, la fonction de lien par défaut sera la fonction logit. On aura donc une régression logistique. Notez qu'à part l'ajout de `family=binomial` la syntaxe est identique à celle de la fonction `lm()`.  
+    
+Le jeu de donnée *Nocardia* sera utilisé pour cette section.  
+
+```{r}
+#Nous importons le jeu de données
+nocardia <-read.csv(file="nocardia.csv", 
+                    header=TRUE, 
+                    sep=";")
+head(nocardia)
+#Nous indiquons les variables catégoriques dans le jeu de données
+nocardia$dbarn <- factor(nocardia$dbarn) 
+nocardia$dneo <- factor(nocardia$dneo) 
+nocardia$dclox <- factor(nocardia$dclox) 
+
+#Nous faisons une régression logistique
+
+modele_1 <- glm(data = nocardia, 
+                casecont ~ dcpct + dbarn, 
+                family = binomial
+                )
+summary(modele_1)
+```
+  
+Plusieurs éléments sont présentés. D'abord, des résultats sur les résiduels de déviance (on y reviendra). Puis les coefficients, erreur-types et les résultats des tests de Wald qui permettent de tester chacun des coefficients, un à la fois (l'hypothèse nulle est que ce β=0). Notez que le résultat "Residual deviance" (135.49 avec 104 degrés de liberté) correspond au -2 log likelihood.  
+  
+## Effectuer un test de rapport de vraisemblance
+Pour comparer le modèle complet avec le modèle nul (i.e., le modèle avec seulement un intercept) il faudra faire un test de rapport de vraisemblance (likelihood ratio test). La fonction `lrtest()` du package `lmtest` permet de réaliser ce genre de test.
+
+```{r, message=FALSE, warning=FALSE}
+library(lmtest)
+lrtest(modele_1) #Raélise un test de rapport de vraisemblance du modèle
+```
+  
+Nous voyons bien les deux modèles qui sont comparés. Ici, la conclusion serait qu'au moins un des coefficients (*dcpct* ou *dbarn*) est différent de 0 (*P*=0.003).  
+  
+Pour comparer un modèle complet *vs.* un modèle réduit, on utilisera la même fonction du même package, mais après avoir créé les deux modèles.
+
+```{r}
+mod_red<-glm(data=nocardia, 
+             casecont~ dcpct + dbarn, 
+             family="binomial" 
+             )
+
+mod_comp<-glm(data=nocardia, 
+              casecont~ dcpct + dneo + dclox + dbarn, 
+              family="binomial" 
+              )
+
+lrtest(mod_comp, mod_red) #likelihood ratio test
+```
+  
+  La conclusion serait qu'au moins un des deux coefficients (*dneo* et/ou *dclox*) est différent de 0 (*P*<0.001). **C'est aussi à l'aide de la fonction `lrtest` qu'on pourra réaliser un test sur l'ensemble des variables indicatrices d'une variables avec > 2 catégories, l'équivalent du test de *F* en régression linéaire.** 
+  
+## Ajouter des IC95  
+Vous pouvez ajouter des IC95 avec la fonction `confint()`, comme vu précédemment.
+```{r, message=FALSE, warning=FALSE}
+confint(modele_1, 
+        level= 0.95)
+```
+  
+## Choisir valeur de référence pour les variables catégoriques  
+Vous pouvez choisir les valeurs de référence pour les variables catégoriques avec la fonction `relevel()`, comme vu précédemment.
+```{r}
+nocardia <- within(nocardia, 
+                   dbarn<-relevel(dbarn, 
+                                  ref=1)
+                   ) #Dans ce cas, ça ne changera rien puisque R avait déjà pris la valeur 1 comme catégorie de référence
+```
+  
+## Produire des tables de résultats
+Le package `jtools` vous permet de présenter des tables de résultats plus jolies:
+```{r, warning=FALSE}
+library(jtools)
+j <- summ(modele_1, 
+          confint = TRUE)
+j$coeftable
+```
+  
+  Ou encore, si vous utilisez `RMarkdown`.
+  
+```{r, warning=FALSE, message=FALSE}
+library(knitr)
+library(kableExtra)
+kable(round(j$coeftable, 
+            digits=3), 
+      caption="Résultats du modèle."
+      )%>%
+  kable_styling()
+```
+  
+### Présenter les rapports de cotes plutôt que les log odds
+Si vous désirez obtenir les rapports de cotes, alors vous pouvez simplement demander l'exposant de vos résultats comme ceci.
+```{r}
+#Nous demandons de présenter les coefficients du modèle mis à l'exposant
+exp(coef(modele_1))
+
+```
+   
+Pour obtenir rapports de cotes et IC95 des rapports de cotes:
+```{r, message=FALSE, warning=FALSE}
+#Ici nous avons demandé de créer une colonne représentant un vecteur de nombres (que nous avons nommé OR et qui seront les OR) et d'y juxtaposer (fonction cbind) les IC95 du modèle. Il ne reste plus qu'à mettre en exposant les valeurs contenues dans ces 3 colonnes pour avoir des OR et leurs IC95
+exp(cbind(OR = coef(modele_1), 
+          confint(modele_1)
+          )
+    )
+```
+  
+  On pourrait même arrondir, pour faire plus joli, et produire la table avec `RMarkdown`.  
+```{r, message=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
+kable(round(exp(cbind(OR = coef(modele_1), 
+                      confint(modele_1)
+                      )
+                ), 
+            digits=2), 
+      caption="Résultats du modèle."
+      )%>%
+  kable_styling()
+```
+  
+  Dans ce cas, on voit qu'une augmentation de 1 unité de *dcpct* (le % de vaches traitées au tarissement) augmente les odds de mammite à nocardia par un facteur de 1.02 (IC95: 1.01, 1.03).  
+  
+## Spécifier pour quelle augmentation d’un prédicteur continu le rapport de cotes est calculé      
+  Si vous voulez produire le rapport de cotes pour une augmentation de 10 ou 20 unités de *dcpct* vous pourriez mettre à l'échelle la variable *dcpct* afin que celle-ci représente une augmentation de 10 ou 20 unités et utiliser ces nouvelles variables dans le modèle. Par exemple, pour une augmentation de 10 points de pourcentage:
+```{r, message=FALSE, warning=FALSE}
+nocardia$dcpct10 <- nocardia$dcpct/10
+
+modele_10 <- glm(data = nocardia, 
+                 casecont ~ dcpct10 + dbarn, 
+                 family = binomial
+                 )
+
+round(exp(cbind(OR = coef(modele_10),
+                confint(modele_10)
+                )
+          ), 
+      digits=2)
+```
+  
+  Donc une augmentation de 10 unités multiplie les odds de nocardia par 1.21 (IC95: 1.08, 1.37).  
+    
+Vous auriez aussi pu simplement multiplier le coefficient et ses erreur-types par 10 et ensuite les mettre à l'exposant:
+
+```{r}
+#Créons un objet avec les résultats du modèle
+library(jtools)
+res <- summ(modele_1)
+
+#Dans l'objet res$coeftable la première colonne est pour les coefficents et la 2ième est pour les erreur-types. Et la 2ième rangée est pour dcpct. Le coefficient de dcpct est donc en rangée 2 et colone 1 ou res$coeftable[2,1]
+OR <- exp(10*res$coeftable[2,1])
+
+#Et les erreur-types sont en res$coeftable[2,2]
+L95 <- exp(10*res$coeftable[2,1]-1.96*10*res$coeftable[2,2])
+U95 <- exp(10*res$coeftable[2,1]+1.96*10*res$coeftable[2,2])
+
+#De là:
+round(cbind(OR10=OR, 
+            LowerCI=L95, 
+            UpperCI=U95), 
+      digits=2)
+```
+  
+Comme vous le voyez, il y a plusieurs manières d'arriver au même résultat!  
+  
+
+## Évaluer une interaction entre 2 variables
+Comme pour la fonction `lm()` vous n’avez qu’à indiquer dans votre modèle la multiplication des effets (`dneo`*`dclox`). La fonction `glm()` se chargera alors de créer toutes les variables indicatrices nécessaires.
+```{r}
+modele_inter <- glm(data = nocardia, 
+                    casecont ~ dcpct + dneo*dclox, 
+                    family = binomial
+                    )
+library(jtools)
+inter <- summ(modele_inter, 
+              confint = TRUE)
+inter$coeftable
+
+```
+  
+## Comparer rapports de cotes pour une combinaison spécifique de prédicteurs
+La fonction `pairs()` du package `emmeans` vous permet de comparer toutes les combinaisons possibles d'un ou plusieurs prédicteurs catégoriques et/ou quantitatifs.   
+```{r, warning=FALSE}
+library(emmeans)
+contrast <- emmeans(modele_inter, 
+                    c("dneo", "dclox")
+                    ) 
+pairs(contrast)  
+```
+  
+  Rappelez-vous, si vous utilisez la fonction `confint()`sur votre fonction `pairs()`, vous aurez alors aussi les IC95.  
+```{r}
+library(emmeans)
+contrast <- emmeans(modele_inter, 
+                    c("dneo", "dclox")
+                    ) 
+confint(pairs(contrast))  
+```  
+   
+Nous avons maintenant tous les contrastes pour les différentes combinaisons de *dneo* et *dclox*. Par exemple, la première ligne compare ceux qui n'utilisaient aucun des deux produits (dneo0 et dclox0) *vs.* ceux qui utilisait *dneo* mais pas *dclox* (dneo1 et dclox0). 
+    
+  De là, si on voulait avoir les rapports de cotes pour les différentes comparaisons plutôt que les log odds, nous pourrions ajouter l'argument `type="response"`.
+```{r}
+confint(pairs(contrast, 
+              type="response")
+        )
+
+```
+  
+Dans ce cas, les odds de nocardia étaient 15.5 (95CI: 2.1, 112.7) fois plus grandes pour les troupeaux utilisant seulement neomycine (1 et 0) *vs.* ceux utilisant seulement la cloxacilline (0 et 1).    
+  
+## Présenter l’effet des prédicteurs sur une échelle de probabilité  
+Présenter vos résultats sur une échelle de probabilité (plutôt que odds ou log odds) permettra de mieux illustrer l’effet de vos différents prédicteurs. La fonction `plot_model()` du  package `sjPlot`vous permet d’obtenir une telle représentation graphique de vos résultats. L'option `type="eff"` permet de rapporter les résultats sur l'échelle d'une probabilité (plutôt que odds, log odds ou OR).
+```{r, message=FALSE, warning=FALSE, fig.cap="Effet de différentes variables sur la probabilité de nocardia."}
+library(sjPlot)
+plot_model(modele_inter, 
+           type="eff")
+```
+  
+ On voit alors les graphiques pour chacune des variables du modèle. Par contre, souvent on voudra voir tout ensemble dans un seul graphique. On peut alors ajouter l'argument `terms=c("var1", "var2", "var3")`. La première variable apparaitra en x, la deuxième en y et la troisième séparera la figure en 2 figures. 
+```{r fig.cap=" Effet de l'utilisation de la neomycine et du % de vache traitées au tarissement par niveau d'utilisation de la cloxacilline."}
+library(sjPlot)
+plot_model(modele_inter, 
+           type="eff", 
+           terms=c("dcpct", "dneo", "dclox")
+           )
+```
+  
+## Linéarité de la relation (pour prédicteur quantitatif)  
+La linéarité de la relation est une supposition importante du modèle. Dans le modèle logistique, la relation entre le prédicteur et le **log odds** doit être une ligne droite, ce qui complique l’évaluation. Pour les prédicteurs quantitatifs, vous devrez toujours vérifier si cette supposition est bien respectée. Vous pouvez le faire, comme en régression linéaire, à l’aide du modèle polynomial (en ajoutant le $prédicteur^2$  ou le $prédicteur^2$ et le $prédicteur^3$ dans votre modèle). Si les coefficients de ces termes sont significativement différents de zéro (i.e. *P* < 0.05), ont concluera que la relation est une courbe, ou une courbe avec un ou plusieurs points d’inflexion, respectivement.  
+  
+## Test de 'fit' de Hosmer-Lemeshow et de Pearson 
+La fonction `hoslem.test()` du package `ResourceSelection` permet de réaliser le test de Hosmer-Lemeshow. Il faut simplement indiquer l'objet "modèle" avec lequel vous voulez travailler (par exemple, ici *modele_inter*). Dans cet objet, il y a toujours une variable nommée $y$ et `hoslem.test()` voudra l'utiliser, vous n'avez donc pas à modifier *y* dans le code plus bas. Il s'agit en fait de la variable réponse. Ont indique ensuite d'utiliser les valeurs prédites (*fitted*) et, encore une fois, l'objet "modèle" où elles se trouvent. Finalement on peut ou non indiquer le nombre de groupes utilisés pour le test, ici `g=8`.
+```{r, message=FALSE, warning=FALSE}
+library(ResourceSelection)
+hoslem.test(modele_inter$y, 
+            fitted(modele_inter),
+            g=8
+            )
+```
+Dans ce cas, le test ne rejette pas l’hypothèse nulle (i.e. le modèle « fit » bien les données).  
+
+  
+C'est beaucoup plus demandant de réaliser les tests de fit de Déviance ou de Pearson dans R. Si vous trouvez une manière simple de le faire, indiquez-le-nous! En théorie, ont peut générer les résiduels avec la fonction `augment()` du package `broom`. Puis, la fonction `distinct()` (du package `dplyr`) pourrait être utilisée pour ne conserver que les profils uniques de prédicteurs pour un jeu de données. La fonction `dim()` permettra de rapporter le nombre de lignes dans ce jeu de données réduit (i.e., le nombre de profils). Ensuite, ont pourrait faire la somme des résiduels de Pearson de chacun de ces profils après les avoir mis au carré avec la fonction `sum()` et l'argment `^2`. La fonction `length()` permettra de calculer le nombre de coefficients dans le modèle. Puis, finalement, on cherche la probabilité d'observer cette valeur dans une table de *chi-carré* avec le nombre de degrés de liberté approprié (i.e., le nombre de profils unique - le nombre de coefficients) en utilisant la fonction `pchisqr()`.  Ouf! Nous vous épargnons les détails...
+  
+
+## Évaluation des profils extrêmes et/ou influents
+Comme pour la fonction `lm()`, vous pouvez demander de créer une nouvelle table contenant, en plus de vos variables originales, les différentes valeurs (e.g. résiduels de Pearson, de déviance, probabilité prédite, leviers, Delta-Beta) qui serviront à évaluer votre modèle. La fonction `augment()` du package `broom` vous permet de le faire. Vous pourrez ensuite trier cette table pour identifier, par exemple, les observations avec les résiduels, leviers ou distance de Cook les plus extrêmes et essayer de comprendre si ces observations ont quelque chose en commun.  
+```{r}
+library(broom)
+diag <- augment(modele_inter) #Nous venons de créer une nouvelle table dans laquelle les résiduels, distance de cook, etc se trouvent maintenant
+head(diag)
+```
+
+Notez que les valeurs prédites sont sur une échelle de log odds. Les valeurs prédites sur une échelle de probabilité ont cependant été conservées dans votre objet modèle. Vous pouvez donc simplement les ajouter à votre table de diagnostic, si vous le désirez.
+```{r}
+diag$pred_prob <- modele_inter$fitted.values
+head(diag)
+```
+  
+La table suivante est un extrait des 10 premières observations de cette nouvelle table lorsque classée des résiduels de Pearson les plus grands aux plus petits. À partir de cette table, vous pourriez produire les graphiques qui vous intéresseront à l’aide de la fonction `ggplot()`.
+```{r}
+#Nous pouvons maintenant ordonner cette table pour voir les 10 observations avec les résiduels les plus larges
+diag_res <- diag[order(-diag$.resid),]
+head(diag_res, 10)
+```
+  
+Notez qu’une valeur prédite et un résiduel sont calculés pour chaque profil de prédicteur (et non pour chaque observation). Il est donc normal que les observations avec un profil de prédicteurs identique aient exactement les mêmes valeurs prédites et résiduels (e.g. les lignes 8, 9 et 10).  
+  
+## Sensibilité, spécificité et courbe ROC
+La fonction `roc()` de la librairie `pROC` permet de créer un nouvel objet dans lequel la sensibilité (Se) et la spécificité (Sp) sont rapportés pour tous les seuils possibles de probabilité prédite par le modèle. Pour ce, vous devrez utiliser une table dans laquelle les valeurs prédites par le modèle sont rapportées (par exemple le jeu de données créé avec la fonction `augment()` de la librairie `broom`. 
+```{r, message=FALSE, warning=FALSE}
+#Valeur prédictive du modèle
+library(pROC)
+roc_data <- roc(data=diag, 
+                response="casecont", 
+                predictor="pred_prob"
+                )
+
+#Présenter les sensibilités et spécificités des différents seuils dans une même table.
+accu <- as.data.frame(round(cbind(Seuil=roc_data$thresholds, 
+                    Se=roc_data$sensitivities, 
+                    Sp=roc_data$specificities), 
+              digits=2))
+
+#Voir la table
+library(knitr)
+library(kableExtra)
+kable(accu,  
+      caption="Sensibilité et spécificité du modèle pour différents seuils de probabilité prédite.")%>%
+  kable_styling()
+
+```
+    
+        
+La courbe ROC peut également être présentée de même que l’aire sous la courbe (l'AUC) à l'aide de la fonction `plot.roc()` de la librairie `pROC`.   
+```{r, fig.cap="Courbe ROC.", message=FALSE, warning=FALSE}
+plot.roc(roc_data, 
+         print.auc = TRUE, 
+         grid = TRUE)
+```
+  
+À l'aide de la table *accu* que vous avez produite précédemment à l'aide de l'objet ROC créé, vous pourrez produire différents graphiques par exemple des graphiques illustrant comment la sensibilité (et/ou la spécificité) varie en fonction du seuil choisi.
+
+```{r, fig.cap="Sensibilité (ligne continue) et spécificité (ligne pointillée) du modèle en fonction du seuil de probabilité prédite.", message=FALSE, warning=FALSE}
+library(ggplot2)
+
+#En premier lieu, nous pouvons demander une figure du seuil de probabilité (en x) par la sensibilité (en y)
+ggplot(accu,
+       aes(x=Seuil,
+           y=Se)
+       ) +
+  geom_line() +
+#Et nous pouvons ajouter une 2e ligne (pointillée dans ce cas), pour la spécificité
+  geom_line(aes(y=Sp),
+            linetype = "dashed") +
+#Finalement, ajuster les éléments de format de la figure
+  ylab("Précision diagnostique (Se ou Sp)") +
+  xlab("Seuil de probabilité prédite par le modèle") +
+  theme_bw()
+
+```
+  
+  
+```{r child="TP4.Rmd"}
+#To add the following chapter
+```
+  
+  
+```{r child="TP5.Rmd"}
+#To add the following chapter
+```

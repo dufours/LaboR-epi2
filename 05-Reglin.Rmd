@@ -210,15 +210,15 @@ Ici, la relation entre *wpc* et *milk120* semble être une droite.
 ### Évaluer la linéarité de la relation à l'aide de termes polynomiaux (pour prédicteur quantitatif)  
 Une autre manière d'évaluer la linéarité de la relation entre un prédicteur quantitatif et votre variable dépendante est de vérifier si des termes polynomiaux sont significatifs lorsque ajoutés au modèle. Par exemple, le modèle suivant suppose que la relation entre *wpc* et *milk120* est une droite.   
   
-$$ milk120 = Intercept + \beta1*wpc $$  
+$$ milk120 = β_0 + β_1*wpc $$  
   
 En ajoutant une variable $wpc^2$ au carré à ce modèle, nous permettons maintenant une relation curvilinéaire.  
   
-$$ milk120 = Intercept + \beta1*wpc + \beta2*wpc^2$$  
+$$ milk120 = β_0 + β_1*wpc + β_2*wpc^2$$  
   
 Nous pourrions maintenant vérifier si le coefficient du terme $wpc^2$ dans ce dernier modèle est statistiquement significatif. Si ce n'est pas le cas, nous avons alors confirmation que la relation est une droite. Si ce coefficient est statistiquement significatif, nous devons alors conclure à une relation curvilinéaire. Ce serait alors sage de vérifier s'il s'agit d'une simple courbe, ou plutôt d'une courbe avec un ou plusieurs points d'inflexion. Cela peut être fait en ajoutant un terme au cube, comme suit.  
   
-$$ milk120 = Intercept + \beta1*wpc + \beta2*wpc^2 + \beta3*wpc^3$$  
+$$ milk120 = β_0 + β_*wpc + β_2*wpc^2 + β_3*wpc^3$$  
   
 Cette fois, nous évaluerons si le coefficent du terme $wpc^3$ est statistiquement significatif. Si ce n'est pas le cas, nous avons alors confirmation que la relation est une simple courbe. Si ce coefficient est statistiquement significatif, nous devons alors conclure à une relation curvilinéaire avec un ou plusieurs points d'inflexion.  
   
@@ -302,6 +302,18 @@ ggplot(diag,
   theme_bw() #Le fameux fond blanc!
 ```
 Dans ce cas, on voit que seulement les vaches avec un WPC long (> 250j) ont des résiduels larges (i.e. > 3.0 ou < -3.0). Le modèle semble donc avoir de la difficulté à bien prédire ces observations.
+  
+  
+```{r child="TP1.Rmd"}
+#To add the following chapter
+```
 
 
-
+```{r child="TP2.Rmd"}
+#To add the following chapter
+```
+  
+  
+```{r child="TP3.Rmd"}
+#To add the following chapter
+```

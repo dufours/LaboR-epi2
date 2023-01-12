@@ -1,0 +1,293 @@
+---
+title: "Épidémiologie 2 - Labo informatique R (PTM-6675)"
+author: "Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l'Université de Montréal)"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: Chapitre 8
+ 
+---
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+
+## Travaux pratiques 7 - Modèles modifiés en zéro et calcul d’un risque relatif 
+
+### Exercices
+
+Pour les questions 1 à 3 du TP utilisez le fichier *fec.csv* (voir description VER p.811).  
+
+Dans cette étude nous souhaitons décrire les facteurs de risque associés au compte d'oeufs de parasites dans les fèces de bovins laitiers. La variable *fec* représente le nombre d’oeufs/5g de fèces qui pourra être prédit en fonction de différents prédicteurs. Dans cet exemple il n’y a pas de dénominateur à considérer (i.e. une variable offset n’est pas nécessaire; chaque animal a été échantillonné une seule fois).  
+  
+1. D’abord représenter graphiquement la variable *fec*. S’agit-il d’une distribution typique pour une donnée de compte? Quelle proportion des observations avait un compte de zéro oeuf?  
+  
+2. Essayez d’abord de modéliser l’effet de *tx* (un traitement à l’Eprinomectin au vêlage) sur le compte d’oeuf (*fec*) en prenant en compte les facteurs confondants *lact*, *man_heif* et *man_lact* à l’aide d’une régression binomiale négative.  
+  
+2.1. D’abord, est-ce que le paramètre de dispersion (i.e. le α) est statistiquement différent de zéro? Qu’est-ce que cela vous indique?  
+  
+2.2. Est-ce que le modèle est adéquat pour vos données?  
+  
+2.3. Vérifiez si un modèle zéros-enflé Binomial négatif (ZINB) serait préférable à un modèle Binomial négatif.  
+  
+2.4. À l’aide de ce dernier modèle, expliquez l’effet du traitement à l’Eprinomectin sur le compte d’oeufs de parasite. 
+  
+Pour la question 3 du TP utilisez le fichier *daisy2.csv* (voir description VER p.809). 
+  
+Ne sélectionnez que les 7 troupeaux avec *H7*=1 et n’utilisez que la 1ère lactation de chaque vache (*study_lact*=1).  
+  
+3. Dans cette étude on se demande si une rétention placentaire (*rp*) affecte la probabilité de conception à la première saillie (*fs*) après avoir contrôlé pour l’âge de la vache (*parity*). Les chercheurs désirent calculer la fraction attribuable dans la population (*AFp*).  
+  
+$AF_p = (P(E+)(RR-1))/(P(E+)(RR-1)+1))$
+
+3.1. Dans ce cas, est-ce que ce serait correct de remplacer le risque relatif dans l’équation précédente par un rapport de cotes estimé à l’aide d’un modèle de régression logistique?  
+  
+3.2. Quel serait le risque relatif de conception à la 1ère saillie et son IC 95% lorsque rétention placentaire est présent *vs.* absent et après ajustement pour l’âge de la vache?  
+   
+3.3. Quelle serait la fraction attribuable (*AFp*) dans la population due aux rétentions placentaires? Comment interprétez-vous ce résultat?  
+  
+3.4. Question bonus (i.e. vous aurez 2 banana-points supplémentaires si vous répondez correctement): Comment pourriez-vous obtenir un IC 95% pour l’*AFp*?  
+  
+  
+### Code R et réponses
+Pour les questions 1 à 3 du TP utilisez le fichier *fec.csv* (voir description VER p.811).  
+
+```{r}
+#Nous importons la base de données
+fec <-read.csv(file="fec.csv", 
+               header=TRUE, 
+               sep=";")
+
+#On recode certaines variables
+fec$fec<-as.numeric(fec$fec)
+fec$lact<-as.factor(fec$lact)
+fec$past_lact<-as.factor(fec$past_lact)
+fec$man_heif<-as.factor(fec$man_heif)
+fec$man_lact<-as.factor(fec$man_lact)
+
+#Visualisons la base de données
+head(fec)
+```
+
+Dans cette étude nous souhaitons décrire les facteurs de risque associés au compte d'oeufs de parasites dans les fèces de bovins laitier. La variable *fec* représente le nombre d’oeufs/5g de fèces qui pourra être prédit en fonction de différents prédicteurs. Dans cet exemple il n’y a pas de dénominateur à considérer (i.e. une variable offset n’est pas nécessaire; chaque animal a été échantillonné une seule fois).  
+  
+1. D’abord représenter graphiquement la variable *fec*. S’agit-il d’une distribution typique pour une donnée de compte? Quelle proportion des observations avait un compte de zéro oeuf?  
+```{r, message=FALSE, warning=FALSE, fig.cap="Distribution des comptes d'oeufs/5g de fèces."}
+#Distribution de notre variable dépendante (fec)
+library(ggplot2)
+ggplot(fec, 
+       aes(x=fec)
+       ) +
+  geom_histogram(colour="black", 
+                 fill="grey"
+                   ) +
+  theme_bw() +
+  xlab("Nombre d'oeufs/5g de fèces") +
+  ylab("Nombre de vache")
+```
+  
+**Réponse:** La distribution du compte d'oeufs est « skewed » comme le sont souvent les données de compte et d’incidence. 50% des observations ont un compte de zéro oeuf.  
+  
+2. Essayez d’abord de modéliser l’effet de *tx* (un traitement à l’Eprinomectin au vêlage) sur le compte d’oeuf (*fec*) en prenant en compte les facteurs confondants *lact*, *man_heif* et *man_lact* à l’aide d’une régression binomiale négative.  
+```{r}
+# Le modèle BN  
+library(MASS)
+modele_nb <- glm.nb(data=fec, 
+                    fec ~ tx + lact + man_heif + man_lact
+                    )
+summary(modele_nb)
+```
+
+  
+2.1. D’abord, est-ce que le paramètre de dispersion (i.e. le Theta) est statistiquement différent de zéro? Qu’est-ce que cela vous indique?   
+```{r}
+# Un modèle Poisson
+modele_p <- glm(data=fec,
+                fec ~ tx + lact + man_heif + man_lact, 
+                family="poisson"
+                )
+
+#Test de rapport de vraisemblance
+library(lmtest)
+lrtest(modele_p, 
+       modele_nb)
+```
+  
+**Réponse:** Oui le paramètre de dispersion est statistiquement différent de zéro puisque son IC 95% (0.203 +/- 1.96*0.008) n’inclus pas la valeur zéro. Un test de rapport de vraisemblance comparant des modèles Poisson et Binomial négatif arrive aux mêmes conclusions (P < 0.001). Cela indique que le modèle de régression Binomial négatif est préférable au modèle de Poisson (i.e. la variance n'égale pas la moyenne pour au moins un profil de prédicteurs).   
+  
+2.2. Est-ce que le modèle est adéquat pour vos données?  
+  
+```{r, message=FALSE, warning=FALSE}
+library(DHARMa)
+#Permet de générer des résiduels par simulation
+negbin_simulation <- simulateResiduals(fittedModel = modele_nb)
+
+#Permet de visualiser les résiduels vs les valeurs prédites.
+plotSimulatedResiduals(simulationOutput = negbin_simulation)
+
+#Permet de tester avec le Pearson chi-square test s'il y a surdispersion 
+testDispersion(negbin_simulation, 
+               type="PearsonChisq")
+```
+  
+**Réponse:**  Le test de $chi^2$ de Pearson indique que le modèle n’est pas adéquat pour les données (P < 0.05). Donc le modèle ne semble pas adéquat. Sur la figure, il semble y avoir 6 profils de prédicteurs problématiques (sur 12 profils potentiels).  
+  
+2.3. Vérifiez si un modèle zéros-enflé Binomial négatif (ZINB) serait préférable à un modèle Binomial négatif.  
+```{r}
+library(pscl)
+modele_zinb <- zeroinfl(data=fec,
+                        fec ~ tx + lact + man_heif + man_lact, 
+                        dist="negbin"
+                        )
+vuong(modele_nb, 
+      modele_zinb)
+```
+  
+**Réponse:** En appliquant le test de Vuong, on note que 2 des 3 tests statistiques réalisés suggèrent que le modèle ZINB est supérieur au NB.  
+  
+2.4. À l’aide de ce dernier modèle, expliquez l’effet du traitement à l’Eprinomectin sur le compte d’oeufs de parasite. 
+```{r}
+#Ayayaye! ;-)
+
+# LA PARTIE LOGISTIQUE
+# Extraire les coefficients et les erreurs types de la partie logistique (binomiale) du modèle dans une même table
+coefs_logi <- as.data.frame(summary(modele_zinb)$coefficients$zero[,1:2])
+names(coefs_logi)[2] = "SE"
+# Calculer les IC95
+coefs_logi$lower.ci <- coefs_logi$Estimate-1.96*coefs_logi$SE
+coefs_logi$upper.ci <- coefs_logi$Estimate+1.96*coefs_logi$SE
+#Ici on pourrait déjà renverser tous les coefficients et les CI
+
+# Mettre à l'exposant les coefficients
+OR <- exp(coefs_logi)
+# Retirer l'intercept (la 1ère rangée) et les erreurs-types
+OR <- OR[-c(1), ]
+OR <- subset(OR, select = -c(SE))
+
+
+# LA PARTIE COMPTE
+# Extraire les coefficients et les erreurs types de la partie Binomiale négative du modèle dans une même table
+coefs <- as.data.frame(summary(modele_zinb)$coefficients$count[,1:2])
+names(coefs)[2] = "SE"
+# Calculer les IC95
+coefs$lower.ci <- coefs$Estimate-1.96*coefs$SE
+coefs$upper.ci <- coefs$Estimate+1.96*coefs$SE
+# Mettre à l'exposant les coefficients
+IR <- exp(coefs)
+# Retirer l'intercept (la 1ère rangée), le paramètre de dispersion (la 6ième rangée) et les erreurs-types
+IR <- IR[-c(1, 5), ]
+IR <- subset(IR, 
+             select=-c(SE)
+             )
+
+
+#Finalement, on pourra demander à voir ces tables
+library(knitr)
+library(kableExtra)
+kable(round(OR, 
+            digits=2), 
+      caption="Partie logistique du modèle zéro-enflé Binomial négatif (ZINB).")%>%
+  kable_styling()
+kable(round(IR, 
+            digits=2), 
+      caption="Partie binomiale négative du modèle zéro-enflé Binomial négatif (ZINB).")%>%
+  kable_styling()
+```
+  
+**Réponse:** Les vaches traitées à l’Eprinomectin au vêlage avaient 1.24 (IC 95% : 0.60, 2.59) fois les odds de ne pas avoir d'oeufs de parasites dans leur fèces comparativement aux vaches non traitées et elles avaient 0.44 (IC 95% : 0.33, 0.58) fois le nombre d’oeufs  de parasites des vaches non-traitées. 
+  
+    
+Pour la question 3 du TP utilisez le fichier *daisy2.csv* (voir description VER p.809). 
+```{r}
+daisy2 <- read.csv(file="daisy2.csv", 
+                   header=TRUE, 
+                   sep=",")
+```
+  
+Ne sélectionnez que les 7 troupeaux avec *H7*=1 et n’utilisez que la 1ère lactation observée sur chaque vache (*study_lact*=1).  
+```{r}
+daisy2_mod<-subset(daisy2, h7==1)
+daisy2_mod<-subset(daisy2_mod, 
+                   study_lact==1)
+```
+  
+3. Dans cette étude on se demande si une rétention placentaire (*rp*) affecte la probabilité de conception à la première saillie (*fs*) après avoir contrôlé pour l’âge de la vache (*parity*). Les chercheurs désirent calculer la fraction attribuable dans la population (*AFp*).  
+  
+$AF_p = (P(E+)(RR-1))/(P(E+)(RR-1)+1))$
+
+3.1. Dans ce cas, est-ce que ce serait correct de remplacer le risque relatif dans l’équation précédente par un rapport de cotes estimé à l’aide d’un modèle de régression logistique?  
+```{r, message=FALSE, warning=FALSE}
+library(summarytools)
+print(dfSummary(daisy2_mod$fs), 
+      method='render')
+```
+  
+**Réponse:** 50% des observations ont *fs*=1. Il ne s’agit donc pas d’un événement rare (i.e. < 5%). Ce ne serait pas approprié d’utiliser une supposition qui n’est valide que si la maladie est rare.  
+  
+3.2. Quel serait le risque relatif de conception à la 1ère saillie et son IC 95% lorsque rétention placentaire est présent *vs.* absent et après ajustement pour l’âge de la vache?  
+```{r}
+modele_poisson <- glm(data=daisy2_mod,
+                      fs ~ rp + parity, 
+                      family="poisson")
+
+#On demande la variance robuste
+library(sandwich)
+rob_SE <-sqrt(diag(sandwich(modele_poisson)))
+
+#Pour faciliter la lecture, nous pourrions ajouter les erreurs-types robustes à mes coefficients dans une table
+tab_SE <- data.frame(cbind(Estimate=modele_poisson$coefficients, 
+                           robust_SE=rob_SE)
+                     )
+
+#Puis calculer les IC95
+tab_SE$lower.ci <- tab_SE$Estimate-1.96*tab_SE$robust_SE
+tab_SE$upper.ci <- tab_SE$Estimate+1.96*tab_SE$robust_SE
+
+#Enlever l'intercept, les SE et mettre tout à l'exposant pour avoir des RR 
+tab_SE <- tab_SE[-c(1), ]
+tab_SE <- exp(subset(tab_SE, 
+                     select=-c(robust_SE)
+                     )
+              )
+
+library(knitr)
+library(kableExtra)
+kable(round(tab_SE, 
+            digits=2), 
+      caption="Modèle de Poisson avec erreurs-types robustes pour estimer le risque relatif de conception à la 1ère saillie.")%>%
+  kable_styling()
+```
+  
+**Réponse:** Le risque de conception à la première saillie pour une vache qui a eu une rétention placentaire était 0.91 fois (IC 95% : 0.75, 1.09) celui d’une vache qui n'a pas eu de rétention placentaire. Ce n’est pas statistiquement significatif cependant. 
+  
+3.3. Quelle serait la fraction attribuable (*AFp*) dans la population due aux rétentions placentaires? Comment interprétez-vous ce résultat?  
+```{r, warning=FALSE, message=FALSE}
+#Vérifier prévalence de l'exposition (rp)
+library(summarytools)
+print(dfSummary(daisy2_mod$rp), 
+      method='render')
+
+#Calculer l'AFp
+afp <- 0.101*(0.91-1)/(0.101*(0.91-1)+1)
+afp
+```
+  
+**Réponse:** En supposant que la relation est causale, une réduction de 1% (i.e., -0.009) de la conception à la 1ère saillie serait due aux rétentions placentaires. 
+  
+3.4. Question bonus (i.e. vous aurez 2 banana-points supplémentaires si vous répondez correctement): Comment pourriez-vous obtenir un IC 95% pour l’*AFp*?  
+  
+**Réponse:** À l’aide du Bootstrap, on pourrait recréer un grand nombre de jeux de données et estimer le risque relatif et la prévalence de rétention placentaire dans chaque jeu de données. Ensuite, on calcule l’*AFp* de chaque jeu de données et on rapporte le percentile 2.5 et 97.5 de l’*AFp* comme IC 95%.   
+  
+
+
+    
+  
+  
