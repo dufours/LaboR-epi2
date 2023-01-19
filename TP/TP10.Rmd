@@ -1,0 +1,230 @@
+---
+title: "Épidémiologie 2 - Labo informatique R (PTM-6675)"
+author: "Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l'Université de Montréal)"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: Chapitre 10
+ 
+---
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+
+## Travaux pratiques 10 - Modèles linéaires mixtes  
+
+### Exercices
+Pour ce TP utilisez le fichier *SCC40_2level.csv* (voir description VER p.832).  
+  
+Ce jeu de données provient d’une étude observationnelle dont le but était d’évaluer l’effet de différentes caractéristiques des vaches (âge [*c_heifer*], taille du troupeau [*h_size*], saison [*t_season*], jours en lait [*t_dim*], mois de la lactation [*test*]) sur le CCS des vaches (*t_lnscc*, sur une base logarithmique). Une seule observation est disponible sur chacune des 2178 vaches de 40 troupeaux.
+  
+1. Représentez schématiquement la structure de ces données, indiquez à quel niveau chacun des prédicteurs se situe et le nombre moyen, minimum et maximum d’observations par groupe.  
+  
+2. Quelle proportion de la variation du logarithme naturel du comptage des cellules somatiques (*t_lnscc*) peut être expliquée par les caractéristiques des vaches *vs.* des troupeaux ?  
+  
+3. Quelle est la corrélation entre 2 vaches d’un même troupeau quant à leur mesure de log CCS ? Comment interprétez-vous cette mesure ?  
+  
+4. Question boni (valide pour 10 banana-points). Dans ce cas-ci, quel est l’effet du dessin d’étude sur la variance (i.e., elle augmente ou diminue et de combien) ?  
+  
+5. Quel est l’effet des jours en lait (*t_dim*) sur le log CCS (supposez que *t_dim* a une relation linéaire avec *t_lnscc*) ?  
+  
+6. Vous vous demandez si le fait d’être dans un troupeau de vaches « avancées » en lactation pourrait aussi avoir un effet sur le CCS individuel. En général, la prévalence d’infections est plus élevée chez les vaches en fin de lactation et une prévalence d’infection élevée dans un troupeau augmente, en théorie, le risque qu’une vache individuelle ait un CCS élevé.  
+  
+6.1. Comment nomme-t’on ce genre d’effet ?  
+  
+6.2. Dans ce cas-ci quel est l’effet d’être dans un troupeau avec un nombre moyen de jours en lait élevé *vs.* d’être une vache avec un nombre de jours en lait élevé ?  
+  
+7. Que pensez-vous des suppositions des résiduels (au niveau le plus bas) pour le modèle avec *t_dim* seulement ?  
+  
+
+    
+### Code R et réponses
+Pour ce TP utilisez le fichier *SCC40_2level.csv* (voir description VER p.832). 
+  
+```{r}
+#Nous importons le jeu de données
+scc40 <- read.csv(file="scc40_2level.csv", 
+                    header=TRUE, 
+                    sep=";"
+                    )
+#Nous indiquons les variables catégoriques dans le jeu de données
+scc40$herdid <- factor(scc40$herdid) 
+scc40$cowid <- factor(scc40$cowid)
+scc40$c_heifer <- factor(scc40$c_heifer)
+scc40$t_season <- factor(scc40$t_season)
+
+```
+
+  
+Ce jeu de données provient d’une étude observationnelle dont le but était d’évaluer l’effet de différentes caractéristiques des vaches (âge [*c_heifer*], taille du troupeau [*h_size*], saison [*t_season*], jours en lait [*t_dim*], mois de la lactation [*test*]) sur le CCS des vaches (*t_lnscc*, sur une base logarithmique). Une seule observation est disponible sur chacune des 2178 vaches de 40 troupeaux.
+  
+1. Représentez schématiquement la structure de ces données, indiquez à quel niveau chacun des prédicteurs se situe et le nombre moyen, minimum et maximum d’observations par groupe.  
+  
+**Réponse:** Il y a simplement 2 niveaux, un niveau vache imbriqué dans un niveau troupeau. Les variables *t_lnscc* (la variable dépendante) et les variables *test*, *c_heifer*, *t_season* et *t_dim* sont au niveau vache, la variable *h_size* est une variable de niveau troupeau.  
+
+```{r}
+#Nombre total de vachess
+dimension <- dim(scc40)
+total <- dimension[1]
+
+#Nombre moyen et étendue des vaches par troupeau
+#Créer un jeu de données "troupeau" où les vachess ont été compilées par troupeau 
+library(dplyr)
+troupeau <- scc40 %>%
+  count(herdid)
+#Dans ce jeu de données, la variable n représente le nombre de vaches suivies par troupeau. Nous pouvons donc obtenir la moyenne et l'étendue (minimum et maximum)
+dimension <- dim(troupeau)
+nb_troupeau <- dimension[1]
+mean_vache <- round(mean(troupeau$n),
+                   digits=1
+                   )
+min_vache <- min(troupeau$n)
+max_vache <- max(troupeau$n)
+
+#Il ne reste plus qu'à assembler toutes ces informations dans une table
+ligne_titre <- c("Niveau", "Nombre d'unités", "Nombre moyen/niveau supérieur", "Minimum/niveau supérieur", "maximum/niveau supérieur")
+ligne_vache <- c("Vaches", total, mean_vache, min_vache, max_vache)  
+ligne_troupeau <- c("Troupeau", nb_troupeau, " ", " ", " ") 
+
+Structure <- data.frame(rbind(ligne_titre, 
+                              ligne_troupeau, 
+                              ligne_vache)
+                        )
+rownames(Structure) <- NULL
+colnames(Structure) <- NULL
+
+library(knitr)
+library(kableExtra)
+kable(Structure, 
+      caption="Structure des données scc40_2level.csv",
+      align = "lccc")%>%
+  kable_styling()
+```
+    
+2. Quelle proportion de la variation du logarithme naturel du comptage des cellules somatiques (*t_lnscc*) peut être expliquée par les caractéristiques des vaches *vs.* des troupeaux ?  
+  
+```{r, message=FALSE, warning=FALSE}
+#Avec un modèle sans aucun prédicteurs, nous pourrons obtenir les variances vache et troupeau
+library(nlme)
+model <- lme(data=scc40,
+             t_lnscc ~ 1 ,
+             random = ~ 1 | herdid)
+vc <- VarCorr(model)
+vc
+
+```
+```{r, message=FALSE, warning=FALSE}
+#Nous pourrions calculer directement dans R
+options(scipen=999)   #Cet argument nous permet d'éviter la notation scientifique
+var.herd <- round(as.numeric(vc[1, 1:1]),
+                    digits=4)
+var.cow <- round(as.numeric(vc[2, 1:1]),
+                    digits=4)
+
+var.tot <- var.herd + var.cow 
+prop.herd <- round(var.herd/var.tot*100, 
+                   digits=1
+                   )
+prop.cow <- round(var.cow/var.tot*100, 
+                   digits=1
+                   )
+```
+
+  
+**Réponse:** La variance au niveau vache était `r var.cow`, celle au niveau troupeau était `r var.herd` et la variance totale est donc `r var.tot`. Les caractéristiques des vaches (e.g., âge, statut infectieux, jours en lait, génétique) expliquent `r prop.cow`% de la variation du log CCS, alors que les caractéristiques des troupeaux (e.g., logement, alimentation, éleveur) expliquent `r prop.herd`% de la variation du log CCS.  
+  
+3. Quelle est la corrélation entre 2 vaches d’un même troupeau quant à leur mesure de log CCS ? Comment interprétez-vous cette mesure ?  
+  
+```{r}
+#Encore une fois, nous pourrions effectuer le calcul à l'aide de R
+icc.vache <- round((var.herd)/var.tot,
+                    digits=3)
+icc.vache
+```
+  
+**Réponse:** L'$ICC_{troupeau}$ était de `r icc.vache`. Il y a une certaine corrélation entre les mesures de log CCS de vaches de même troupeau (i.e., les vaches ont tendance à avoir des log CCS similaires lorsqu’elles viennent d’un même troupeau), mais cette corrélation est tout de même faible.
+  
+4. Question boni (valide pour 10 banana-points). Dans ce cas-ci, quel est l’effet du dessin d’étude sur la variance (i.e., elle augmente ou diminue et de combien) ?  
+  
+**Réponse:** Nous pourrions calculer le "design effect".  
+$$deff = (1+(m-1)*\rho)$$  
+$$deff = (1+(54.5-1)*0.079) = 5.23$$  
+  
+La variance est 5.23 fois plus grande à cause de l’agrégation des observations qu’elle ne le serait si les observations étaient indépendantes.  
+  
+5. Quel est l’effet des jours en lait (*t_dim*) sur le log CCS (supposez que *t_dim* a une relation linéaire avec *t_lnscc*) ?  
+  
+```{r}
+library(nlme)
+model <- lme(data=scc40,
+             t_lnscc ~ t_dim ,
+             random = ~ 1 | herdid)
+summary(model)
+```
+**Réponse:** Le log CCS augmente de `r round(model$coefficients$fixed[2], digits=3)` lorsque jours en lait augmente de 1.  
+  
+6. Vous vous demandez si le fait d’être dans un troupeau de vaches « avancées » en lactation pourrait aussi avoir un effet sur le CCS individuel. En général, la prévalence d’infections est plus élevée chez les vaches en fin de lactation et une prévalence d’infection élevée dans un troupeau augmente, en théorie, le risque qu’une vache individuelle ait un CCS élevé.  
+  
+6.1. Comment nomme-t’on ce genre d’effet ?  
+  
+**Réponse:** Un effet contextuel.  
+  
+6.2. Dans ce cas-ci quel est l’effet d’être dans un troupeau avec un nombre moyen de jours en lait élevé *vs.* d’être une vache avec un nombre de jours en lait élevé ?  
+  
+```{r}
+#Centrons la variable t_dim sur sa moyenne
+scc40$t_dim_ct <- scc40$t_dim - mean(scc40$t_dim)
+
+#Nous générons un nouveau jeu de données (herddata) qui contiendra le t_dim moyen de chaque troupeau (nous avons nommé cette nouvelle variable t_dim.herd).
+library(dplyr)
+herddata <- scc40 %>%
+  group_by(herdid) %>%
+  summarise(t_dim.herd = mean(t_dim_ct, na.rm = TRUE))
+
+#Réunir ces valeurs dans le jeu de données original
+scc40_2 <- merge(scc40,
+                    herddata,
+                    by="herdid"
+                    )
+#Modéliser l'effet d'être dans un troupeau avec un nombre de jours en lait moyen élevé
+library(nlme)
+model <- lme(data=scc40_2,
+             t_lnscc ~ t_dim_ct + t_dim.herd,
+             random = ~ 1 | herdid)
+summary(model)
+```
+  
+**Réponse:** Lorsque le nombre de jours en lait moyen du troupeau augmente de 1, le log CCS de la vache augmente de `r round(model$coefficients$fixed[3], digits=3)`. Au niveau individuel, lorsque le nombre de jours en lait d’une vache augmente de 1, son log CCS augmente de `r round(model$coefficients$fixed[2], digits=3)`. Dans ce cas, l’effet contextuel n’est pas significatif, ce ne serait donc pas nécessaire de le conserver dans le modèle. L’effet individuel, cependant est significatif.  
+  
+7. Que pensez-vous des suppositions des résiduels (au niveau le plus bas) pour le modèle avec *t_dim* seulement ?  
+  
+```{r, message=FALSE, warning=FALSE, fig.cap="Graphique des résiduels x valeurs prédites."}
+library(nlme)
+model <- lme(data=scc40,
+             t_lnscc ~ t_dim ,
+             random = ~ 1 | herdid)
+plot(model, 
+    residuals(.) ~ fitted(.), #Nous demandons la figure des résiduels en y par les valeurs prédites en x
+     xlab="Valeurs prédites",
+     ylab="Résiduels"
+     )
+
+
+```
+  
+```{r, fig.cap="Graphique Q-Q des résiduels."}
+qqnorm(resid(model))
+qqline(resid(model))
+```
+  
+**Réponse:** Normalité et homoscédasticité des résiduels semblent respectées (i.e., pas vraiment d’augmentation de la variance des résiduels en fonction des valeurs prédites).  
+  

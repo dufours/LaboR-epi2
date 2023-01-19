@@ -536,11 +536,11 @@ kable(round(tab_SE, digits=2),
 Le risque relatif (RR) de Nocardiose dans les troupeaux utilisant la néomycine (*vs.* ceux qui ne l'utilisaient pas) était est donc de 3.56 (IC95: 1.55, 8.14).  
   
   
-```{r child="TP6.Rmd"}
+```{r child="TP/TP6.Rmd"}
 #To add the following chapter
 ```
   
   
-```{r child="TP7.Rmd"}
+```{r child="TP/TP7.Rmd"}
 #To add the following chapter
 ```

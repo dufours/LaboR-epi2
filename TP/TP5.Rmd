@@ -1,0 +1,156 @@
+---
+title: "Épidémiologie 2 - Labo informatique R (PTM-6675)"
+author: "Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l'Université de Montréal)"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: Chapitre 7
+ 
+---
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+
+## Travaux pratiques 5 - Régression logistique - Évaluation du modèle
+
+### Exercices
+Pour ce TP utilisez le fichier Nocardia (voir description VER p.823).   
+  
+Utilisez le modèle suivant: $logit(Pcasecont=1) = β_0 + β_1*dneo + β_2*dclox + β_3*dneo*dclox + β_4*dcpct$
+  
+1. Lorsqu’une interaction est présente, il devient difficile de présenter clairement vos résultats. À l’aide de la fonction `pairs()` du package `emmeans` vous seriez cependant capable de créer une table comme proposée dans Knol et VanderWeele (2012) [^5]. Une autre manière consisterait à présenter l’effet de vos prédicteurs graphiquement sur une échelle de probabilité. Présentez ce graphique. Quel groupe de troupeaux se démarque particulièrement des autres en terme de probabilité de nocardiose?
+  
+[^5]: [Recommendations for presenting analyses of effect modification and interaction. M. J. Knol and T. J. VanderWeele, Int J Epidemiol 2012 Vol. 41 Issue 2 Pages 514-20](https://pubmed.ncbi.nlm.nih.gov/22253321/)    
+  
+2. Évaluez l’adéquation du modèle. Quels sont les résultats et votre interprétation du test de Hosmer-Lemeshow?  
+  
+3. La valeur prédictive d’un modèle peut également être évaluée à l’aide d’une courbe ROC. Représenter graphiquement la courbe ROC. Quelle est l’aire sous la courbe pour votre modèle ? Quelles seraient la sensibilité et la spécificité de votre modèle si on fixe un seuil de 50% (i.e. si modèle prédit probabilité de nocardiose > 50% alors on diagnostique le troupeau comme nocardia positif)? 
+  
+4. Quel est le profil d’observation avec le résiduel de Pearson le plus élevé? Combien y-a-t-il d’observations dans ce profil?
+  
+5. Quel profil d’observation avait le plus d’influence sur le coefficient de régression de *dcpct*? Pourquoi à votre opinion?
+   
+
+### Code R et réponses
+Pour ce TP utilisez le fichier Nocardia (voir description VER p.823).   
+```{r}
+#Nous importons ce jeu de données
+nocardia <-read.csv(file="nocardia.csv", 
+                    header=TRUE, 
+                    sep=";"
+                    )
+head(nocardia)
+#Nous indiquons les variables catégoriques dans le jeu de données
+nocardia$dbarn <- factor(nocardia$dbarn) 
+nocardia$dneo <- factor(nocardia$dneo) 
+nocardia$dclox <- factor(nocardia$dclox) 
+nocardia$casecont <- factor(nocardia$casecont) 
+```
+  
+Utilisez le modèle suivant: $logit(Pcasecont=1) = β_0 + β_1*dneo + β_2*dclox + β_3*dneo*dclox + β_4*dcpct$
+```{r}
+modele <- glm(data = nocardia, 
+              casecont ~ dneo*dclox + dcpct, 
+              family = binomial
+              )
+```
+
+  
+1. Lorsqu’une interaction est présente, il devient difficile de présenter clairement vos résultats. À l’aide de la fonction `pairs()` du package `emmeans` vous seriez cependant capable de créer une table comme proposée dans Knol et VanderWeele (2012). Une autre manière consisterait à présenter l’effet de vos prédicteurs graphiquement sur une échelle de probabilité. Présentez ce graphique. Quel groupe de troupeaux se démarque particulièrement des autres en terme de probabilité de nocardiose?
+  
+```{r, fig.cap="Effet sur la probabilité de nocardia de l'utilisation de la neomycine et du % de vache traitées au tarissement par niveau d'utilisation de la cloxacilline."}
+library(sjPlot)
+plot_model(modele, 
+           type="eff", 
+           terms=c("dcpct", 
+                   "dneo", 
+                   "dclox")
+           )
+```
+  
+**Réponse:** Les troupeaux utilisant seulement la néomycine (sans cloxacilline) semblent avoir une probabilité beaucoup
+plus élevée de nocardiose.  
+  
+2. Évaluez l’adéquation du modèle. Quels sont les résultats et votre interprétation du test de Hosmer-Lemeshow?  
+  
+**Réponse:**    
+```{r, message=FALSE, warning=FALSE}
+library(ResourceSelection)
+hoslem.test(modele$y, 
+            fitted(modele), 
+            g=8
+            )
+
+```
+  
+Interprétation: Le modèle est adéquat (*P*=0.96).  
+  
+3. La valeur prédictive d’un modèle peut également être évaluée à l’aide d’une courbe ROC. Représenter graphiquement la courbe ROC. Quelle est l’aire sous la courbe pour votre modèle ? Quelles seraient la sensibilité et la spécificité de votre modèle si on fixe un seuil de 50% (i.e. si modèle prédit probabilité de nocardiose > 50% alors on diagnostique le troupeau comme nocardia positif)? 
+  
+```{r, fig.cap="Courbe ROC.", message=FALSE, warning=FALSE}
+library(broom)
+diag <- augment(modele) #Nous venons de créer une nouvelle table dans laquelle les résiduels, distance de cook, etc se trouvent maintenant
+
+#Nous ajoutons les valeurs prédites de l'objet modele
+diag$pred_prob <- modele$fitted.values
+
+#Nous génèrons l'objet ROC.
+library(pROC)
+roc_data <- roc(data=diag, 
+                response="casecont", 
+                predictor="pred_prob"
+                )
+
+#Puis la courbe ROC
+plot.roc(roc_data, 
+         print.auc = TRUE, 
+         grid = TRUE)
+```
+  
+**Réponse:** L’aire sous la courbe est 0.850. Avec une table, ce sera facile de trouver les Se et Sp pour différents seuils. 
+  
+```{r, message=FALSE, warning=FALSE}
+#Présenter les sensibilités et spécificités des différents seuils dans une même table.
+accu <- as.data.frame(round(cbind(Seuil=roc_data$thresholds, 
+                    Se=roc_data$sensitivities, 
+                    Sp=roc_data$specificities), 
+              digits=2))
+
+#Voir la table
+library(knitr)
+library(kableExtra)
+kable(accu,  
+      caption="Sensibilité et spécificité du modèle pour différents seuils de probabilité prédite.")%>%
+  kable_styling()
+```
+   
+**Réponse:** On note des Se et Sp de 0.76 et 0.83, respectivement lorsqu'on fixe le seuil de probabilité à >0.50 (en fait 0.51 et plus).
+  
+4. Quel est le profil d’observations avec le résiduel de Pearson le plus élevé? Combien y-a-t-il d’observations dans ce profil?
+```{r}
+#Nous pourrions maintenant ordonner cette table pour voir les 10 observations avec les résiduels les plus larges
+diag_maxres <- diag[order(-diag$.resid),]
+head(diag_maxres, 10)
+```
+  
+**Réponse:** Le modèle prédit une probabilité de moins de 3% de nocardiose dans un troupeau qui n’utilise ni neomycine, ni cloxacilline et où 10% des vaches sont traitées au tarissement. Il y a une seule observation dans ce profil et il s’agit d’un troupeau positif à nocardia (d’où le résiduel très large).  
+  
+5. Quel profil d’observations avait le plus d’influence sur le coefficient de régression de *dcpct*? Pourquoi à votre opinion?  
+  
+```{r}
+#Nous pourrions maintenant ordonner cette table pour voir les 10 observations avec les leviers les plus larges
+diag_cook <- diag[order(-diag$.cooksd),]
+head(diag_cook, 10)
+```
+  
+**Réponse:** C'est le même profil identifié à la question 5. En général, une augmentation de dcpct entraine une augmentation de la probabilité de nocardia, mais cette observation à un dcpct bas (10% ; le 15ième plus bas du jeu de donnée), mais le troupeau était tout de même un troupeau cas. Ce profil tire donc la droite de régression vers lui (et modifie donc le coefficient de régression).
+  

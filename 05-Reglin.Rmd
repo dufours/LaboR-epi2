@@ -304,16 +304,16 @@ ggplot(diag,
 Dans ce cas, on voit que seulement les vaches avec un WPC long (> 250j) ont des résiduels larges (i.e. > 3.0 ou < -3.0). Le modèle semble donc avoir de la difficulté à bien prédire ces observations.
   
   
-```{r child="TP1.Rmd"}
+```{r child="TP/TP1.Rmd"}
 #To add the following chapter
 ```
 
 
-```{r child="TP2.Rmd"}
+```{r child="TP/TP2.Rmd"}
 #To add the following chapter
 ```
   
   
-```{r child="TP3.Rmd"}
+```{r child="TP/TP3.Rmd"}
 #To add the following chapter
 ```

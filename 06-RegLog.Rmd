@@ -351,11 +351,11 @@ ggplot(accu,
 ```
   
   
-```{r child="TP4.Rmd"}
+```{r child="TP/TP4.Rmd"}
 #To add the following chapter
 ```
   
   
-```{r child="TP5.Rmd"}
+```{r child="TP/TP5.Rmd"}
 #To add the following chapter
 ```

@@ -1,0 +1,233 @@
+---
+title: "Épidémiologie 2 - Labo informatique R (PTM-6675)"
+author: "Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l'Université de Montréal)"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: Chapitre 9
+ 
+---
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+
+## Travaux pratiques 8 - Analyses de survie non-paramétriques 
+
+### Exercices
+Pour ce TP utilisez le fichier *pgtrial.csv* (voir description VER p.824). 
+Cette étude est un essai clinique randomisé sur l’effet de l’administration d’une dose de prostaglandine *vs.* d’un placebo (la variable *tx*; 0=placebo, 1=prostaglandines) au début de la période de reproduction sur le nombre de jours (la variable *dar*) jusqu’à la conception (la variable *preg*, 0=censure, 1=gestation). L’hypothèse était que l’administration de prostaglandine réduirait le nombre de jours jusqu’à la conception. Les 319 vaches de cette étude étaient suivies jusqu’à un maximum de 346 jours en lait. Trois autres prédicteurs étaient aussi évalués : la parité (*lact*; 1, 2, 3…), l’état de chair (*thin*; 0=normal, 1=maigre) et le troupeau d'appartenance (*herd*; 3 troupeaux).  
+  
+1. Combien des 319 vaches ont réussi à concevoir et combien étaient toujours non-gestante (i.e. observations censurées) à la fin de la période de suivi?  
+  
+2. Il y a donc passablement d’observations censurées dans ce jeu de données, une analyse de survie serait donc appropriée. Produisez la table et le graphique de survie de Kaplan-Meier.  
+  
+2.1. Quelle proportion et quel nombre de vaches avaient « survécu » (i.e. n’avait pas eu de conception) à 5 jours suivant l’administration des traitements? Notez que, suite à l’administration de prostaglandines, une chaleur est souvent induite dans les 2-5 jours, suivant l’injection.  
+
+2.2. Quel était le temps médian jusqu’à la conception et quel était son *IC95%*?  
+   
+3. Comparez maintenant les fonctions de survie des vaches ayant reçu la prostaglandine *vs.* le placebo.  
+  
+3.1. Visuellement que notez-vous lorsque vous comparez les fonctions de survie de ces deux groupes de vaches?  
+  
+3.2. Quelles étaient les proportions de vaches gestantes dans les groupes prostaglandines *vs.* placebo aux jours 5, 26 et 100?  
+  
+3.3. Les fonctions de survie des deux groupes de traitement sont-elles statistiquement différentes?  
+  
+3.4. Comme la conception est, en général, un événement positif, les chercheurs trouveraient plus approprié de présenter la fonction d’échec plutôt que la fonction de survie dans leur article. Représentez les fonctions d’échec des groupes prostaglandines et placebo avec leurs *IC95%*. Que représente maintenant l’axe des Y?  
+  
+3.5. Lorsque vous comparez l’*IC95%* de la fonction d’échec de Kaplan-Meier du groupe prostaglandines à la fonction d’échec du groupe placebo. Arrivez-vous aux mêmes conclusions que celles obtenues à l’aide des tests de Wilcoxon et Log-rank?  
+  
+3.6. Comparez finalement les fonctions de survie (ou d’échec) entre les groupes de traitement, mais par troupeau d’appartenance.  
+  
+    
+      
+### Code R et réponses
+Pour ce TP utilisez le fichier *pgtrial.csv* (voir description VER p.824). 
+Cette étude est un essai clinique randomisé sur l’effet de l’administration d’une dose de prostaglandine *vs.* d’un placebo (la variable *tx*; 0=placebo, 1=prostaglandines) au début de la période de reproduction sur le nombre de jours (la variable *dar*) jusqu’à la conception (la variable *preg*, 0=censure, 1=gestation). L’hypothèse était que l’administration de prostaglandine réduirait le nombre de jours jusqu’à la conception. Les 319 vaches de cette étude étaient suivies jusqu’à un maximum de 346 jours en lait. Trois autres prédicteurs étaient aussi évalués : la parité (*lact*; 1, 2, 3…), l’état de chair (*thin*; 0=normal, 1=maigre) et le troupeau d'appartenance (*herd*; 3 troupeaux).  
+```{r}
+#On importe la base de données
+pgtrial <-read.csv(file="pgtrial.csv", 
+                   header=TRUE, 
+                   sep=";"
+                   )
+
+#On indique les variables catégoriques du jeu de données
+pgtrial$thin <- factor(pgtrial$thin) 
+pgtrial$tx <- factor(pgtrial$tx) 
+pgtrial$herd <- factor(pgtrial$herd) 
+```
+
+1. Combien des 319 vaches ont réussi à concevoir et combien étaient toujours non-gestante (i.e. observations censurées) à la fin de la période de suivi?  
+```{r, warning=FALSE, message=FALSE}
+library(summarytools)
+print(dfSummary(pgtrial$preg), 
+      method='render'
+      )
+```
+  
+**Réponse:** À la fin de la période de suivi, 264 vaches (83%) étaient gestantes et 55 étaient non-gestantes (17%).  
+  
+2. Il y a donc passablement d’observations censurées dans ce jeu de données, une analyse de survie serait donc appropriée. Produisez la table et le graphique de survie de Kaplan-Meier.  
+```{r, fig.cap="Courbe de survie de Kaplan-Meier."}
+library(survival)
+
+#Produire la table de Kaplan-Meier
+km_fit <- survfit(data=pgtrial,
+                  Surv(dar, preg) ~ 1
+                  )
+#summary(km_fit)   #La fonction summary() permet de visualiser la table de Kaplan-Meier. Celle-ci est très longue (160 lignes) nous laissons donc en "commentaire" afin de ne pas surcharger ce document.
+
+#Produire la courbe de survie
+library(survminer)
+survie <- ggsurvplot(km_fit, 
+                     conf.int = TRUE
+                     )
+survie$plot +
+  theme_bw()
+```
+  
+2.1. Quelle proportion et quel nombre de vaches avaient « survécu » (i.e. n’avait pas eu de conception) à 5 jours suivant l’administration des traitements? Notez que, suite à l’administration de prostaglandines, une chaleur est souvent induite dans les 2-5 jours, suivant l’injection.  
+```{r}
+summary(survfit(data=pgtrial,
+                Surv(dar, preg) ~ 1
+                ), 
+        times = 5
+        )
+```
+
+**Réponse:** 86.8% (*IC95*: 83.2, 90.6) des vaches n’avaient pas encore eu une conception au jour 5.  
+  
+2.2. Quel était le temps médian jusqu’à la conception et quel était son *IC95%*?  
+```{r}
+library(survival)
+#Le temps médian de survie
+survfit(data=pgtrial,
+        Surv(dar, preg) ~ 1
+        )
+```
+
+**Réponse:** Le temps médian jusqu’à la conception était 68 jours (*IC95*: 55 à 77 jours).   
+   
+3. Comparez maintenant les fonctions de survie des vaches ayant reçu la prostaglandine *vs.* le placebo. 
+```{r, fig.cap="Courbes de survie de Kaplan-Meier pour la variable traitement."}
+library(survival)
+
+survfit(data=pgtrial,
+        Surv(dar, preg) ~ tx
+        )
+
+km_fit_pg <- survfit(data=pgtrial,
+                     Surv(dar, preg) ~ tx
+                     )
+
+library(survminer)
+ggsurvplot(km_fit_pg, 
+           conf.int = TRUE
+           )
+
+```
+
+  
+3.1. Visuellement que notez-vous lorsque vous comparez les fonctions de survie de ces deux groupes de vaches?  
+**Réponse:**  On note que les fonctions diffèrent passablement très tôt suite au traitement. Par la suite, les fonctions deviennent de plus en plus similaires et sont assez équivalentes à partir du jour 75, environ.  
+  
+3.2. Quelles étaient les proportions de vaches gestantes dans les groupes prostaglandines *vs.* placebo aux jours 5, 26 et 100?  
+```{r}
+summary(survfit(data=pgtrial,
+                Surv(dar, preg) ~ tx
+                ), 
+        times = c(5, 26, 100)
+        )
+```
+  
+**Réponse:** la proportion de vaches gestantes serait l'inverse de la probabilité de survie. Donc:  
+- À 5 jours: placebo 2.4% (*IC95*: 0, 4.7), prostaglandine 25.2% (*IC95*: 17.9, 31.8)  
+- À 26 jours: placebo 25.1% (*IC95*: 18.3, 31.4), prostaglandine 31.3% (*IC95*: 23.4, 38.3)  
+- À 100 jours: placebo 64.0% (*IC95*: 55.8, 70.8), prostaglandine 67.4% (*IC95*: 58.5, 74.3)  
+   
+3.3. Les fonctions de survie des deux groupes de traitement sont-elles statistiquement différentes? 
+```{r}
+library(survival)
+survdiff(data=pgtrial,
+         Surv(dar, preg) ~ tx,  
+         rho=0
+         )
+survdiff(data=pgtrial,
+         Surv(dar, preg) ~ tx,  
+         rho=1
+         )
+```
+  
+**Réponse:** Le test de Wilcoxon indique que les fonctions de survie sont différentes (*P* = 0.05), mais le test de Log-rank indique qu’elles ne sont pas différentes (*P* = 0.20). Les résultats sont mitigés parce que dans ce cas, les différences étaient surtout observées dans les premiers jours suivant le traitement (ce que le test de Wilcoxon a retenu). En fait, nos connaissances en physiologie de la reproduction supporteraient un effet important des prostaglandines dans les 2-5 jours suivants l’injection. Par la suite, il serait surprenant de voir un quelconque effet positif.  
+  
+Le test de Log-rank assigne le même poids à tous les points dans le temps. Pour ce test, les différences entre groupes aux jours 100, 150 ou même 200 sont donc aussi importantes que les différences au jour 5. Le test de Wilcoxon, par contre, donnera plus de poids aux premières périodes de temps lorsque la taille d’échantillon est encore large. 
+  
+3.4. Comme la conception est, en général, un événement positif, les chercheurs trouveraient plus approprié de présenter la fonction d’échec plutôt que la fonction de survie dans leur article. Représentez les fonctions d’échec des groupes prostaglandines et placebo avec leurs *IC95%*. Que représente maintenant l’axe des Y?  
+```{r, fig.cap="Courbes d'échec de Kaplan-Meier pour la variable traitement."}
+library(survminer)
+ggsurvplot(km_fit_pg, 
+           conf.int = TRUE, 
+           fun = "event"
+           )
+```
+  
+**Réponse:** L’axe des Y représente maintenant la probabilité de conception (plutôt que la probabilité de non-conception).  
+  
+3.5. Lorsque vous comparez l’*IC95%* de la fonction d’échec de Kaplan-Meier du groupe prostaglandines à la fonction d’échec du groupe placebo. Arrivez-vous aux mêmes conclusions que celles obtenues à l’aide des tests de Wilcoxon et Log-rank?  
+  
+**Réponse:** Oui, on voit que c’est en début de suivi que l’*IC95* du groupe prostaglandines n’inclus pas la fonction d’échec du groupe placebo. À partir du jour 25 environ l’*IC95* d’un groupe de traitement semble inclure la fonction de survie de l’autre, mais c’est encore plus clair à partir du jour 60 (approximativement). Nous avons ajouté des lignes de référence à 25 et 60 jours dans la figure plus bas afin d'illustrer ces observations.
+```{r, fig.cap="Courbes d'échec de Kaplan-Meier pour la variable traitement."}
+library(survminer)
+ggsurv <- ggsurvplot(km_fit_pg, 
+                     conf.int = TRUE, 
+                     fun = "event"
+                     )
+
+ggsurv$plot +
+  geom_vline(xintercept = 25, 
+             linetype=2) +
+  geom_vline(xintercept = 60, 
+             linetype=2)
+```
+   
+3.6. Comparez finalement les fonctions de survie (ou d’échec) entre les groupes de traitement, mais par troupeau d’appartenance.
+```{r, fig.cap="Courbes d'échec de Kaplan-Meier pour la variable traitement, par troupeau (1, 2 ou 3)."}
+library(survival)
+
+survfit(data=pgtrial,
+        Surv(dar, preg) ~ tx + herd
+        )
+
+km_fit_pg <- survfit(data=pgtrial,
+                     Surv(dar, preg) ~ tx + herd
+                     )
+survdiff(data=pgtrial,
+         Surv(dar, preg) ~ tx + herd, 
+         rho=0
+         )
+survdiff(data=pgtrial,
+         Surv(dar, preg) ~ tx + herd, 
+         rho=1)
+
+ggsurv <- ggsurvplot(km_fit_pg, 
+                     conf.int = TRUE, 
+                     fun="event"
+                     )
+   
+ggsurv$plot + 
+  theme_bw() + 
+  theme (legend.position = "right") +
+  facet_grid( ~ herd)
+```
+  
+**Réponse:** Le log-rank est significatif (*P*=0.02). Mais on ne peut rapporter l'effet du traitement séparément de l'effet du troupeau. C'est plutôt un test de l'ensemble des catégories de traitement*troupeau. On voit que les analyses non-paramétriques sont donc assez limitées pour modéliser l’effet de 2 prédicteurs (même catégoriques).
+  
