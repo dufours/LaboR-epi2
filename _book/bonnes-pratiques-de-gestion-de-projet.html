@@ -5,26 +5,25 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapitre 2 Bonnes pratiques de gestion de projet | Épidémiologie 2 - Labo informatique R (PTM-6675)</title>
-  <meta name="description" content="Chapitre 4" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="description" content="Chapitre 10" />
+  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapitre 2 Bonnes pratiques de gestion de projet | Épidémiologie 2 - Labo informatique R (PTM-6675)" />
   <meta property="og:type" content="book" />
   
-  
-  <meta property="og:description" content="Chapitre 4" />
+  <meta property="og:description" content="Chapitre 10" />
   
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapitre 2 Bonnes pratiques de gestion de projet | Épidémiologie 2 - Labo informatique R (PTM-6675)" />
   
-  <meta name="twitter:description" content="Chapitre 4" />
+  <meta name="twitter:description" content="Chapitre 10" />
   
 
 <meta name="author" content="Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l’Université de Montréal)" />
 
 
-<meta name="date" content="2021-04-26" />
+<meta name="date" content="2023-01-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +32,8 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="obtention-des-données-pour-les-travaux-pratiques.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,8 +49,77 @@
 
 
 
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -70,14 +138,18 @@
 <li><a href="./">Épidémiologie 2 - Labo informatique R (PTM-6675)</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> À propos</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> À propos</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#spécificités-de-r"><i class="fa fa-check"></i><b>1.1</b> Spécificités de R</a></li>
+</ul></li>
 <li class="chapter" data-level="2" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html"><i class="fa fa-check"></i><b>2</b> Bonnes pratiques de gestion de projet</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#organiser-son-projet-de-recherche"><i class="fa fa-check"></i><b>2.1</b> Organiser son projet de recherche</a></li>
 <li class="chapter" data-level="2.2" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#où-sauvegarder-son-projet"><i class="fa fa-check"></i><b>2.2</b> Où sauvegarder son projet</a></li>
 <li class="chapter" data-level="2.3" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#où-sauvegarder-ses-données"><i class="fa fa-check"></i><b>2.3</b> Où sauvegarder ses données</a></li>
 <li class="chapter" data-level="2.4" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#scripts-danalyse"><i class="fa fa-check"></i><b>2.4</b> Scripts d’analyse</a></li>
-<li class="chapter" data-level="2.5" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#copies-de-sécurité"><i class="fa fa-check"></i><b>2.5</b> Copies de sécurité</a></li>
+<li class="chapter" data-level="2.5" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#les-projets-r"><i class="fa fa-check"></i><b>2.5</b> Les projets R</a></li>
+<li class="chapter" data-level="2.6" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#copies-de-sécurité"><i class="fa fa-check"></i><b>2.6</b> Copies de sécurité</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="obtention-des-données-pour-les-travaux-pratiques.html"><a href="obtention-des-données-pour-les-travaux-pratiques.html"><i class="fa fa-check"></i><b>3</b> Obtention des données pour les travaux pratiques</a></li>
 <li class="chapter" data-level="4" data-path="aide-de-r.html"><a href="aide-de-r.html"><i class="fa fa-check"></i><b>4</b> Aide de R</a></li>
@@ -91,12 +163,13 @@
 <li class="chapter" data-level="6.5" data-path="régression-linéaire.html"><a href="régression-linéaire.html#choisir-la-valeur-de-référence-pour-une-variable-catégorique"><i class="fa fa-check"></i><b>6.5</b> Choisir la valeur de référence pour une variable catégorique</a></li>
 <li class="chapter" data-level="6.6" data-path="régression-linéaire.html"><a href="régression-linéaire.html#comparer-les-niveaux-dun-prédicteur-catégorique-avec-2-catégories"><i class="fa fa-check"></i><b>6.6</b> Comparer les niveaux d’un prédicteur catégorique avec &gt;2 catégories</a></li>
 <li class="chapter" data-level="6.7" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluer-une-interaction-entre-2-variables"><i class="fa fa-check"></i><b>6.7</b> Évaluer une interaction entre 2 variables</a></li>
-<li class="chapter" data-level="6.8" data-path="régression-linéaire.html"><a href="régression-linéaire.html#tol-et-vif---évaluer-colinéarité"><i class="fa fa-check"></i><b>6.8</b> TOL et VIF - Évaluer colinéarité</a></li>
+<li class="chapter" data-level="6.8" data-path="régression-linéaire.html"><a href="régression-linéaire.html#tol-et-vif---évaluer-la-colinéarité"><i class="fa fa-check"></i><b>6.8</b> TOL et VIF - Évaluer la colinéarité</a></li>
 <li class="chapter" data-level="6.9" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluation-du-modèle"><i class="fa fa-check"></i><b>6.9</b> Évaluation du modèle</a>
 <ul>
 <li class="chapter" data-level="6.9.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluer-la-linéarité-de-la-relation-à-laide-de-courbes-lissées-pour-prédicteur-quantitatif"><i class="fa fa-check"></i><b>6.9.1</b> Évaluer la linéarité de la relation à l’aide de courbes lissées (pour prédicteur quantitatif)</a></li>
-<li class="chapter" data-level="6.9.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#méthodes-diagnostiques-pour-les-résiduels"><i class="fa fa-check"></i><b>6.9.2</b> Méthodes diagnostiques pour les résiduels</a></li>
-<li class="chapter" data-level="6.9.3" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluation-des-observations-extrêmes-etou-influentes"><i class="fa fa-check"></i><b>6.9.3</b> Évaluation des observations extrêmes et/ou influentes</a></li>
+<li class="chapter" data-level="6.9.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluer-la-linéarité-de-la-relation-à-laide-de-termes-polynomiaux-pour-prédicteur-quantitatif"><i class="fa fa-check"></i><b>6.9.2</b> Évaluer la linéarité de la relation à l’aide de termes polynomiaux (pour prédicteur quantitatif)</a></li>
+<li class="chapter" data-level="6.9.3" data-path="régression-linéaire.html"><a href="régression-linéaire.html#méthodes-diagnostiques-pour-les-résiduels"><i class="fa fa-check"></i><b>6.9.3</b> Méthodes diagnostiques pour les résiduels</a></li>
+<li class="chapter" data-level="6.9.4" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluation-des-observations-extrêmes-etou-influentes"><i class="fa fa-check"></i><b>6.9.4</b> Évaluation des observations extrêmes et/ou influentes</a></li>
 </ul></li>
 <li class="chapter" data-level="6.10" data-path="régression-linéaire.html"><a href="régression-linéaire.html#travaux-pratiques-1---régression-linéaire---base"><i class="fa fa-check"></i><b>6.10</b> Travaux pratiques 1 - Régression linéaire - Base</a>
 <ul>
@@ -122,19 +195,124 @@
 <li class="chapter" data-level="7.4" data-path="régression-logistique.html"><a href="régression-logistique.html#choisir-valeur-de-référence-pour-les-variables-catégoriques"><i class="fa fa-check"></i><b>7.4</b> Choisir valeur de référence pour les variables catégoriques</a></li>
 <li class="chapter" data-level="7.5" data-path="régression-logistique.html"><a href="régression-logistique.html#produire-des-tables-de-résultats"><i class="fa fa-check"></i><b>7.5</b> Produire des tables de résultats</a>
 <ul>
-<li class="chapter" data-level="7.5.1" data-path="régression-logistique.html"><a href="régression-logistique.html#présenter-les-rapport-de-cotes-plutôt-que-les-log-odds"><i class="fa fa-check"></i><b>7.5.1</b> Présenter les rapport de cotes plutôt que les log odds</a></li>
+<li class="chapter" data-level="7.5.1" data-path="régression-logistique.html"><a href="régression-logistique.html#présenter-les-rapports-de-cotes-plutôt-que-les-log-odds"><i class="fa fa-check"></i><b>7.5.1</b> Présenter les rapports de cotes plutôt que les log odds</a></li>
 </ul></li>
 <li class="chapter" data-level="7.6" data-path="régression-logistique.html"><a href="régression-logistique.html#spécifier-pour-quelle-augmentation-dun-prédicteur-continu-le-rapport-de-cotes-est-calculé"><i class="fa fa-check"></i><b>7.6</b> Spécifier pour quelle augmentation d’un prédicteur continu le rapport de cotes est calculé</a></li>
 <li class="chapter" data-level="7.7" data-path="régression-logistique.html"><a href="régression-logistique.html#évaluer-une-interaction-entre-2-variables-1"><i class="fa fa-check"></i><b>7.7</b> Évaluer une interaction entre 2 variables</a></li>
 <li class="chapter" data-level="7.8" data-path="régression-logistique.html"><a href="régression-logistique.html#comparer-rapports-de-cotes-pour-une-combinaison-spécifique-de-prédicteurs"><i class="fa fa-check"></i><b>7.8</b> Comparer rapports de cotes pour une combinaison spécifique de prédicteurs</a></li>
 <li class="chapter" data-level="7.9" data-path="régression-logistique.html"><a href="régression-logistique.html#présenter-leffet-des-prédicteurs-sur-une-échelle-de-probabilité"><i class="fa fa-check"></i><b>7.9</b> Présenter l’effet des prédicteurs sur une échelle de probabilité</a></li>
 <li class="chapter" data-level="7.10" data-path="régression-logistique.html"><a href="régression-logistique.html#linéarité-de-la-relation-pour-prédicteur-quantitatif"><i class="fa fa-check"></i><b>7.10</b> Linéarité de la relation (pour prédicteur quantitatif)</a></li>
-<li class="chapter" data-level="7.11" data-path="régression-logistique.html"><a href="régression-logistique.html#test-de-homer-lemeshow-de-pearson-et-de-déviance"><i class="fa fa-check"></i><b>7.11</b> Test de Homer-Lemeshow, de Pearson et de déviance</a></li>
+<li class="chapter" data-level="7.11" data-path="régression-logistique.html"><a href="régression-logistique.html#test-de-fit-de-hosmer-lemeshow-et-de-pearson"><i class="fa fa-check"></i><b>7.11</b> Test de ‘fit’ de Hosmer-Lemeshow et de Pearson</a></li>
 <li class="chapter" data-level="7.12" data-path="régression-logistique.html"><a href="régression-logistique.html#évaluation-des-profils-extrêmes-etou-influents"><i class="fa fa-check"></i><b>7.12</b> Évaluation des profils extrêmes et/ou influents</a></li>
-<li class="chapter" data-level="7.13" data-path="régression-logistique.html"><a href="régression-logistique.html#travaux-pratiques-4---régression-logistique---base"><i class="fa fa-check"></i><b>7.13</b> Travaux pratiques 4 - Régression logistique - Base</a>
+<li class="chapter" data-level="7.13" data-path="régression-logistique.html"><a href="régression-logistique.html#sensibilité-spécificité-et-courbe-roc"><i class="fa fa-check"></i><b>7.13</b> Sensibilité, spécificité et courbe ROC</a></li>
+<li class="chapter" data-level="7.14" data-path="régression-logistique.html"><a href="régression-logistique.html#travaux-pratiques-4---régression-logistique---base"><i class="fa fa-check"></i><b>7.14</b> Travaux pratiques 4 - Régression logistique - Base</a>
 <ul>
-<li class="chapter" data-level="7.13.1" data-path="régression-logistique.html"><a href="régression-logistique.html#exercices-3"><i class="fa fa-check"></i><b>7.13.1</b> Exercices</a></li>
-<li class="chapter" data-level="7.13.2" data-path="régression-logistique.html"><a href="régression-logistique.html#code-r-et-réponses-3"><i class="fa fa-check"></i><b>7.13.2</b> Code R et réponses</a></li>
+<li class="chapter" data-level="7.14.1" data-path="régression-logistique.html"><a href="régression-logistique.html#exercices-3"><i class="fa fa-check"></i><b>7.14.1</b> Exercices</a></li>
+<li class="chapter" data-level="7.14.2" data-path="régression-logistique.html"><a href="régression-logistique.html#code-r-et-réponses-3"><i class="fa fa-check"></i><b>7.14.2</b> Code R et réponses</a></li>
+</ul></li>
+<li class="chapter" data-level="7.15" data-path="régression-logistique.html"><a href="régression-logistique.html#travaux-pratiques-5---régression-logistique---évaluation-du-modèle"><i class="fa fa-check"></i><b>7.15</b> Travaux pratiques 5 - Régression logistique - Évaluation du modèle</a>
+<ul>
+<li class="chapter" data-level="7.15.1" data-path="régression-logistique.html"><a href="régression-logistique.html#exercices-4"><i class="fa fa-check"></i><b>7.15.1</b> Exercices</a></li>
+<li class="chapter" data-level="7.15.2" data-path="régression-logistique.html"><a href="régression-logistique.html#code-r-et-réponses-4"><i class="fa fa-check"></i><b>7.15.2</b> Code R et réponses</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html"><i class="fa fa-check"></i><b>8</b> Régression pour données de compte et d’incidence</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#régression-de-poisson"><i class="fa fa-check"></i><b>8.1</b> Régression de Poisson</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#indiquer-un-offset-i.e.-un-dénominateur-par-exemple-un-nombre-danimal-temps-à-risque"><i class="fa fa-check"></i><b>8.1.1</b> Indiquer un “offset” (i.e., un dénominateur, par exemple un nombre d’animal-temps à risque)</a></li>
+<li class="chapter" data-level="8.1.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#test-de-rapport-de-vraisemblance"><i class="fa fa-check"></i><b>8.1.2</b> Test de rapport de vraisemblance</a></li>
+<li class="chapter" data-level="8.1.3" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#présenter-les-ratios-dincidence"><i class="fa fa-check"></i><b>8.1.3</b> Présenter les ratios d’incidence</a></li>
+<li class="chapter" data-level="8.1.4" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#calculer-un-compte-prédit-dévènements"><i class="fa fa-check"></i><b>8.1.4</b> Calculer un compte prédit d’évènements</a></li>
+<li class="chapter" data-level="8.1.5" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#comparer-les-niveaux-dun-prédicteur-catégorique-avec-2-catégories-1"><i class="fa fa-check"></i><b>8.1.5</b> Comparer les niveaux d’un prédicteur catégorique avec &gt; 2 catégories</a></li>
+<li class="chapter" data-level="8.1.6" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#linéarité-de-la-relation-pour-prédicteur-continu"><i class="fa fa-check"></i><b>8.1.6</b> Linéarité de la relation (pour prédicteur continu)</a></li>
+<li class="chapter" data-level="8.1.7" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#test-de-chi-carré-de-pearson"><i class="fa fa-check"></i><b>8.1.7</b> Test de chi-carré de Pearson</a></li>
+<li class="chapter" data-level="8.1.8" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#profils-extrêmes-ou-influents"><i class="fa fa-check"></i><b>8.1.8</b> Profils extrêmes ou influents</a></li>
+<li class="chapter" data-level="8.1.9" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#comparer-les-comptes-observés-et-prédits"><i class="fa fa-check"></i><b>8.1.9</b> Comparer les comptes observés et prédits</a></li>
+<li class="chapter" data-level="8.1.10" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#erreurs-type-mises-à-léchelle-scaled-se"><i class="fa fa-check"></i><b>8.1.10</b> Erreurs-type mises à l’échelle (scaled SE)</a></li>
+<li class="chapter" data-level="8.1.11" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#variance-robuste"><i class="fa fa-check"></i><b>8.1.11</b> Variance robuste</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#régression-binomiale-négative"><i class="fa fa-check"></i><b>8.2</b> Régression binomiale négative</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#comparer-les-modèles-poisson-et-binomial-négatif"><i class="fa fa-check"></i><b>8.2.1</b> Comparer les modèles Poisson et Binomial négatif</a></li>
+<li class="chapter" data-level="8.2.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#évaluer-les-résiduels-dun-modèle-binomial-négatif"><i class="fa fa-check"></i><b>8.2.2</b> Évaluer les résiduels d’un modèle Binomial négatif</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#modèles-zéro-enflés"><i class="fa fa-check"></i><b>8.3</b> Modèles zéro-enflés</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#généralités-2"><i class="fa fa-check"></i><b>8.3.1</b> Généralités</a></li>
+<li class="chapter" data-level="8.3.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#test-de-vuong-comparer-modèle-zéros-enflés-au-modèle-conventionnel"><i class="fa fa-check"></i><b>8.3.2</b> Test de Vuong – Comparer modèle zéros-enflés au modèle conventionnel</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#calcul-du-risque-relatif-à-laide-dune-régression-de-poisson"><i class="fa fa-check"></i><b>8.4</b> Calcul du risque relatif à l’aide d’une régression de Poisson</a></li>
+<li class="chapter" data-level="8.5" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#travaux-pratiques-6---régression-de-poisson-et-binomiale-négative"><i class="fa fa-check"></i><b>8.5</b> Travaux pratiques 6 - Régression de Poisson et Binomiale négative</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#exercices-5"><i class="fa fa-check"></i><b>8.5.1</b> Exercices</a></li>
+<li class="chapter" data-level="8.5.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#code-r-et-réponses-5"><i class="fa fa-check"></i><b>8.5.2</b> Code R et réponses</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#travaux-pratiques-7---modèles-modifiés-en-zéro-et-calcul-dun-risque-relatif"><i class="fa fa-check"></i><b>8.6</b> Travaux pratiques 7 - Modèles modifiés en zéro et calcul d’un risque relatif</a>
+<ul>
+<li class="chapter" data-level="8.6.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#exercices-6"><i class="fa fa-check"></i><b>8.6.1</b> Exercices</a></li>
+<li class="chapter" data-level="8.6.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#code-r-et-réponses-6"><i class="fa fa-check"></i><b>8.6.2</b> Code R et réponses</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html"><i class="fa fa-check"></i><b>9</b> Analyses de survie</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#généralités-3"><i class="fa fa-check"></i><b>9.1</b> Généralités</a></li>
+<li class="chapter" data-level="9.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#format-des-données-pour-une-analyse-de-survie"><i class="fa fa-check"></i><b>9.2</b> Format des données pour une analyse de survie</a></li>
+<li class="chapter" data-level="9.3" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#analyses-non-paramétriques-kaplan-meier"><i class="fa fa-check"></i><b>9.3</b> Analyses non-paramétriques (Kaplan-Meier)</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#table-de-kaplan-meier-et-temps-médian-de-survie"><i class="fa fa-check"></i><b>9.3.1</b> Table de Kaplan-Meier et temps médian de survie</a></li>
+<li class="chapter" data-level="9.3.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#courbe-de-survie-de-kaplan-meier"><i class="fa fa-check"></i><b>9.3.2</b> Courbe de survie de Kaplan-Meier</a></li>
+<li class="chapter" data-level="9.3.3" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#estimer-la-probabilité-de-survie-pour-un-temps-donné"><i class="fa fa-check"></i><b>9.3.3</b> Estimer la probabilité de survie pour un temps donné</a></li>
+<li class="chapter" data-level="9.3.4" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#comparaisons-entre-niveaux-dun-prédicteur-catégorique"><i class="fa fa-check"></i><b>9.3.4</b> Comparaisons entre niveaux d’un prédicteur catégorique</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#régression-de-cox-à-hasard-proportionnel"><i class="fa fa-check"></i><b>9.4</b> Régression de Cox à hasard proportionnel</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#analyses-stratifiées"><i class="fa fa-check"></i><b>9.4.1</b> Analyses stratifiées</a></li>
+<li class="chapter" data-level="9.4.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#prédicteur-dont-la-valeur-change-dans-le-temps"><i class="fa fa-check"></i><b>9.4.2</b> Prédicteur dont la valeur change dans le temps</a></li>
+<li class="chapter" data-level="9.4.3" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#prédicteur-dont-leffet-change-dans-le-temps"><i class="fa fa-check"></i><b>9.4.3</b> Prédicteur dont l’effet change dans le temps</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#évaluation-du-modèle-1"><i class="fa fa-check"></i><b>9.5</b> Évaluation du modèle</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#linéarité-de-la-relation-pour-les-prédicteurs-quantitatifs"><i class="fa fa-check"></i><b>9.5.1</b> Linéarité de la relation (pour les prédicteurs quantitatifs)</a></li>
+<li class="chapter" data-level="9.5.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#valider-la-supposition-de-hasard-proportionnel"><i class="fa fa-check"></i><b>9.5.2</b> Valider la supposition de hasard proportionnel</a></li>
+<li class="chapter" data-level="9.5.3" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#évaluer-impact-du-non-respect-de-la-supposition-de-censure-non-informative"><i class="fa fa-check"></i><b>9.5.3</b> Évaluer impact du non-respect de la supposition de censure non-informative</a></li>
+<li class="chapter" data-level="9.5.4" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#observations-extrêmes"><i class="fa fa-check"></i><b>9.5.4</b> Observations extrêmes</a></li>
+<li class="chapter" data-level="9.5.5" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#observations-influentes"><i class="fa fa-check"></i><b>9.5.5</b> Observations influentes</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#pour-aller-plus-loin"><i class="fa fa-check"></i><b>9.6</b> Pour aller plus loin</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#erreurs-types-robustes"><i class="fa fa-check"></i><b>9.6.1</b> Erreurs-types robustes</a></li>
+<li class="chapter" data-level="9.6.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#régression-de-cox-à-fragilité-partagée"><i class="fa fa-check"></i><b>9.6.2</b> Régression de Cox à fragilité partagée</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#travaux-pratiques-8---analyses-de-survie-non-paramétriques"><i class="fa fa-check"></i><b>9.7</b> Travaux pratiques 8 - Analyses de survie non-paramétriques</a>
+<ul>
+<li class="chapter" data-level="9.7.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#exercices-7"><i class="fa fa-check"></i><b>9.7.1</b> Exercices</a></li>
+<li class="chapter" data-level="9.7.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#code-r-et-réponses-7"><i class="fa fa-check"></i><b>9.7.2</b> Code R et réponses</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#travaux-pratiques-9---analyses-de-survie-semi-paramétriques"><i class="fa fa-check"></i><b>9.8</b> Travaux pratiques 9 - Analyses de survie semi-paramétriques</a>
+<ul>
+<li class="chapter" data-level="9.8.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#exercices-8"><i class="fa fa-check"></i><b>9.8.1</b> Exercices</a></li>
+<li class="chapter" data-level="9.8.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#code-r-et-réponses-8"><i class="fa fa-check"></i><b>9.8.2</b> Code R et réponses</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html"><i class="fa fa-check"></i><b>10</b> Modèles mixtes pour données structurées</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#généralités-4"><i class="fa fa-check"></i><b>10.1</b> Généralités</a></li>
+<li class="chapter" data-level="10.2" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#évaluer-la-structure-de-regroupement"><i class="fa fa-check"></i><b>10.2</b> Évaluer la structure de regroupement</a></li>
+<li class="chapter" data-level="10.3" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#modèle-linéaire-mixte"><i class="fa fa-check"></i><b>10.3</b> Modèle linéaire mixte</a></li>
+<li class="chapter" data-level="10.4" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#modèle-mixte-avec-un-seul-intercept-aléatoire"><i class="fa fa-check"></i><b>10.4</b> Modèle mixte avec un seul intercept aléatoire</a></li>
+<li class="chapter" data-level="10.5" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#modèle-mixte-avec-plus-dun-intercept-aléatoire"><i class="fa fa-check"></i><b>10.5</b> Modèle mixte avec plus d’un intercept aléatoire</a></li>
+<li class="chapter" data-level="10.6" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#partition-de-la-variance"><i class="fa fa-check"></i><b>10.6</b> Partition de la variance</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#coefficient-de-corrélation-intra-classe"><i class="fa fa-check"></i><b>10.6.1</b> Coefficient de corrélation intra-classe</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#effet-contextuel"><i class="fa fa-check"></i><b>10.7</b> Effet contextuel</a></li>
+<li class="chapter" data-level="10.8" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#évaluation-du-modèle-2"><i class="fa fa-check"></i><b>10.8</b> Évaluation du modèle</a></li>
+<li class="chapter" data-level="10.9" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#pentes-aléatoires"><i class="fa fa-check"></i><b>10.9</b> Pentes aléatoires</a></li>
+<li class="chapter" data-level="10.10" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#travaux-pratiques-10---modèles-linéaires-mixtes"><i class="fa fa-check"></i><b>10.10</b> Travaux pratiques 10 - Modèles linéaires mixtes</a>
+<ul>
+<li class="chapter" data-level="10.10.1" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#exercices-9"><i class="fa fa-check"></i><b>10.10.1</b> Exercices</a></li>
+<li class="chapter" data-level="10.10.2" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#code-r-et-réponses-9"><i class="fa fa-check"></i><b>10.10.2</b> Code R et réponses</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -157,19 +335,19 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="bonnes-pratiques-de-gestion-de-projet" class="section level1" number="2">
-<h1><span class="header-section-number">Chapitre 2</span> Bonnes pratiques de gestion de projet</h1>
-<p>La réplication des résultats de recherche par des investigateurs indépendants est un des éléments fondamentaux dans l’accumulation de preuves scientifiques. Mais les recherches actuellement menées utilisent fréquemment des méthodes avancées d’analyses et des bases de données de plus en plus grandes et complexes. Un standard minimum à atteindre devrait donc être <strong>d’au moins de pouvoir reproduire ses propres résultats de recherche (Peng et al., 2006).<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></strong>. Nous allons donc nous attarder ici à quelques notes générales sur des pratiques personnelles à mettre en place pour vous assurer de pouvoir répondre positivement à cette question : suis-je capable dans 2 semaines, 2 mois, 2 ans, de reproduire les mêmes résultats qu’aujourd’hui ? Cette question pourrait tout aussi bien être formulée de cette manière : quelqu’un qui ne connaît pas ou peu mon projet (par exemple mon directeur de recherche!) peut-il, à partir de mes dossiers, comprendre clairement ce que j’ai fait et pourquoi ? Ces notes sont inspirées des travaux de Noble, Sandve et Wilson (Noble, 2009.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> ; Sandve et al., 2013.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>; Wilson et al., 2014.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>) et ne constituent en rien des règles à impérativement mettre en place, mais plutôt des inspirations à mettre en pratique selon sa méthode de travail personnelle. Notez aussi que la « reproductibilité » vous permettra de travailler plus efficacement. Par exemple, pour apporter des corrections aux analyses initialement effectuées suite aux commentaires d’un réviseur ou encore, afin de réutiliser les scripts (i.e., les codes R) préalablement utilisés sur de nouvelles données dans de nouveaux travaux de recherche.</p>
-<div id="organiser-son-projet-de-recherche" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Organiser son projet de recherche</h2>
-<p>Tous les fichiers pertinents à un projet devraient se trouver dans le même répertoire. La figure 1 est un exemple de structure de répertoire pour un projet. En utilisant toujours la même structure de répertoire d’un projet à l’autre vous vous éviterez bien des recherches de documents d’un projet à l’autre.</p>
+<div id="bonnes-pratiques-de-gestion-de-projet" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapitre 2</span> Bonnes pratiques de gestion de projet<a href="bonnes-pratiques-de-gestion-de-projet.html#bonnes-pratiques-de-gestion-de-projet" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>La réplication des résultats de recherche par des investigateurs indépendants est un des éléments fondamentaux dans l’accumulation de preuves scientifiques. Mais les recherches actuellement menées utilisent fréquemment des méthodes avancées d’analyses et des bases de données de plus en plus grandes et complexes. Un standard minimum à atteindre devrait donc être <strong>d’au moins de pouvoir reproduire ses propres résultats de recherche (Peng et al., 2006)<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></strong>. Nous allons donc nous attarder ici à quelques notes générales sur des pratiques personnelles à mettre en place pour vous assurer de pouvoir répondre positivement à cette question : suis-je capable dans 2 semaines, 2 mois, 2 ans, de reproduire les mêmes résultats qu’aujourd’hui ? Cette question pourrait tout aussi bien être formulée de cette manière : quelqu’un qui ne connaît pas ou peu mon projet (par exemple mon directeur de recherche!) peut-il, à partir de mes dossiers, comprendre clairement ce que j’ai fait et pourquoi ? Ces notes sont inspirées des travaux de Noble, Sandve et Wilson (Noble, 2009<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> ; Sandve et al., 2013<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>; Wilson et al., 2014<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>) et ne constituent en rien des règles à impérativement mettre en place, mais plutôt des inspirations à mettre en pratique selon sa méthode personnelle de travail. Notez aussi que la «reproductibilité» vous permettra de travailler plus efficacement. Par exemple, pour apporter des corrections aux analyses initialement effectuées à la suite des commentaires d’un réviseur ou encore, afin de réutiliser les scripts (i.e., les codes R) préalablement utilisés sur de nouvelles données dans de nouveaux travaux de recherche.</p>
+<div id="organiser-son-projet-de-recherche" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Organiser son projet de recherche<a href="bonnes-pratiques-de-gestion-de-projet.html#organiser-son-projet-de-recherche" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Tous les fichiers pertinents à un projet devraient se trouver dans le même répertoire. La Figure 2.1 plus bas est un exemple de structure de répertoire pour un projet. En utilisant toujours la même structure de répertoire d’un projet à l’autre vous vous éviterez bien des recherches de documents d’un projet à l’autre.</p>
 <div class="figure">
-<img src="C:/Users/dufours/Documents/DiskD/Enseignement%20UdM/Cours/PTM%206675-Epi%202/Labo%20R/Labo%20R%20Bookdown%20project/Figures/Figure%201.png" alt="" />
-<p class="caption">Exemple de structure de répertoire.</p>
+<img src="Figures/Figure%201.png" alt="" />
+<p class="caption"><strong>Figure 2.1</strong> Exemple de structure de répertoire.</p>
 </div>
 </div>
-<div id="où-sauvegarder-son-projet" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Où sauvegarder son projet</h2>
+<div id="où-sauvegarder-son-projet" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Où sauvegarder son projet<a href="bonnes-pratiques-de-gestion-de-projet.html#où-sauvegarder-son-projet" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La tentation peut être grande (surtout si vous êtes sous Windows) de <strong>sauvegarder ses documents sur le bureau. Ce n’est pas une bonne idée</strong> :<br />
 - Si vous êtes en réseau et que votre institution fait des sauvegardes automatiques de vos fichiers, ce qui est mis sur le bureau n’est généralement pas inclus;<br />
 - Vos fichiers sont à la vue de tous ceux qui passent près de votre ordinateur;<br />
@@ -179,21 +357,28 @@
 <p><code>C: projet</code></p>
 <p><strong>Remarquez que si vous tenez absolument à avoir accès à votre fichier via le bureau, vous pouvez toujours y placer un raccourci (c’est fait pour ça!).</strong></p>
 </div>
-<div id="où-sauvegarder-ses-données" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Où sauvegarder ses données</h2>
-<p><strong>Les différentes bases de données d’un projet devraient se trouver toutes sous le même répertoire, accompagnées de méta-données.</strong> Ces méta-données permettent de décrire vos bases de données : d’où viennent-elles, leurs structures, quelles sont les variables, la légende, etc. Un simple fichier texte suffit (voir figure 1), avec un nom évocateur. Par exemple, un document <strong>README.txt</strong> pourrait décrire les différentes bases de données et des documents keyTableX.txt pourront contenir la légende pour chacune des différentes bases de données. <strong>Pensez aussi à donner à vos bases de données des noms courts et datés</strong>: Phase1_12-01-2021.csv plutôt que Données pour Jean_version3-révision _transfer_final_revue_final2.xlsx (c’est un exemple véridique d’un de mes premiers projets!). Les éléments nécessaires à l’identification des bases de données seront, de toutes façons, expliqués dans votre document README.txt. Finalement, bien que la protection de la langue française soit un objectif louable, gardez en tête que vous aurez possiblement à partager plusieurs de ces documents et bases de données avec des collaborateurs internationaux. Des noms de fichiers, de variables et des documents en anglais pourront possiblement vous épargner plusieurs heures de traduction dans le futur.</p>
+<div id="où-sauvegarder-ses-données" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Où sauvegarder ses données<a href="bonnes-pratiques-de-gestion-de-projet.html#où-sauvegarder-ses-données" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Les différentes bases de données d’un projet devraient se trouver toutes sous le même répertoire, accompagnées de méta-données.</strong> Ces méta-données permettent de décrire vos bases de données : d’où viennent-elles, leurs structures, qu’elles sont les variables, la légende, etc. Un simple fichier texte suffit (voir la Figure 2.1), avec un nom évocateur. Par exemple, un document <strong>README.txt</strong> pourrait décrire les différentes bases de données et des documents keyTableX.txt pourront contenir la légende pour chacune des différentes bases de données. <strong>Pensez aussi à donner à vos bases de données des noms courts et datés</strong>: Phase1_12-01-2021.csv plutôt que Données pour Jean_version3-révision _transfer_final_revue_final2.xlsx (c’est un exemple véridique d’un de mes premiers projets!). Les éléments nécessaires à l’identification des bases de données seront, de toutes façons, expliqués dans votre document README.txt. Finalement, bien que la protection de la langue française soit un objectif louable, gardez en tête que vous aurez possiblement à partager plusieurs de ces documents et bases de données avec des collaborateurs internationaux. Des noms de fichiers, de variables et des documents en anglais pourront possiblement vous épargner plusieurs heures de traduction dans le futur.</p>
 </div>
-<div id="scripts-danalyse" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> Scripts d’analyse</h2>
-<p><strong>Toutes les étapes de vos analyses devraient être réalisées à partir de scripts (e.g. vos code R)</strong>: laisser faire le travail par l’ordinateur et sauvegarder les commandes qui lui sont données pour pouvoir les réutiliser plus tard. Même les données ne doivent pas être modifiées manuellement. C’est non seulement inefficace, mais source d’erreurs et (presque) impossible à reproduire. <strong>Assurez-vous d’avoir une base de données initiale bien nettoyée, par la suite, si vous devez exclure/corriger certaines observations pour une analyse donnée, faites-le dans le script de cette analyse</strong>. Votre script doit permettre d’avoir accès aux données et, idéalement, pour ce faire <strong>utiliser des chemins relatifs</strong>. Votre script d’analyse doit être compréhensible pour un « humain » : court, standardisé quant au style, format et noms des variables ou fonctions utilisées, et comprenant des commentaires. <strong>Essayer de diviser les tâches entre plusieurs scripts</strong> : un pour la manipulation des données, un pour les analyses descriptives, un pour les modélisations etc.</p>
-<p><strong>Notez que ces différents scripts (manipulation des données, analyses descriptives, modélisations, production de figures etc.) forment ensemble une chaîne, une combinaison: un workflow</strong>. Si vous faite des modifications à votre script qui vous permettait d’organiser la table de données, par exemple pour ajouter une nouvelle variable à votre table (e.g. vous venez finalement de recevoir vos résultats de PCR), vous devrez possiblement mettre à jour votre script d’analyses descriptives et l’exécuter, idem pour vos scripts de modélisation, etc.</p>
+<div id="scripts-danalyse" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Scripts d’analyse<a href="bonnes-pratiques-de-gestion-de-projet.html#scripts-danalyse" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Toutes les étapes de vos analyses devraient être réalisées à partir de scripts (e.g. vos codes R)</strong>: laisser faire le travail par l’ordinateur et sauvegarder les commandes qui lui sont données pour pouvoir les réutiliser plus tard. Même les données ne doivent pas être modifiées manuellement. C’est non seulement inefficace, mais c’est une source d’erreurs et (presque) impossible à reproduire. <strong>Assurez-vous d’avoir une base de données initiale bien nettoyée, par la suite, si vous devez exclure/corriger certaines observations pour une analyse donnée, faites-le dans le script de cette analyse</strong>. Votre script doit permettre d’avoir accès aux données et, idéalement, pour ce faire <strong>utiliser des chemins relatifs</strong> (notez que nous proposerons une alternative à cela, les <code>Projets R</code> dans la prochaine section). Votre script d’analyse doit être compréhensible pour un « humain » : court, standardisé quant au style, format et noms des variables ou fonctions utilisées, et comprenant des commentaires. <strong>Essayer de diviser les tâches entre plusieurs scripts</strong> : un pour la manipulation des données, un pour les analyses descriptives, un pour les modélisations, etc.</p>
+<p><strong>Notez que ces différents scripts (manipulation des données, analyses descriptives, modélisations, production de figures, etc.) forment ensemble une chaîne, une combinaison, un “workflow”</strong>. Si vous faite des modifications à votre script qui vous permettait d’organiser la table de données, par exemple pour ajouter une nouvelle variable à votre table (e.g. vous venez finalement de recevoir vos résultats de PCR), vous devrez possiblement mettre à jour votre script d’analyses descriptives et l’exécuter, idem pour vos scripts de modélisation, etc.</p>
 </div>
-<div id="copies-de-sécurité" class="section level2" number="2.5">
-<h2><span class="header-section-number">2.5</span> Copies de sécurité</h2>
+<div id="les-projets-r" class="section level2 hasAnchor" number="2.5">
+<h2><span class="header-section-number">2.5</span> Les projets R<a href="bonnes-pratiques-de-gestion-de-projet.html#les-projets-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>RStudio</code> permet de créer un type de fichier qui s’appelle un <code>Projet R</code>. Pour créer un <code>Projet R</code>, suivez ces instructions simples <a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-Projects">Using RStudio Projects</a>. Après avoir créé un <code>Projet R</code> dans un fichier donné sur votre ordinateur, vous pouvez copier dans ce fichier (ou un sous-fichier de celui-ci) les bases de données qui serviront dans ce projet. C’est aussi dans ce fichier que les scripts d’analyses que vous développerez seront enregistrés. Finalement, vous pourriez aussi y enregistrer des résultats de vos analyses, par exemple des figures. Finalement vous y trouverez un élément avec une extension <code>.Rproj</code>. Si vous cliquez sur cet élément, <code>RStudio</code> s’ouvrira sur les scripts que vous utilisiez au moment où vous aviez suspendu vos analyses.</p>
+<p>L’avantage d’un <code>Projet R</code> est que tous les chemins d’accès (par exemple pour importer un jeu de données) seront maintenant relatifs au <code>Projet R</code> et non à l’endroit, sur votre ordinateur, où le <code>Projet R</code> est lui-même hébergé. Ce n’est pas très clair, n’est-ce pas?</p>
+<p>Allons-y d’un exemple. Disons que vous n’utilisez pas un <code>Projet R</code>. Dans un script d’analyse, lorsque vous voudrez importer un jeu de données, vous devrez indiquer le chemin d’accès pour ce jeu de données, par exemple: <em>C:/Users/dufours/OneDrive - Universite de Montreal/Enseignement UdM/Cours/PTM 6675-Epi 2/Datadaisy2.csv</em>. Évidemment, si vous donnez ce script d’analyse et le jeu de données à un collègue (ou si vous déplacez vos dossiers vers un nouvel ordinateur) les scripts ne fonctionneront plus, puisque les chemins d’accès seront maintenant erronés.</p>
+<p>Maintenant, si vous avez plutôt créé un <code>Projet R</code> et que, dans ce fichier vous avez créé un sous-fichier <em>Data</em> dans lequel vous avez déposé les jeux de données dont vous aurez besoin dans ce projet. Dans vos scripts, le chemin d’accès pour ce jeu de données deviendra simplement <em>Data/Datadaisy2.csv</em>. Vous pouvez maintenant transférer en bloc vers un autre ordinateur le fichier qui contient votre <code>Projet R</code> avec vos scripts d’analyses, les jeux de données, etc. Tous vos scripts seront fonctionnels. On dira que vos analyses sont maintenant <strong>“portables”</strong>.</p>
+</div>
+<div id="copies-de-sécurité" class="section level2 hasAnchor" number="2.6">
+<h2><span class="header-section-number">2.6</span> Copies de sécurité<a href="bonnes-pratiques-de-gestion-de-projet.html#copies-de-sécurité" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Le pire peut arriver et vous perdez toutes vos données! Avant qu’il ne soit trop tard, <strong>pensez à mettre en place une stratégie de sauvegarde de vos fichiers</strong>. Il n’y a pas de stratégie universelle, mais chacun doit trouver celle qui lui convient. <strong>Deux règles cependant :</strong></p>
 <p><strong>1) Des copies à jour</strong><br />
 <strong>2) Séparer physiquement les sauvegardes.</strong></p>
-<p>Vos sauvegardes doivent être <strong>régulières et entreposées dans un lieu physique différent de vos données originelles</strong>. L’idéal est d’avoir deux systèmes de sauvegarde (e.g. sur un nuage numérique et sur votre PC). Vous pouvez sauvegarder vos données sur un « nuage », tels que Dropbox, Google Drive, etc. Ces services ont cependant des licences et des obligations légales pouvant exposer vos données à des risques juridiques et compromettre la confidentialité de vos données. Tous les services cités ci-dessus sont opérés sur des serveurs aux USA. Les universités canadiennes sont soumises à la <a href="https://laws-lois.justice.gc.ca/fra/lois/a-1/">Loi sur l’accès à l’information</a> et à la <a href="https://laws-lois.justice.gc.ca/fra/Lois/P-21/index.html">Loi sur la protection des renseignements personnels</a> qui restreint la possibilité de déposer des données personnelles sur des serveurs à l’extérieur du pays. Renseignez-vous auprès de votre institution pour savoir quelles sont les meilleures possibilités pour vous. Présentement, l’Université de Montréal supporte l’utilisation de Onedrive par ses professeurs et étudiants. <a href="http://scholarsportal.info">Scholars portal</a> est un exemple de service disponible en Ontario pour les membres académiques et étudiants des Universités de cette province, permettant de créer un dépôt de données pour leur recherche.</p>
+<p>Vos sauvegardes doivent être <strong>régulières et entreposées dans un lieu physique différent de vos données originelles</strong>. L’idéal est d’avoir deux systèmes de sauvegarde (e.g. sur un nuage numérique et sur votre PC). Vous pouvez sauvegarder vos données sur un « nuage », tels que Dropbox, Google Drive, etc. Ces services ont cependant des licences et des obligations légales pouvant exposer vos données à des risques juridiques et compromettre la confidentialité de vos données. Tous les services cités ci-dessus sont opérés sur des serveurs aux USA. Les universités canadiennes sont soumises à la <a href="https://laws-lois.justice.gc.ca/fra/lois/a-1/">Loi sur l’accès à l’information</a> et à la <a href="https://laws-lois.justice.gc.ca/fra/Lois/P-21/index.html">Loi sur la protection des renseignements personnels</a> qui restreint la possibilité de déposer des données personnelles sur des serveurs à l’extérieur du pays. Renseignez-vous auprès de votre institution pour savoir quelles sont les meilleures possibilités pour vous. Présentement, l’Université de Montréal supporte l’utilisation de Onedrive par ses professeurs et étudiants. <a href="https://borealisdata.ca/fr/">Borealis: le dépôt Dataverse canadien</a> est un autre exemple de service disponible pour les membres académiques et étudiants de l’Université de Montréal, permettant de créer un dépôt de données pour leur recherche.</p>
 
 </div>
 </div>
@@ -216,7 +401,6 @@
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -235,6 +419,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -255,6 +440,10 @@ gitbook.start({
 "text": null
 },
 "download": ["Labo R Bookdown project.pdf", "Labo R Bookdown project.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }
@@ -262,6 +451,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

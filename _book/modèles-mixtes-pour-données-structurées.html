@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapitre 10 Modèles mixtes pour données structurées | Épidémiologie 2 - Labo informatique R (PTM-6675)</title>
+  <meta name="description" content="Chapitre 10" />
+  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapitre 10 Modèles mixtes pour données structurées | Épidémiologie 2 - Labo informatique R (PTM-6675)" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Chapitre 10" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapitre 10 Modèles mixtes pour données structurées | Épidémiologie 2 - Labo informatique R (PTM-6675)" />
+  
+  <meta name="twitter:description" content="Chapitre 10" />
+  
+
+<meta name="author" content="Simon Dufour (Professeur à la Faculté de Médecine vétérinaire de l’Université de Montréal)" />
+
+
+<meta name="date" content="2023-01-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="analyses-de-survie.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Épidémiologie 2 - Labo informatique R (PTM-6675)</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> À propos</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#spécificités-de-r"><i class="fa fa-check"></i><b>1.1</b> Spécificités de R</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html"><i class="fa fa-check"></i><b>2</b> Bonnes pratiques de gestion de projet</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#organiser-son-projet-de-recherche"><i class="fa fa-check"></i><b>2.1</b> Organiser son projet de recherche</a></li>
+<li class="chapter" data-level="2.2" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#où-sauvegarder-son-projet"><i class="fa fa-check"></i><b>2.2</b> Où sauvegarder son projet</a></li>
+<li class="chapter" data-level="2.3" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#où-sauvegarder-ses-données"><i class="fa fa-check"></i><b>2.3</b> Où sauvegarder ses données</a></li>
+<li class="chapter" data-level="2.4" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#scripts-danalyse"><i class="fa fa-check"></i><b>2.4</b> Scripts d’analyse</a></li>
+<li class="chapter" data-level="2.5" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#les-projets-r"><i class="fa fa-check"></i><b>2.5</b> Les projets R</a></li>
+<li class="chapter" data-level="2.6" data-path="bonnes-pratiques-de-gestion-de-projet.html"><a href="bonnes-pratiques-de-gestion-de-projet.html#copies-de-sécurité"><i class="fa fa-check"></i><b>2.6</b> Copies de sécurité</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="obtention-des-données-pour-les-travaux-pratiques.html"><a href="obtention-des-données-pour-les-travaux-pratiques.html"><i class="fa fa-check"></i><b>3</b> Obtention des données pour les travaux pratiques</a></li>
+<li class="chapter" data-level="4" data-path="aide-de-r.html"><a href="aide-de-r.html"><i class="fa fa-check"></i><b>4</b> Aide de R</a></li>
+<li class="chapter" data-level="5" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>5</b> R Markdown</a></li>
+<li class="chapter" data-level="6" data-path="régression-linéaire.html"><a href="régression-linéaire.html"><i class="fa fa-check"></i><b>6</b> Régression linéaire</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#généralités"><i class="fa fa-check"></i><b>6.1</b> Généralités</a></li>
+<li class="chapter" data-level="6.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#ajouter-des-intervalles-de-confiance"><i class="fa fa-check"></i><b>6.2</b> Ajouter des intervalles de confiance</a></li>
+<li class="chapter" data-level="6.3" data-path="régression-linéaire.html"><a href="régression-linéaire.html#test-de-f-pour-comparer-modèles-complet-vs.-réduit"><i class="fa fa-check"></i><b>6.3</b> Test de <em>F</em> pour comparer modèles complet <em>vs.</em> réduit</a></li>
+<li class="chapter" data-level="6.4" data-path="régression-linéaire.html"><a href="régression-linéaire.html#transformer-une-variable"><i class="fa fa-check"></i><b>6.4</b> Transformer une variable</a></li>
+<li class="chapter" data-level="6.5" data-path="régression-linéaire.html"><a href="régression-linéaire.html#choisir-la-valeur-de-référence-pour-une-variable-catégorique"><i class="fa fa-check"></i><b>6.5</b> Choisir la valeur de référence pour une variable catégorique</a></li>
+<li class="chapter" data-level="6.6" data-path="régression-linéaire.html"><a href="régression-linéaire.html#comparer-les-niveaux-dun-prédicteur-catégorique-avec-2-catégories"><i class="fa fa-check"></i><b>6.6</b> Comparer les niveaux d’un prédicteur catégorique avec &gt;2 catégories</a></li>
+<li class="chapter" data-level="6.7" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluer-une-interaction-entre-2-variables"><i class="fa fa-check"></i><b>6.7</b> Évaluer une interaction entre 2 variables</a></li>
+<li class="chapter" data-level="6.8" data-path="régression-linéaire.html"><a href="régression-linéaire.html#tol-et-vif---évaluer-la-colinéarité"><i class="fa fa-check"></i><b>6.8</b> TOL et VIF - Évaluer la colinéarité</a></li>
+<li class="chapter" data-level="6.9" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluation-du-modèle"><i class="fa fa-check"></i><b>6.9</b> Évaluation du modèle</a>
+<ul>
+<li class="chapter" data-level="6.9.1" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluer-la-linéarité-de-la-relation-à-laide-de-courbes-lissées-pour-prédicteur-quantitatif"><i class="fa fa-check"></i><b>6.9.1</b> Évaluer la linéarité de la relation à l’aide de courbes lissées (pour prédicteur quantitatif)</a></li>
+<li class="chapter" data-level="6.9.2" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluer-la-linéarité-de-la-relation-à-laide-de-termes-polynomiaux-pour-prédicteur-quantitatif"><i class="fa fa-check"></i><b>6.9.2</b> Évaluer la linéarité de la relation à l’aide de termes polynomiaux (pour prédicteur quantitatif)</a></li>
+<li class="chapter" data-level="6.9.3" data-path="régression-linéaire.html"><a href="régression-linéaire.html#méthodes-diagnostiques-pour-les-résiduels"><i class="fa fa-check"></i><b>6.9.3</b> Méthodes diagnostiques pour les résiduels</a></li>
+<li class="chapter" data-level="6.9.4" data-path="régression-linéaire.html"><a href="régression-linéaire.html#évaluation-des-observations-extrêmes-etou-influentes"><i class="fa fa-check"></i><b>6.9.4</b> Évaluation des observations extrêmes et/ou influentes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="régression-logistique.html"><a href="régression-logistique.html"><i class="fa fa-check"></i><b>7</b> Régression logistique</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="régression-logistique.html"><a href="régression-logistique.html#généralités-1"><i class="fa fa-check"></i><b>7.1</b> Généralités</a></li>
+<li class="chapter" data-level="7.2" data-path="régression-logistique.html"><a href="régression-logistique.html#effectuer-un-test-de-rapport-de-vraisemblance"><i class="fa fa-check"></i><b>7.2</b> Effectuer un test de rapport de vraisemblance</a></li>
+<li class="chapter" data-level="7.3" data-path="régression-logistique.html"><a href="régression-logistique.html#ajouter-des-ic95"><i class="fa fa-check"></i><b>7.3</b> Ajouter des IC95</a></li>
+<li class="chapter" data-level="7.4" data-path="régression-logistique.html"><a href="régression-logistique.html#choisir-valeur-de-référence-pour-les-variables-catégoriques"><i class="fa fa-check"></i><b>7.4</b> Choisir valeur de référence pour les variables catégoriques</a></li>
+<li class="chapter" data-level="7.5" data-path="régression-logistique.html"><a href="régression-logistique.html#produire-des-tables-de-résultats"><i class="fa fa-check"></i><b>7.5</b> Produire des tables de résultats</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="régression-logistique.html"><a href="régression-logistique.html#présenter-les-rapports-de-cotes-plutôt-que-les-log-odds"><i class="fa fa-check"></i><b>7.5.1</b> Présenter les rapports de cotes plutôt que les log odds</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="régression-logistique.html"><a href="régression-logistique.html#spécifier-pour-quelle-augmentation-dun-prédicteur-continu-le-rapport-de-cotes-est-calculé"><i class="fa fa-check"></i><b>7.6</b> Spécifier pour quelle augmentation d’un prédicteur continu le rapport de cotes est calculé</a></li>
+<li class="chapter" data-level="7.7" data-path="régression-logistique.html"><a href="régression-logistique.html#évaluer-une-interaction-entre-2-variables-1"><i class="fa fa-check"></i><b>7.7</b> Évaluer une interaction entre 2 variables</a></li>
+<li class="chapter" data-level="7.8" data-path="régression-logistique.html"><a href="régression-logistique.html#comparer-rapports-de-cotes-pour-une-combinaison-spécifique-de-prédicteurs"><i class="fa fa-check"></i><b>7.8</b> Comparer rapports de cotes pour une combinaison spécifique de prédicteurs</a></li>
+<li class="chapter" data-level="7.9" data-path="régression-logistique.html"><a href="régression-logistique.html#présenter-leffet-des-prédicteurs-sur-une-échelle-de-probabilité"><i class="fa fa-check"></i><b>7.9</b> Présenter l’effet des prédicteurs sur une échelle de probabilité</a></li>
+<li class="chapter" data-level="7.10" data-path="régression-logistique.html"><a href="régression-logistique.html#linéarité-de-la-relation-pour-prédicteur-quantitatif"><i class="fa fa-check"></i><b>7.10</b> Linéarité de la relation (pour prédicteur quantitatif)</a></li>
+<li class="chapter" data-level="7.11" data-path="régression-logistique.html"><a href="régression-logistique.html#test-de-fit-de-hosmer-lemeshow-et-de-pearson"><i class="fa fa-check"></i><b>7.11</b> Test de ‘fit’ de Hosmer-Lemeshow et de Pearson</a></li>
+<li class="chapter" data-level="7.12" data-path="régression-logistique.html"><a href="régression-logistique.html#évaluation-des-profils-extrêmes-etou-influents"><i class="fa fa-check"></i><b>7.12</b> Évaluation des profils extrêmes et/ou influents</a></li>
+<li class="chapter" data-level="7.13" data-path="régression-logistique.html"><a href="régression-logistique.html#sensibilité-spécificité-et-courbe-roc"><i class="fa fa-check"></i><b>7.13</b> Sensibilité, spécificité et courbe ROC</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html"><i class="fa fa-check"></i><b>8</b> Régression pour données de compte et d’incidence</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#régression-de-poisson"><i class="fa fa-check"></i><b>8.1</b> Régression de Poisson</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#indiquer-un-offset-i.e.-un-dénominateur-par-exemple-un-nombre-danimal-temps-à-risque"><i class="fa fa-check"></i><b>8.1.1</b> Indiquer un “offset” (i.e., un dénominateur, par exemple un nombre d’animal-temps à risque)</a></li>
+<li class="chapter" data-level="8.1.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#test-de-rapport-de-vraisemblance"><i class="fa fa-check"></i><b>8.1.2</b> Test de rapport de vraisemblance</a></li>
+<li class="chapter" data-level="8.1.3" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#présenter-les-ratios-dincidence"><i class="fa fa-check"></i><b>8.1.3</b> Présenter les ratios d’incidence</a></li>
+<li class="chapter" data-level="8.1.4" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#calculer-un-compte-prédit-dévènements"><i class="fa fa-check"></i><b>8.1.4</b> Calculer un compte prédit d’évènements</a></li>
+<li class="chapter" data-level="8.1.5" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#comparer-les-niveaux-dun-prédicteur-catégorique-avec-2-catégories-1"><i class="fa fa-check"></i><b>8.1.5</b> Comparer les niveaux d’un prédicteur catégorique avec &gt; 2 catégories</a></li>
+<li class="chapter" data-level="8.1.6" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#linéarité-de-la-relation-pour-prédicteur-continu"><i class="fa fa-check"></i><b>8.1.6</b> Linéarité de la relation (pour prédicteur continu)</a></li>
+<li class="chapter" data-level="8.1.7" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#test-de-chi-carré-de-pearson"><i class="fa fa-check"></i><b>8.1.7</b> Test de chi-carré de Pearson</a></li>
+<li class="chapter" data-level="8.1.8" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#profils-extrêmes-ou-influents"><i class="fa fa-check"></i><b>8.1.8</b> Profils extrêmes ou influents</a></li>
+<li class="chapter" data-level="8.1.9" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#comparer-les-comptes-observés-et-prédits"><i class="fa fa-check"></i><b>8.1.9</b> Comparer les comptes observés et prédits</a></li>
+<li class="chapter" data-level="8.1.10" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#erreurs-type-mises-à-léchelle-scaled-se"><i class="fa fa-check"></i><b>8.1.10</b> Erreurs-type mises à l’échelle (scaled SE)</a></li>
+<li class="chapter" data-level="8.1.11" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#variance-robuste"><i class="fa fa-check"></i><b>8.1.11</b> Variance robuste</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#régression-binomiale-négative"><i class="fa fa-check"></i><b>8.2</b> Régression binomiale négative</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#comparer-les-modèles-poisson-et-binomial-négatif"><i class="fa fa-check"></i><b>8.2.1</b> Comparer les modèles Poisson et Binomial négatif</a></li>
+<li class="chapter" data-level="8.2.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#évaluer-les-résiduels-dun-modèle-binomial-négatif"><i class="fa fa-check"></i><b>8.2.2</b> Évaluer les résiduels d’un modèle Binomial négatif</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#modèles-zéro-enflés"><i class="fa fa-check"></i><b>8.3</b> Modèles zéro-enflés</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#généralités-2"><i class="fa fa-check"></i><b>8.3.1</b> Généralités</a></li>
+<li class="chapter" data-level="8.3.2" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#test-de-vuong-comparer-modèle-zéros-enflés-au-modèle-conventionnel"><i class="fa fa-check"></i><b>8.3.2</b> Test de Vuong – Comparer modèle zéros-enflés au modèle conventionnel</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="régression-pour-données-de-compte-et-dincidence.html"><a href="régression-pour-données-de-compte-et-dincidence.html#calcul-du-risque-relatif-à-laide-dune-régression-de-poisson"><i class="fa fa-check"></i><b>8.4</b> Calcul du risque relatif à l’aide d’une régression de Poisson</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html"><i class="fa fa-check"></i><b>9</b> Analyses de survie</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#généralités-3"><i class="fa fa-check"></i><b>9.1</b> Généralités</a></li>
+<li class="chapter" data-level="9.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#format-des-données-pour-une-analyse-de-survie"><i class="fa fa-check"></i><b>9.2</b> Format des données pour une analyse de survie</a></li>
+<li class="chapter" data-level="9.3" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#analyses-non-paramétriques-kaplan-meier"><i class="fa fa-check"></i><b>9.3</b> Analyses non-paramétriques (Kaplan-Meier)</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#table-de-kaplan-meier-et-temps-médian-de-survie"><i class="fa fa-check"></i><b>9.3.1</b> Table de Kaplan-Meier et temps médian de survie</a></li>
+<li class="chapter" data-level="9.3.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#courbe-de-survie-de-kaplan-meier"><i class="fa fa-check"></i><b>9.3.2</b> Courbe de survie de Kaplan-Meier</a></li>
+<li class="chapter" data-level="9.3.3" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#estimer-la-probabilité-de-survie-pour-un-temps-donné"><i class="fa fa-check"></i><b>9.3.3</b> Estimer la probabilité de survie pour un temps donné</a></li>
+<li class="chapter" data-level="9.3.4" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#comparaisons-entre-niveaux-dun-prédicteur-catégorique"><i class="fa fa-check"></i><b>9.3.4</b> Comparaisons entre niveaux d’un prédicteur catégorique</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#régression-de-cox-à-hasard-proportionnel"><i class="fa fa-check"></i><b>9.4</b> Régression de Cox à hasard proportionnel</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#analyses-stratifiées"><i class="fa fa-check"></i><b>9.4.1</b> Analyses stratifiées</a></li>
+<li class="chapter" data-level="9.4.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#prédicteur-dont-la-valeur-change-dans-le-temps"><i class="fa fa-check"></i><b>9.4.2</b> Prédicteur dont la valeur change dans le temps</a></li>
+<li class="chapter" data-level="9.4.3" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#prédicteur-dont-leffet-change-dans-le-temps"><i class="fa fa-check"></i><b>9.4.3</b> Prédicteur dont l’effet change dans le temps</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#évaluation-du-modèle-1"><i class="fa fa-check"></i><b>9.5</b> Évaluation du modèle</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#linéarité-de-la-relation-pour-les-prédicteurs-quantitatifs"><i class="fa fa-check"></i><b>9.5.1</b> Linéarité de la relation (pour les prédicteurs quantitatifs)</a></li>
+<li class="chapter" data-level="9.5.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#valider-la-supposition-de-hasard-proportionnel"><i class="fa fa-check"></i><b>9.5.2</b> Valider la supposition de hasard proportionnel</a></li>
+<li class="chapter" data-level="9.5.3" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#évaluer-impact-du-non-respect-de-la-supposition-de-censure-non-informative"><i class="fa fa-check"></i><b>9.5.3</b> Évaluer impact du non-respect de la supposition de censure non-informative</a></li>
+<li class="chapter" data-level="9.5.4" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#observations-extrêmes"><i class="fa fa-check"></i><b>9.5.4</b> Observations extrêmes</a></li>
+<li class="chapter" data-level="9.5.5" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#observations-influentes"><i class="fa fa-check"></i><b>9.5.5</b> Observations influentes</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#pour-aller-plus-loin"><i class="fa fa-check"></i><b>9.6</b> Pour aller plus loin</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#erreurs-types-robustes"><i class="fa fa-check"></i><b>9.6.1</b> Erreurs-types robustes</a></li>
+<li class="chapter" data-level="9.6.2" data-path="analyses-de-survie.html"><a href="analyses-de-survie.html#régression-de-cox-à-fragilité-partagée"><i class="fa fa-check"></i><b>9.6.2</b> Régression de Cox à fragilité partagée</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html"><i class="fa fa-check"></i><b>10</b> Modèles mixtes pour données structurées</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#généralités-4"><i class="fa fa-check"></i><b>10.1</b> Généralités</a></li>
+<li class="chapter" data-level="10.2" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#évaluer-la-structure-de-regroupement"><i class="fa fa-check"></i><b>10.2</b> Évaluer la structure de regroupement</a></li>
+<li class="chapter" data-level="10.3" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#modèle-linéaire-mixte"><i class="fa fa-check"></i><b>10.3</b> Modèle linéaire mixte</a></li>
+<li class="chapter" data-level="10.4" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#modèle-mixte-avec-un-seul-intercept-aléatoire"><i class="fa fa-check"></i><b>10.4</b> Modèle mixte avec un seul intercept aléatoire</a></li>
+<li class="chapter" data-level="10.5" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#modèle-mixte-avec-plus-dun-intercept-aléatoire"><i class="fa fa-check"></i><b>10.5</b> Modèle mixte avec plus d’un intercept aléatoire</a></li>
+<li class="chapter" data-level="10.6" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#partition-de-la-variance"><i class="fa fa-check"></i><b>10.6</b> Partition de la variance</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#coefficient-de-corrélation-intra-classe"><i class="fa fa-check"></i><b>10.6.1</b> Coefficient de corrélation intra-classe</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#effet-contextuel"><i class="fa fa-check"></i><b>10.7</b> Effet contextuel</a></li>
+<li class="chapter" data-level="10.8" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#évaluation-du-modèle-2"><i class="fa fa-check"></i><b>10.8</b> Évaluation du modèle</a></li>
+<li class="chapter" data-level="10.9" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#pentes-aléatoires"><i class="fa fa-check"></i><b>10.9</b> Pentes aléatoires</a></li>
+<li class="chapter" data-level="10.10" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#travaux-pratiques-10---modèles-linéaires-mixtes"><i class="fa fa-check"></i><b>10.10</b> Travaux pratiques 10 - Modèles linéaires mixtes</a>
+<ul>
+<li class="chapter" data-level="10.10.1" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#exercices"><i class="fa fa-check"></i><b>10.10.1</b> Exercices</a></li>
+<li class="chapter" data-level="10.10.2" data-path="modèles-mixtes-pour-données-structurées.html"><a href="modèles-mixtes-pour-données-structurées.html#code-r-et-réponses"><i class="fa fa-check"></i><b>10.10.2</b> Code R et réponses</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publié avec bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Épidémiologie 2 - Labo informatique R (PTM-6675)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="modèles-mixtes-pour-données-structurées" class="section level1 hasAnchor" number="10">
+<h1><span class="header-section-number">Chapitre 10</span> Modèles mixtes pour données structurées<a href="modèles-mixtes-pour-données-structurées.html#modèles-mixtes-pour-données-structurées" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="généralités-4" class="section level2 hasAnchor" number="10.1">
+<h2><span class="header-section-number">10.1</span> Généralités<a href="modèles-mixtes-pour-données-structurées.html#généralités-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Les données sont structurées lorsque les observations partagent des caractéristiques communes. Les observations provenant d’un même regroupement sont habituellement « plus semblables ». Elles sont plus semblables parce que les observations partagent un environnement commun (e.g., un enclos), un espace commun (e.g., topographie), un regroupement temporel (e.g., des mesures répétées sur un même individu). Cette structure résulte souvent de votre échantillonnage. Par exemple, si vous échantillonez les 4 glandes mammaires de chacune des vaches de 30 troupeaux, vous devrez probablement prendre en compte le fait que les glandes mammaires sont regroupées par vache qui, elles-mêmes sont regroupées par troupeau. Les observations, dans ce cas, ne sont plus <strong>indépendantes</strong> les unes des autres (une condition essentielle pour plusieurs approches statistiques).</p>
+<p>Si on ignore le regroupement des données lors des analyses statistiques, les erreurs types des paramètres seront souvent trop petites pour les prédicteurs au niveau du groupe, mais parfois trop grandes pour les prédicteurs au niveau individuel et un poids déraisonnable pourrait être attribué aux groupes les plus larges. Un exemple de données structurée est illustré dans la figure suivante.</p>
+<div class="figure">
+<img src="Figures/mixed.png" alt="" />
+<p class="caption">Exemple de structure de données (hiérarchique). Les différents prédicteurs d’intérêt et la variable dépendante (production) sont indiqués pour chacun des niveaux de la hiérarchie.</p>
+</div>
+<p>Les modèles mixtes (mixed models) « prolongent » les modèles de régression linéaire et les modèles de régression linéaire généralisés pour prendre en considération, lors des analyses statistiques, le regroupement des données. On les dit « mixtes » parce qu’ils comprennent à la fois des effets fixes (les prédicteurs) et aléatoires (des intercepts et/ou des pentes aléatoires). On les appelle aussi modèles à effets aléatoires (random effects models) ou modèles à variance groupée (variance component models). Les modèles multi-niveaux ou hiérarchiques sont des cas particuliers des modèles mixtes où chaque niveau est parfaitement imbriqué dans le niveau supérieur (comme à la figure précédente).</p>
+<p>Dans <code>R</code>, plusieurs librairies ont été conçues spécifiquement pour réaliser les différents modèles mixtes, les librairies <code>nlme</code> et <code>lme4</code> sont probablement les plus utilisées. Brièvement:<br />
+- La librairie <strong><code>nlme</code></strong> ne pourra être utilisée que pour les <strong>modèles linéaires mixtes</strong> (i.e., les modèles où la variable dépendante est quantitative et normalement distribuée, mais où des regroupements d’observations doivent être pris en compte);<br />
+- La librairie <strong><code>lme4</code></strong> permettra de réaliser les <strong>modèles linéaires généralisés mixtes</strong> (i.e., les modèles où la variable dépendante peut être binaire, un compte d’événements, ou autre, et permettant de choisir différentes fonction de lien tel logit, log, etc, et, encore une fois, où des regroupements d’observations doivent être pris en compte).</p>
+<p>Dans les exemples suivants, nous verrons seulement des cas où la variable dépendante est quantitative et normalement distribuée. Nous utiliserons donc la librairie <code>nlme</code>.</p>
+<p>Notez que l’estimation des modèles linéaires généralisés mixtes (i.e., les modèles de régression mixtes pour une variable dépendante autre que quantitative normale) présente de nombreuses difficultés :<br />
+1) plusieurs des méthodes disponibles sont reconnues pour produire des estimés des coefficients, des erreurs types et des variances qui sont biaisées (Joe, H., 2008)<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>;<br />
+2) des procédures itératives sont utilisées afin de solutionner ces modèles et tout message indiquant un problème de « convergence » de la méthode devraient être pris très au sérieux.</p>
+</div>
+<div id="évaluer-la-structure-de-regroupement" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">10.2</span> Évaluer la structure de regroupement<a href="modèles-mixtes-pour-données-structurées.html#évaluer-la-structure-de-regroupement" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Une première étape primordiale lorsque vous travaillez avec des données structurées est de représenter dans un schéma comme à la figure précédente la structure hypothétique de vos données. Dans ce schéma vous indiquerez aussi à quel niveau se situe chacun de vos prédicteurs et votre variable dépendante (cette dernière sera souvent, mais pas toujours, au niveau le plus bas de la hiérarchie).</p>
+<p>Après avoir établi ce schéma, vous pourrez ensuite calculer le nombre moyen d’observations par niveau supérieur et l’étendue du nombre d’observations par niveau supérieur. Vous pourrez ainsi vérifier si certains niveaux sont superflus (e.g., une seule ou peu d’observations par groupe pour ce niveau) ou s’ils pourront être traités autrement que par un effet aléatoire (e.g., groupe inclus comme effet fixe). En fait, vous voudrez établir un tableau similaire au tableau suivant.</p>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:unnamed-chunk-3">Table 10.1: </span>Structure des données reu_cfs.csv
+</caption>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Niveau
+</td>
+<td style="text-align:center;">
+Nombre d’unités
+</td>
+<td style="text-align:center;">
+Nombre moyen/niveau supérieur
+</td>
+<td style="text-align:center;">
+Minimum/niveau supérieur
+</td>
+<td style="text-align:left;">
+maximum/niveau supérieur
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Region
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Troupeau
+</td>
+<td style="text-align:center;">
+50
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:left;">
+16
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Vaches
+</td>
+<td style="text-align:center;">
+1575
+</td>
+<td style="text-align:center;">
+31.5
+</td>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:left;">
+105
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lactation
+</td>
+<td style="text-align:center;">
+3027
+</td>
+<td style="text-align:center;">
+1.9
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:left;">
+5
+</td>
+</tr>
+</tbody>
+</table>
+<p>Vous pouvez calculer les différents éléments nécessaires pour compléter ce genre de table en utilisant différentes fonctions <code>R</code> de base. Par exemple, pour cette table représentant les données d’une étude où l’unité d’analyse était les lactations, de vaches, de différents troupeaux, dans 5 régions, nous avons utilisé le (long) code <code>R</code> suivant.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="modèles-mixtes-pour-données-structurées.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Nous importons le jeu de données</span></span>
+<span id="cb1-2"><a href="modèles-mixtes-pour-données-structurées.html#cb1-2" aria-hidden="true" tabindex="-1"></a>reu_cfs <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="st">&quot;reu_cfs.csv&quot;</span>, </span>
+<span id="cb1-3"><a href="modèles-mixtes-pour-données-structurées.html#cb1-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">header=</span><span class="cn">TRUE</span>, </span>
+<span id="cb1-4"><a href="modèles-mixtes-pour-données-structurées.html#cb1-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sep=</span><span class="st">&quot;;&quot;</span></span>
+<span id="cb1-5"><a href="modèles-mixtes-pour-données-structurées.html#cb1-5" aria-hidden="true" tabindex="-1"></a>                    )</span>
+<span id="cb1-6"><a href="modèles-mixtes-pour-données-structurées.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Nous indiquons les variables catégoriques dans le jeu de données</span></span>
+<span id="cb1-7"><a href="modèles-mixtes-pour-données-structurées.html#cb1-7" aria-hidden="true" tabindex="-1"></a>reu_cfs<span class="sc">$</span>region <span class="ot">&lt;-</span> <span class="fu">factor</span>(reu_cfs<span class="sc">$</span>region) </span>
+<span id="cb1-8"><a href="modèles-mixtes-pour-données-structurées.html#cb1-8" aria-hidden="true" tabindex="-1"></a>reu_cfs<span class="sc">$</span>herd <span class="ot">&lt;-</span> <span class="fu">factor</span>(reu_cfs<span class="sc">$</span>herd) </span>
+<span id="cb1-9"><a href="modèles-mixtes-pour-données-structurées.html#cb1-9" aria-hidden="true" tabindex="-1"></a>reu_cfs<span class="sc">$</span>cow <span class="ot">&lt;-</span> <span class="fu">factor</span>(reu_cfs<span class="sc">$</span>cow) </span>
+<span id="cb1-10"><a href="modèles-mixtes-pour-données-structurées.html#cb1-10" aria-hidden="true" tabindex="-1"></a>reu_cfs<span class="sc">$</span>fscr <span class="ot">&lt;-</span> <span class="fu">factor</span>(reu_cfs<span class="sc">$</span>fscr)</span>
+<span id="cb1-11"><a href="modèles-mixtes-pour-données-structurées.html#cb1-11" aria-hidden="true" tabindex="-1"></a>reu_cfs<span class="sc">$</span>heifer <span class="ot">&lt;-</span> <span class="fu">factor</span>(reu_cfs<span class="sc">$</span>heifer)</span>
+<span id="cb1-12"><a href="modèles-mixtes-pour-données-structurées.html#cb1-12" aria-hidden="true" tabindex="-1"></a>reu_cfs<span class="sc">$</span>ai <span class="ot">&lt;-</span> <span class="fu">factor</span>(reu_cfs<span class="sc">$</span>ai) </span>
+<span id="cb1-13"><a href="modèles-mixtes-pour-données-structurées.html#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="modèles-mixtes-pour-données-structurées.html#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#Nombre total de lactations</span></span>
+<span id="cb1-15"><a href="modèles-mixtes-pour-données-structurées.html#cb1-15" aria-hidden="true" tabindex="-1"></a>dimension <span class="ot">&lt;-</span> <span class="fu">dim</span>(reu_cfs)</span>
+<span id="cb1-16"><a href="modèles-mixtes-pour-données-structurées.html#cb1-16" aria-hidden="true" tabindex="-1"></a>total <span class="ot">&lt;-</span> dimension[<span class="dv">1</span>]</span>
+<span id="cb1-17"><a href="modèles-mixtes-pour-données-structurées.html#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="modèles-mixtes-pour-données-structurées.html#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#Nombre moyen et étendue des lactations par vache</span></span>
+<span id="cb1-19"><a href="modèles-mixtes-pour-données-structurées.html#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">#1) Créer un jeu de données &quot;vaches&quot; où les lactations ont été compilées par vache </span></span>
+<span id="cb1-20"><a href="modèles-mixtes-pour-données-structurées.html#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-21"><a href="modèles-mixtes-pour-données-structurées.html#cb1-21" aria-hidden="true" tabindex="-1"></a>vaches <span class="ot">&lt;-</span> reu_cfs <span class="sc">%&gt;%</span></span>
+<span id="cb1-22"><a href="modèles-mixtes-pour-données-structurées.html#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(cow)</span>
+<span id="cb1-23"><a href="modèles-mixtes-pour-données-structurées.html#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">#Dans ce jeu de données, la variable n représente le nombre de lactations suivies par vache. Nous pouvons donc obtenir la moyenne et l&#39;étendue (minimum et maximum)</span></span>
+<span id="cb1-24"><a href="modèles-mixtes-pour-données-structurées.html#cb1-24" aria-hidden="true" tabindex="-1"></a>dimension <span class="ot">&lt;-</span> <span class="fu">dim</span>(vaches)</span>
+<span id="cb1-25"><a href="modèles-mixtes-pour-données-structurées.html#cb1-25" aria-hidden="true" tabindex="-1"></a>nb_vache <span class="ot">&lt;-</span> dimension[<span class="dv">1</span>]</span>
+<span id="cb1-26"><a href="modèles-mixtes-pour-données-structurées.html#cb1-26" aria-hidden="true" tabindex="-1"></a>mean_lact <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">mean</span>(vaches<span class="sc">$</span>n),</span>
+<span id="cb1-27"><a href="modèles-mixtes-pour-données-structurées.html#cb1-27" aria-hidden="true" tabindex="-1"></a>                   <span class="at">digits=</span><span class="dv">1</span></span>
+<span id="cb1-28"><a href="modèles-mixtes-pour-données-structurées.html#cb1-28" aria-hidden="true" tabindex="-1"></a>                   )</span>
+<span id="cb1-29"><a href="modèles-mixtes-pour-données-structurées.html#cb1-29" aria-hidden="true" tabindex="-1"></a>min_lact <span class="ot">&lt;-</span> <span class="fu">min</span>(vaches<span class="sc">$</span>n)</span>
+<span id="cb1-30"><a href="modèles-mixtes-pour-données-structurées.html#cb1-30" aria-hidden="true" tabindex="-1"></a>max_lact <span class="ot">&lt;-</span> <span class="fu">max</span>(vaches<span class="sc">$</span>n)</span>
+<span id="cb1-31"><a href="modèles-mixtes-pour-données-structurées.html#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="modèles-mixtes-pour-données-structurées.html#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">#2) créer un jeu de données &quot;troupeaux&quot; où les vaches sont regroupées par troupeau. Pour ce faire, on devra procéder en 2 étapes, en regroupant d&#39;abord par troupeau, puis en comptant le nombre de troupeaux:</span></span>
+<span id="cb1-33"><a href="modèles-mixtes-pour-données-structurées.html#cb1-33" aria-hidden="true" tabindex="-1"></a>troupeaux <span class="ot">&lt;-</span> reu_cfs <span class="sc">%&gt;%</span></span>
+<span id="cb1-34"><a href="modèles-mixtes-pour-données-structurées.html#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(herd) <span class="sc">%&gt;%</span></span>
+<span id="cb1-35"><a href="modèles-mixtes-pour-données-structurées.html#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(cow)</span>
+<span id="cb1-36"><a href="modèles-mixtes-pour-données-structurées.html#cb1-36" aria-hidden="true" tabindex="-1"></a>troupeaux <span class="ot">&lt;-</span> troupeaux <span class="sc">%&gt;%</span></span>
+<span id="cb1-37"><a href="modèles-mixtes-pour-données-structurées.html#cb1-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(herd)</span>
+<span id="cb1-38"><a href="modèles-mixtes-pour-données-structurées.html#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">#Dans ce jeu de données, la variable n représente le nombre de vaches par troupeau. Nous pouvons donc obtenir la moyenne et l&#39;étendue (minimum et maximum)</span></span>
+<span id="cb1-39"><a href="modèles-mixtes-pour-données-structurées.html#cb1-39" aria-hidden="true" tabindex="-1"></a>dimension <span class="ot">&lt;-</span> <span class="fu">dim</span>(troupeaux)</span>
+<span id="cb1-40"><a href="modèles-mixtes-pour-données-structurées.html#cb1-40" aria-hidden="true" tabindex="-1"></a>nb_troupeau <span class="ot">&lt;-</span> dimension[<span class="dv">1</span>]</span>
+<span id="cb1-41"><a href="modèles-mixtes-pour-données-structurées.html#cb1-41" aria-hidden="true" tabindex="-1"></a>mean_vache <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">mean</span>(troupeaux<span class="sc">$</span>n),</span>
+<span id="cb1-42"><a href="modèles-mixtes-pour-données-structurées.html#cb1-42" aria-hidden="true" tabindex="-1"></a>                   <span class="at">digits=</span><span class="dv">1</span></span>
+<span id="cb1-43"><a href="modèles-mixtes-pour-données-structurées.html#cb1-43" aria-hidden="true" tabindex="-1"></a>                   )</span>
+<span id="cb1-44"><a href="modèles-mixtes-pour-données-structurées.html#cb1-44" aria-hidden="true" tabindex="-1"></a>min_vache <span class="ot">&lt;-</span> <span class="fu">min</span>(troupeaux<span class="sc">$</span>n)</span>
+<span id="cb1-45"><a href="modèles-mixtes-pour-données-structurées.html#cb1-45" aria-hidden="true" tabindex="-1"></a>max_vache <span class="ot">&lt;-</span> <span class="fu">max</span>(troupeaux<span class="sc">$</span>n)</span>
+<span id="cb1-46"><a href="modèles-mixtes-pour-données-structurées.html#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="modèles-mixtes-pour-données-structurées.html#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">#3) Créer un jeu de données &quot;région&quot; où... (vous aurez compris la suite)</span></span>
+<span id="cb1-48"><a href="modèles-mixtes-pour-données-structurées.html#cb1-48" aria-hidden="true" tabindex="-1"></a>region <span class="ot">&lt;-</span> reu_cfs <span class="sc">%&gt;%</span></span>
+<span id="cb1-49"><a href="modèles-mixtes-pour-données-structurées.html#cb1-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span></span>
+<span id="cb1-50"><a href="modèles-mixtes-pour-données-structurées.html#cb1-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(herd)</span>
+<span id="cb1-51"><a href="modèles-mixtes-pour-données-structurées.html#cb1-51" aria-hidden="true" tabindex="-1"></a>region <span class="ot">&lt;-</span> region <span class="sc">%&gt;%</span></span>
+<span id="cb1-52"><a href="modèles-mixtes-pour-données-structurées.html#cb1-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(region)</span>
+<span id="cb1-53"><a href="modèles-mixtes-pour-données-structurées.html#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co">#Dans ce jeu de données, la variable n représente le nombre de troupeaux par région. Nous pouvons donc obtenir la moyenne et l&#39;étendue (minimum et maximum)</span></span>
+<span id="cb1-54"><a href="modèles-mixtes-pour-données-structurées.html#cb1-54" aria-hidden="true" tabindex="-1"></a>dimension <span class="ot">&lt;-</span> <span class="fu">dim</span>(region)</span>
+<span id="cb1-55"><a href="modèles-mixtes-pour-données-structurées.html#cb1-55" aria-hidden="true" tabindex="-1"></a>nb_region <span class="ot">&lt;-</span> dimension[<span class="dv">1</span>]</span>
+<span id="cb1-56"><a href="modèles-mixtes-pour-données-structurées.html#cb1-56" aria-hidden="true" tabindex="-1"></a>mean_troupeau <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">mean</span>(region<span class="sc">$</span>n),</span>
+<span id="cb1-57"><a href="modèles-mixtes-pour-données-structurées.html#cb1-57" aria-hidden="true" tabindex="-1"></a>                   <span class="at">digits=</span><span class="dv">1</span></span>
+<span id="cb1-58"><a href="modèles-mixtes-pour-données-structurées.html#cb1-58" aria-hidden="true" tabindex="-1"></a>                   )</span>
+<span id="cb1-59"><a href="modèles-mixtes-pour-données-structurées.html#cb1-59" aria-hidden="true" tabindex="-1"></a>min_troupeau <span class="ot">&lt;-</span> <span class="fu">min</span>(region<span class="sc">$</span>n)</span>
+<span id="cb1-60"><a href="modèles-mixtes-pour-données-structurées.html#cb1-60" aria-hidden="true" tabindex="-1"></a>max_troupeau <span class="ot">&lt;-</span> <span class="fu">max</span>(region<span class="sc">$</span>n)</span>
+<span id="cb1-61"><a href="modèles-mixtes-pour-données-structurées.html#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-62"><a href="modèles-mixtes-pour-données-structurées.html#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="co">#Il ne reste plus qu&#39;à assembler toutes ces informations dans une table</span></span>
+<span id="cb1-63"><a href="modèles-mixtes-pour-données-structurées.html#cb1-63" aria-hidden="true" tabindex="-1"></a>ligne_titre <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Niveau&quot;</span>, <span class="st">&quot;Nombre d&#39;unités&quot;</span>, <span class="st">&quot;Nombre moyen/niveau supérieur&quot;</span>, <span class="st">&quot;Minimum/niveau supérieur&quot;</span>, <span class="st">&quot;maximum/niveau supérieur&quot;</span>)</span>
+<span id="cb1-64"><a href="modèles-mixtes-pour-données-structurées.html#cb1-64" aria-hidden="true" tabindex="-1"></a>ligne_lact <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Lactation&quot;</span>, total, mean_lact, min_lact, max_lact)</span>
+<span id="cb1-65"><a href="modèles-mixtes-pour-données-structurées.html#cb1-65" aria-hidden="true" tabindex="-1"></a>ligne_vache <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Vaches&quot;</span>, nb_vache, mean_vache, min_vache, max_vache)  </span>
+<span id="cb1-66"><a href="modèles-mixtes-pour-données-structurées.html#cb1-66" aria-hidden="true" tabindex="-1"></a>ligne_troupeau <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Troupeau&quot;</span>, nb_troupeau, mean_troupeau, min_troupeau, max_troupeau) </span>
+<span id="cb1-67"><a href="modèles-mixtes-pour-données-structurées.html#cb1-67" aria-hidden="true" tabindex="-1"></a>ligne_region <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Region&quot;</span>, nb_region, <span class="st">&quot; &quot;</span>, <span class="st">&quot; &quot;</span>, <span class="st">&quot; &quot;</span>) </span>
+<span id="cb1-68"><a href="modèles-mixtes-pour-données-structurées.html#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-69"><a href="modèles-mixtes-pour-données-structurées.html#cb1-69" aria-hidden="true" tabindex="-1"></a>Structure <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">rbind</span>(ligne_titre, ligne_region, ligne_troupeau, ligne_vache, ligne_lact))</span>
+<span id="cb1-70"><a href="modèles-mixtes-pour-données-structurées.html#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(Structure) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb1-71"><a href="modèles-mixtes-pour-données-structurées.html#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Structure) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb1-72"><a href="modèles-mixtes-pour-données-structurées.html#cb1-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-73"><a href="modèles-mixtes-pour-données-structurées.html#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-74"><a href="modèles-mixtes-pour-données-structurées.html#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb1-75"><a href="modèles-mixtes-pour-données-structurées.html#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(Structure, </span>
+<span id="cb1-76"><a href="modèles-mixtes-pour-données-structurées.html#cb1-76" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption=</span><span class="st">&quot;Structure des données reu_cfs.csv&quot;</span>,</span>
+<span id="cb1-77"><a href="modèles-mixtes-pour-données-structurées.html#cb1-77" aria-hidden="true" tabindex="-1"></a>      <span class="at">align =</span> <span class="st">&quot;lccc&quot;</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb1-78"><a href="modèles-mixtes-pour-données-structurées.html#cb1-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>()</span></code></pre></div>
+</div>
+<div id="modèle-linéaire-mixte" class="section level2 hasAnchor" number="10.3">
+<h2><span class="header-section-number">10.3</span> Modèle linéaire mixte<a href="modèles-mixtes-pour-données-structurées.html#modèle-linéaire-mixte" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La fonction <code>lme()</code> de la librairie <code>nlme</code> permet d’éxecuter les modèles de régression linéaire mixte (i.e., les modèles de régression où la variable dépendante est quantitative et normalement distribuée et où un ou plusieurs effets aléatoires sont ajoutés). Par exemple, dans l’exemple ci-dessous, un intercept aléatoire (<span class="math inline">\(\mu_j\)</span>) est ajouté :</p>
+<p><span class="math display">\[ Y_{ij} = \beta_0 + \beta_1x_{ij} + \epsilon_{ij} + \mu_j\]</span>
+<span class="math display">\[ \epsilon_{ij} \sim \text{Normal}(0, \sigma^2)\]</span>
+<span class="math display">\[ \mu_j \sim \text{Normal}(0, \sigma^2_j) \]</span>
+La librairie <code>nlme</code> produira des estimés non-biaisés des coefficients, des erreurs types et des variances. Il n’y a donc pas d’inquiétude à ce sujet. Dans cette section, nous nous concentrerons sur les inférences quant aux coefficients de régression (i.e., les effets fixes) puisque les effets aléatoires sont quant à eux rarement « testés ». Voir la section 21.5.3 de <a href="https://projects.upei.ca/ver/data-and-samples/">Veterinary Epidemiologic Research (Dohoo et al., 2009)</a> pour plus de détails à ce sujet.</p>
+</div>
+<div id="modèle-mixte-avec-un-seul-intercept-aléatoire" class="section level2 hasAnchor" number="10.4">
+<h2><span class="header-section-number">10.4</span> Modèle mixte avec un seul intercept aléatoire<a href="modèles-mixtes-pour-données-structurées.html#modèle-mixte-avec-un-seul-intercept-aléatoire" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La syntaxe de la fonction <code>lme()</code> ressemble beaucoup à celle de la fonction <code>lm()</code>. Par exemple, voici le code <code>R</code> pour un modèle où nous voudrions prédire le log du temps entre le vêlage et la saillie fécondante (calving to first service; <em>lncfs</em>) avec un seul prédicteur (<em>heifer</em>) et où il n’y aurait qu’un seul intercept aléatoire (i.e., en considérant seulement que les lactations étaient regroupées par vaches dans le jeu de données <em>reu_cfs.csv</em>). Notez que seule l’argument <code>random=</code> est nouveau. Celui-ci décrit les effets aléatoires. Dans ce cas précis, nous avons indiqué que l’intercept (<code>~ 1</code>) pourra varier en fonction de la vache (<code>| cow</code>)</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="modèles-mixtes-pour-données-structurées.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb2-2"><a href="modèles-mixtes-pour-données-structurées.html#cb2-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lme</span>(<span class="at">data=</span>reu_cfs,</span>
+<span id="cb2-3"><a href="modèles-mixtes-pour-données-structurées.html#cb2-3" aria-hidden="true" tabindex="-1"></a>             lncfs <span class="sc">~</span> heifer,</span>
+<span id="cb2-4"><a href="modèles-mixtes-pour-données-structurées.html#cb2-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> cow)</span>
+<span id="cb2-5"><a href="modèles-mixtes-pour-données-structurées.html#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div>
+<pre><code>## Linear mixed-effects model fit by REML
+##   Data: reu_cfs 
+##        AIC     BIC    logLik
+##   3147.071 3171.13 -1569.536
+## 
+## Random effects:
+##  Formula: ~1 | cow
+##         (Intercept)  Residual
+## StdDev:   0.1886308 0.3655125
+## 
+## Fixed effects:  lncfs ~ heifer 
+##                 Value  Std.Error   DF  t-value p-value
+## (Intercept)  4.220263 0.00939379 1574 449.2610  0.0000
+## heifer1     -0.017275 0.01751842 1451  -0.9861  0.3242
+##  Correlation: 
+##         (Intr)
+## heifer1 -0.45 
+## 
+## Standardized Within-Group Residuals:
+##        Min         Q1        Med         Q3        Max 
+## -2.3970655 -0.6295920 -0.1008050  0.5319296  4.2414756 
+## 
+## Number of Observations: 3027
+## Number of Groups: 1575</code></pre>
+<p>Plusieurs des résultats auxquels vous êtes maintenant habitués vous sont présentés. Par exemple, les coefficients des différents paramètres, leur erreur-type et un test de <em>T</em> pour chacun des coefficients. Cependant, on vous rapporte maintenant également le nombre d’observations et le nombre de “groupes” (ici les nombres de lactations et de vaches, respectivement).</p>
+</div>
+<div id="modèle-mixte-avec-plus-dun-intercept-aléatoire" class="section level2 hasAnchor" number="10.5">
+<h2><span class="header-section-number">10.5</span> Modèle mixte avec plus d’un intercept aléatoire<a href="modèles-mixtes-pour-données-structurées.html#modèle-mixte-avec-plus-dun-intercept-aléatoire" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Pour ajouter plusieurs intercepts aléatoires, on devra compléter l’argument <code>random =</code> afin de bien indiquer les différents effets aléatoires. À l’aide de barres obliques, on pourra indiquer de quelle manière les groupes sont imbriqués les uns dans les autres. Par exemple, pour inclure les 3 intercepts aléatoires présentés en début de section (i.e., des lactations regroupées par <strong>vache</strong>, <strong>troupeau</strong> et <strong>région</strong>), on écrira <code>random = ~ 1 | region/herd/cow</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="modèles-mixtes-pour-données-structurées.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb4-2"><a href="modèles-mixtes-pour-données-structurées.html#cb4-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lme</span>(<span class="at">data=</span>reu_cfs,</span>
+<span id="cb4-3"><a href="modèles-mixtes-pour-données-structurées.html#cb4-3" aria-hidden="true" tabindex="-1"></a>             lncfs <span class="sc">~</span> heifer,</span>
+<span id="cb4-4"><a href="modèles-mixtes-pour-données-structurées.html#cb4-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> region<span class="sc">/</span>herd<span class="sc">/</span>cow)</span>
+<span id="cb4-5"><a href="modèles-mixtes-pour-données-structurées.html#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div>
+<pre><code>## Linear mixed-effects model fit by REML
+##   Data: reu_cfs 
+##        AIC      BIC    logLik
+##   3003.739 3039.827 -1495.869
+## 
+## Random effects:
+##  Formula: ~1 | region
+##         (Intercept)
+## StdDev:  0.01358984
+## 
+##  Formula: ~1 | herd %in% region
+##         (Intercept)
+## StdDev:   0.1200085
+## 
+##  Formula: ~1 | cow %in% herd %in% region
+##         (Intercept) Residual
+## StdDev:   0.1415776 0.366227
+## 
+## Fixed effects:  lncfs ~ heifer 
+##                 Value  Std.Error   DF   t-value p-value
+## (Intercept)  4.218034 0.02062553 1525 204.50554  0.0000
+## heifer1     -0.005917 0.01719443 1451  -0.34412  0.7308
+##  Correlation: 
+##         (Intr)
+## heifer1 -0.192
+## 
+## Standardized Within-Group Residuals:
+##         Min          Q1         Med          Q3         Max 
+## -2.38381984 -0.64661407 -0.09780737  0.56450788  4.52576837 
+## 
+## Number of Observations: 3027
+## Number of Groups: 
+##                    region          herd %in% region cow %in% herd %in% region 
+##                         5                        50                      1575</code></pre>
+<p>Les résultats présentés sont très similaires. Cependant, on note maintenant que les 3027 lactations étaient bien regroupées parmi 1575 vaches, de 50 troupeaux, dans 5 régions. On note également qu’une structure hierarchique a été précisée (i.e., <code>cow %in% herd %in% region</code>).</p>
+</div>
+<div id="partition-de-la-variance" class="section level2 hasAnchor" number="10.6">
+<h2><span class="header-section-number">10.6</span> Partition de la variance<a href="modèles-mixtes-pour-données-structurées.html#partition-de-la-variance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>L’inclusion d’un ou plusieurs intercept(s) aléatoire(s) permet aussi de s’intéresser à la partition de la variance entre les différents niveaux hiérarchiques. À partir d’un modèle nul (i.e., un modèle sans prédicteurs, mais dans lequel on indique les intercepts aléatoires), on pourra se servir des estimés des variances de chacun des niveaux pour calculer la proportion de la variance qui réside à chacun de ces niveaux. La variation totale est la somme des variances. La proportion de la variation attribuable à un niveau sera la variance de ce niveau divisée par la variance totale.</p>
+<p>Les estimés des variances, ne sont pas présentés dans les résultats générés par la fonction <code>summary()</code>. Pour les obtenir, nous devront utiliser la fonction <code>VarCorr()</code> du package <code>nlme</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="modèles-mixtes-pour-données-structurées.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Modèle nul (i.e., model sans prédicteurs)</span></span>
+<span id="cb6-2"><a href="modèles-mixtes-pour-données-structurées.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb6-3"><a href="modèles-mixtes-pour-données-structurées.html#cb6-3" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lme</span>(<span class="at">data=</span>reu_cfs,</span>
+<span id="cb6-4"><a href="modèles-mixtes-pour-données-structurées.html#cb6-4" aria-hidden="true" tabindex="-1"></a>             lncfs <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb6-5"><a href="modèles-mixtes-pour-données-structurées.html#cb6-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> region<span class="sc">/</span>herd<span class="sc">/</span>cow)</span>
+<span id="cb6-6"><a href="modèles-mixtes-pour-données-structurées.html#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="modèles-mixtes-pour-données-structurées.html#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Variance</span></span>
+<span id="cb6-8"><a href="modèles-mixtes-pour-données-structurées.html#cb6-8" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(model)</span>
+<span id="cb6-9"><a href="modèles-mixtes-pour-données-structurées.html#cb6-9" aria-hidden="true" tabindex="-1"></a>vc</span></code></pre></div>
+<pre><code>##             Variance     StdDev    
+## region =    pdLogChol(1)           
+## (Intercept) 0.0001715063 0.01309604
+## herd =      pdLogChol(1)           
+## (Intercept) 0.0144411917 0.12017151
+## cow =       pdLogChol(1)           
+## (Intercept) 0.0200263516 0.14151449
+## Residual    0.1340883905 0.36618082</code></pre>
+<p>La variance totale (<span class="math inline">\(\sigma^2_{totale}\)</span>) serait donc 0.1687 (i.e., 0.1341 + 0.02 + 0.0144 + 0.0002). La proportion de la variation de <em>lncfs</em> attribuable aux caractéristiques des troupeaux serait 8.5% (i.e., <span class="math inline">\(\frac{\sigma^2_{troupeau}}{ \sigma^2_{totale}}\)</span> ou <span class="math inline">\(\frac{0.0144}{0.1687}\)</span>).</p>
+<div id="coefficient-de-corrélation-intra-classe" class="section level3 hasAnchor" number="10.6.1">
+<h3><span class="header-section-number">10.6.1</span> Coefficient de corrélation intra-classe<a href="modèles-mixtes-pour-données-structurées.html#coefficient-de-corrélation-intra-classe" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>La corrélation entre les observations d’un même groupe est décrite par le coefficient de corrélation intraclasse (<em>ICC</em>). L’<em>ICC</em> varie de 0 (indépendance) à 1 (corrélation complète) et s’interprète comme le coefficient <span class="math inline">\(\rho\)</span> de Pearson. L’<em>ICC</em> se calcule à l’aide des estimés des variances du modèle nul.</p>
+<p>Par exemple, la corrélation entre 2 lactations d’une même vache se calculera de la manière suivante :</p>
+<p><span class="math display">\[ ICC_{vache} = \frac{\sigma^2_{vache} + \sigma^2_{troupeau} + \sigma^2_{region}}{\sigma^2_{totale}}\]</span></p>
+<p>La corrélation entre 2 lactations d’un même troupeau sera :</p>
+<p><span class="math display">\[ ICC_{troupeau} = \frac{\sigma^2_{troupeau} + \sigma^2_{region}}{\sigma^2_{totale}}\]</span></p>
+<p>Entre 2 lactations d’une même région :</p>
+<p><span class="math display">\[ ICC_{région} = \frac{\sigma^2_{region}}{\sigma^2_{totale}}\]</span></p>
+<p>Par exemple on aura un <span class="math inline">\(ICC_{région}\)</span> de 0.001. Donc, il n’y a pratiquement aucune corrélation pour le logarithme naturel du nombre de jours jusqu’à la saillie fécondante (<em>lncfs</em>) entre 2 lactations d’une même région. Cependant, l’<span class="math inline">\(ICC_{vache}\)</span> était de 0.205 ; il y a donc une certaine corrélation quant au logarithme naturel du nombre de jours jusqu’à la saillie fécondante (<em>lncfs</em>) entre 2 lactations d’une même vache.</p>
+</div>
+</div>
+<div id="effet-contextuel" class="section level2 hasAnchor" number="10.7">
+<h2><span class="header-section-number">10.7</span> Effet contextuel<a href="modèles-mixtes-pour-données-structurées.html#effet-contextuel" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Parfois un prédicteur quantitatif peut représenter différents concepts si l’on considère la valeur de l’individu ou la moyenne du groupe. Par exemple, le comptage des cellules somatiques (<strong>CCS</strong>) en début de lactation a possiblement un effet sur le CCS futur d’une vache puisque le CCS indique une infection et que ces infections vont souvent persister. Le CCS moyen du troupeau en début de lactation à possiblement aussi un effet sur le CCS futur d’une vache, mais parce ce que cela indique la prévalence d’infections (possiblement contagieuses) dans le troupeau et cette prévalence affecte le risque d’acquisition de nouvelles infections par les individus sains.</p>
+<p>Pour un prédicteur, la valeur d’un prédicteur pour un individu (effet individuel) et la valeur moyenne du prédicteur pour le groupe (effet contextuel) peuvent être investiguées simplement comme deux prédicteurs différents dans un modèle linéaire mixte. Si les 2 prédicteurs sont testés en même temps dans un même modèle, il faudra penser à centrer le prédicteur au niveau de l’individu (i.e., <span class="math inline">\(x_{ij} - \tilde{x_{i}}\)</span>) afin d’éviter les problèmes de colinéarité.</p>
+<p>Certaines fonctions de base telles <code>group_by()</code> et <code>summarise()</code> du package <code>dplyr</code> pourront vous être utiles afin de créer votre prédicteur au niveau groupe. Par exemple, dans le jeu de données <code>scc_heifer.csv</code>, on s’intéresse à l’effet du CCS en début de lactation (<em>lnsccel</em>, ou “log SCC <strong>e</strong>arly <strong>l</strong>actation) sur le CCS futur de l’animal (<em>lnscc</em>). Une mesure du CCS en début de lactation (sur une échelle logarithmique, <em>lnsccel</em>) a été obtenue pour chacune des 10 996 vaches primipares de 3095 troupeaux. Il s’agit en fait de la valeur centrée (nous n’aurons donc pas à le faire). Afin de créer une variable <em>lnscc.herd</em> représentant le CCS moyen (toujours sur échelle logarithmique) de chacun des troupeaux, nous pourrions utiliser le code suivant.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="modèles-mixtes-pour-données-structurées.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Nous importons le jeu de données</span></span>
+<span id="cb8-2"><a href="modèles-mixtes-pour-données-structurées.html#cb8-2" aria-hidden="true" tabindex="-1"></a>scc_heifer <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="st">&quot;scc_heifer.csv&quot;</span>, </span>
+<span id="cb8-3"><a href="modèles-mixtes-pour-données-structurées.html#cb8-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">header=</span><span class="cn">TRUE</span>, </span>
+<span id="cb8-4"><a href="modèles-mixtes-pour-données-structurées.html#cb8-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sep=</span><span class="st">&quot;;&quot;</span></span>
+<span id="cb8-5"><a href="modèles-mixtes-pour-données-structurées.html#cb8-5" aria-hidden="true" tabindex="-1"></a>                    )</span>
+<span id="cb8-6"><a href="modèles-mixtes-pour-données-structurées.html#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Nous indiquons les variables catégoriques dans le jeu de données</span></span>
+<span id="cb8-7"><a href="modèles-mixtes-pour-données-structurées.html#cb8-7" aria-hidden="true" tabindex="-1"></a>scc_heifer<span class="sc">$</span>herd <span class="ot">&lt;-</span> <span class="fu">factor</span>(scc_heifer<span class="sc">$</span>herd) </span>
+<span id="cb8-8"><a href="modèles-mixtes-pour-données-structurées.html#cb8-8" aria-hidden="true" tabindex="-1"></a>scc_heifer<span class="sc">$</span>cow <span class="ot">&lt;-</span> <span class="fu">factor</span>(scc_heifer<span class="sc">$</span>cow) </span>
+<span id="cb8-9"><a href="modèles-mixtes-pour-données-structurées.html#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="modèles-mixtes-pour-données-structurées.html#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Nous générons un nouveau jeu de données (herddata) qui contiendra le LNSCCEL moyen de chaque troupeau (nous avons nommé cette nouvelle variable HLNSCCELlnscc.herd).</span></span>
+<span id="cb8-11"><a href="modèles-mixtes-pour-données-structurées.html#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb8-12"><a href="modèles-mixtes-pour-données-structurées.html#cb8-12" aria-hidden="true" tabindex="-1"></a>herddata <span class="ot">&lt;-</span> scc_heifer <span class="sc">%&gt;%</span></span>
+<span id="cb8-13"><a href="modèles-mixtes-pour-données-structurées.html#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(herd) <span class="sc">%&gt;%</span></span>
+<span id="cb8-14"><a href="modèles-mixtes-pour-données-structurées.html#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">lnsccel.herd =</span> <span class="fu">mean</span>(lnsccel, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<p>Nous avons maintenant un jeu de données avec les valeurs moyennes pour chacun des 3095 troupeaux. Nous pourrions incorporer ces données dans notre jeu de données original.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="modèles-mixtes-pour-données-structurées.html#cb9-1" aria-hidden="true" tabindex="-1"></a>scc_heifer2 <span class="ot">&lt;-</span> <span class="fu">merge</span>(scc_heifer,</span>
+<span id="cb9-2"><a href="modèles-mixtes-pour-données-structurées.html#cb9-2" aria-hidden="true" tabindex="-1"></a>                    herddata,</span>
+<span id="cb9-3"><a href="modèles-mixtes-pour-données-structurées.html#cb9-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">by=</span><span class="st">&quot;herd&quot;</span></span>
+<span id="cb9-4"><a href="modèles-mixtes-pour-données-structurées.html#cb9-4" aria-hidden="true" tabindex="-1"></a>                    )</span></code></pre></div>
+<p>Nous pouvons maintenant évaluer un modèle qui contient <em>lnsccel</em> ou <em>lnsccel.herd</em>, ou même les 2 variables en même temps. Par exemple:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="modèles-mixtes-pour-données-structurées.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb10-2"><a href="modèles-mixtes-pour-données-structurées.html#cb10-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lme</span>(<span class="at">data=</span>scc_heifer2,</span>
+<span id="cb10-3"><a href="modèles-mixtes-pour-données-structurées.html#cb10-3" aria-hidden="true" tabindex="-1"></a>             lnscc <span class="sc">~</span> lnsccel <span class="sc">+</span> lnsccel.herd,</span>
+<span id="cb10-4"><a href="modèles-mixtes-pour-données-structurées.html#cb10-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> herd)</span>
+<span id="cb10-5"><a href="modèles-mixtes-pour-données-structurées.html#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div>
+<pre><code>## Linear mixed-effects model fit by REML
+##   Data: scc_heifer2 
+##        AIC      BIC    logLik
+##   32639.38 32675.91 -16314.69
+## 
+## Random effects:
+##  Formula: ~1 | herd
+##         (Intercept) Residual
+## StdDev:   0.3437646 1.018768
+## 
+## Fixed effects:  lnscc ~ lnsccel + lnsccel.herd 
+##                 Value   Std.Error   DF  t-value p-value
+## (Intercept)  4.094196 0.012020252 7900 340.6082       0
+## lnsccel      0.241698 0.009480722 7900  25.4936       0
+## lnsccel.herd 0.079827 0.018656994 3093   4.2786       0
+##  Correlation: 
+##              (Intr) lnsccl
+## lnsccel       0.000       
+## lnsccel.herd -0.018 -0.508
+## 
+## Standardized Within-Group Residuals:
+##        Min         Q1        Med         Q3        Max 
+## -2.9446345 -0.6591989 -0.1487921  0.4900957  4.4544510 
+## 
+## Number of Observations: 10996
+## Number of Groups: 3095</code></pre>
+<p>Dans ce cas, nous notons qu’être une vache avec un CCS élevé en début de lactation (<em>lnsccel</em>) était associé à une augmentation du CCS futur (+ 0.242 unités par augmentation d’une unité du log CCS de la vache en début de lactation). Être une vache dans un troupeau où le CCS moyen en début de lactation est élevé (<em>lnsccel.herd</em>) était aussi associé au CCS futur de la vache, mais l’effet est moindre (+ 0.08 unités par augmentation d’une unité de du log CCS moyen du troupeau).</p>
+</div>
+<div id="évaluation-du-modèle-2" class="section level2 hasAnchor" number="10.8">
+<h2><span class="header-section-number">10.8</span> Évaluation du modèle<a href="modèles-mixtes-pour-données-structurées.html#évaluation-du-modèle-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Les logiciels spécialisés dans les modèles mixtes (e.g., <a href="http://www.bristol.ac.uk/cmm/software/mlwin/">MLwiN</a>) pourront calculer rapidement les résiduels pour chacun des niveaux et produire toutes les figures désirées. Le package <code>nlme</code> n’enregistre que les résiduels du niveau le plus bas. La fonction <code>plot()</code> permet de produire les graphiques permettant d’évaluer l’homoscédasticité des résiduels de ce premier niveau de la hiérarchie. Ceux-ci ont été enregistrés dans notre objet <em>model</em>. Par exemple, pour le modèle prédisant le log du temps entre le vêlage et la saillie fécondante (calving to first service; <em>lncfs</em>) et pour lequel les lactations étaient regroupées par vaches, troupeaux et régions:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="modèles-mixtes-pour-données-structurées.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb12-2"><a href="modèles-mixtes-pour-données-structurées.html#cb12-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lme</span>(<span class="at">data=</span>reu_cfs,</span>
+<span id="cb12-3"><a href="modèles-mixtes-pour-données-structurées.html#cb12-3" aria-hidden="true" tabindex="-1"></a>             lncfs <span class="sc">~</span> heifer,</span>
+<span id="cb12-4"><a href="modèles-mixtes-pour-données-structurées.html#cb12-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> region<span class="sc">/</span>herd<span class="sc">/</span>cow)</span>
+<span id="cb12-5"><a href="modèles-mixtes-pour-données-structurées.html#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="modèles-mixtes-pour-données-structurées.html#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="modèles-mixtes-pour-données-structurées.html#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model, </span>
+<span id="cb12-8"><a href="modèles-mixtes-pour-données-structurées.html#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">residuals</span>(.) <span class="sc">~</span> <span class="fu">fitted</span>(.), <span class="co">#Nous demandons la figure des résiduels en y par les valeurs prédites en x</span></span>
+<span id="cb12-9"><a href="modèles-mixtes-pour-données-structurées.html#cb12-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Valeurs prédites&quot;</span>,</span>
+<span id="cb12-10"><a href="modèles-mixtes-pour-données-structurées.html#cb12-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Résiduels&quot;</span></span>
+<span id="cb12-11"><a href="modèles-mixtes-pour-données-structurées.html#cb12-11" aria-hidden="true" tabindex="-1"></a>     )</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-13"></span>
+<img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-13-1.png" alt="Graphique des résiduels x valeurs prédites." width="672" />
+<p class="caption">
+Figure 10.1: Graphique des résiduels x valeurs prédites.
+</p>
+</div>
+<p>Et la normalité des résiduels du plus bas niveau de la hiérarchie pourrait être évaluée ainsi:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="modèles-mixtes-pour-données-structurées.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">resid</span>(model))</span>
+<span id="cb13-2"><a href="modèles-mixtes-pour-données-structurées.html#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(<span class="fu">resid</span>(model))</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-14"></span>
+<img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-14-1.png" alt="Graphique Q-Q des résiduels." width="672" />
+<p class="caption">
+Figure 10.2: Graphique Q-Q des résiduels.
+</p>
+</div>
+<p>Pour évaluer les résiduels des niveaux supérieurs, nous devrons utiliser la fonction <code>hlm_resid()</code> du package <code>HLMdiag</code>. Par exemple, nous pouvons créer un nouveau jeu de données <em>resid_herd</em> avec les résiduels pour chacun des troupeaux (n=50). Notez que deux types de résiduels sont produits:</p>
+<ul>
+<li>les résiduels <code>ranef.intercept</code> sont produits en utilisant la méthode “Empirical Bayes estimation”;<br />
+</li>
+<li>les résiduels <code>ls.intercept</code> sont produits en utilisant la méthode des moindres carrés.</li>
+</ul>
+<p>Ensuite, nous pourrions évaluer la normalité des résiduels avec un graphique Q-Q. Dans l’exemple suivant, nous produirons les résiduels du niveau troupeau.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="modèles-mixtes-pour-données-structurées.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HLMdiag)</span>
+<span id="cb14-2"><a href="modèles-mixtes-pour-données-structurées.html#cb14-2" aria-hidden="true" tabindex="-1"></a>resid_herd <span class="ot">&lt;-</span> <span class="fu">hlm_resid</span>(model, </span>
+<span id="cb14-3"><a href="modèles-mixtes-pour-données-structurées.html#cb14-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">level=</span><span class="st">&quot;herd&quot;</span></span>
+<span id="cb14-4"><a href="modèles-mixtes-pour-données-structurées.html#cb14-4" aria-hidden="true" tabindex="-1"></a>                       )</span>
+<span id="cb14-5"><a href="modèles-mixtes-pour-données-structurées.html#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="modèles-mixtes-pour-données-structurées.html#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(resid_herd<span class="sc">$</span>.ranef.intercept)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-15"></span>
+<img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-15-1.png" alt="Graphique Q-Q des résiduels du niveau troupeau." width="672" />
+<p class="caption">
+Figure 10.3: Graphique Q-Q des résiduels du niveau troupeau.
+</p>
+</div>
+<p>Il faudrait ensuite répéter cette évaluation pour les résiduels du niveau vache, et ceux du niveau région. Notez que la fonction <code>hlm_resid()</code> ne produit pas les valeurs prédites par le modèle. Ce n’est donc pas possible de vérifier l’homoscédasticité des résiduels des niveaux supérieurs (i.e., de produire une figure des résiduels x valeurs prédites).</p>
+<p>Finalement, vous pourriez aussi produire un nouveau jeu de données contenant les distances de Cook, les leviers et les différentes mesures vous permettant d’évaluer votre modèle en utilisant la fonction <code>hlm_influence()</code>. Notez que, si le jeu de données est large et que plusieurs intercepts aléatoires sont utilisés (comme ici), cette fonction peut prendre plusieurs minutes avant de produire le jeu de données demandé. Dans l’exemple suivant, nous produirons les mesures d’influence pour le niveau le plus bas de la hiéarchie en indiquant <code>level=1</code>. Nous aurions pu remplacer par <code>level="cow"</code>, <code>level="herd"</code> ou <code>level="region"</code> pour évaluer, respectivement, les vaches, troupeaux et régions les plus influents.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="modèles-mixtes-pour-données-structurées.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HLMdiag)</span>
+<span id="cb15-2"><a href="modèles-mixtes-pour-données-structurées.html#cb15-2" aria-hidden="true" tabindex="-1"></a>infl_lact <span class="ot">&lt;-</span> <span class="fu">hlm_influence</span>(model, </span>
+<span id="cb15-3"><a href="modèles-mixtes-pour-données-structurées.html#cb15-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">level=</span><span class="dv">1</span></span>
+<span id="cb15-4"><a href="modèles-mixtes-pour-données-structurées.html#cb15-4" aria-hidden="true" tabindex="-1"></a>                       )</span></code></pre></div>
+</div>
+<div id="pentes-aléatoires" class="section level2 hasAnchor" number="10.9">
+<h2><span class="header-section-number">10.9</span> Pentes aléatoires<a href="modèles-mixtes-pour-données-structurées.html#pentes-aléatoires" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Avec le modèle avec un ou plusieurs intercepts aléatoires, les groupes diffèrent entre eux pour la valeur moyenne de la variable dépendante : le seul effet aléatoire est un intercept aléatoire. Mais il se peut que l’effet d’un prédicteur quantitatif soit différent dans un groupe plutôt qu’un autre (i.e., la pente diffère entre les groupes). Les jours en lait, par exemple, pourraient avoir un effet plus important sur le comptage en cellules somatiques dans certains troupeaux que dans d’autres. Il y aurait alors une hétérogénéité des pentes des droites de régression selon le troupeau. On peut le modéliser grâce à une pente aléatoire.</p>
+<p>Par exemple, dans le jeu de données <em>scc40_2level.csv</em>, le CCS (<em>lnscc</em>, donc sur une échelle logarithmique) de 2178 vaches de 40 troupeaux a été mesuré (une seule mesure par vache). Les observations dans ce jeu de données sont donc regroupées par troupeau. Un modèle avec seulement un intercept aléatoire (i.e., un modèle hiérarchique à 2 niveaux) pourrait être évalué comme suit :</p>
+<p><span class="math display">\[ TLNSCC_{ij} = \beta_0 + \beta_1TDIM_{ij} + \epsilon_{ij} + \mu_j\]</span>
+<span class="math display">\[ \epsilon_{ij} \sim \text{Normal}(0, \sigma^2)\]</span>
+<span class="math display">\[ \mu_j \sim \text{Normal}(0, \sigma^2_j) \]</span></p>
+<p>Où <span class="math inline">\(TLNSCC_{ij}\)</span> est le logarithme naturel du comptage des cellules somatiques (log CCS) de la vache i du troupeau j ; <span class="math inline">\(\beta_0\)</span> est le log CCS moyen ; <span class="math inline">\(\beta_1\)</span> est l’effet des jours en lait sur le log CCS ; <span class="math inline">\(TDIM_{ij}\)</span> est le nombre de jours en lait au moment du test de la vache i du troupeau j ; <span class="math inline">\(\epsilon_{ij}\)</span> est le résiduel pour la vache i du troupeau j ; et <span class="math inline">\(mu_j\)</span> est la variation autour de l’effet moyen attribuable au troupeau j. Ce modèle s’écrirait comme suit :</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="modèles-mixtes-pour-données-structurées.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Nous importons le jeu de données</span></span>
+<span id="cb16-2"><a href="modèles-mixtes-pour-données-structurées.html#cb16-2" aria-hidden="true" tabindex="-1"></a>scc40 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="st">&quot;scc40_2level.csv&quot;</span>, </span>
+<span id="cb16-3"><a href="modèles-mixtes-pour-données-structurées.html#cb16-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">header=</span><span class="cn">TRUE</span>, </span>
+<span id="cb16-4"><a href="modèles-mixtes-pour-données-structurées.html#cb16-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sep=</span><span class="st">&quot;;&quot;</span></span>
+<span id="cb16-5"><a href="modèles-mixtes-pour-données-structurées.html#cb16-5" aria-hidden="true" tabindex="-1"></a>                    )</span>
+<span id="cb16-6"><a href="modèles-mixtes-pour-données-structurées.html#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Nous indiquons les variables catégoriques dans le jeu de données</span></span>
+<span id="cb16-7"><a href="modèles-mixtes-pour-données-structurées.html#cb16-7" aria-hidden="true" tabindex="-1"></a>scc40<span class="sc">$</span>herdid <span class="ot">&lt;-</span> <span class="fu">factor</span>(scc40<span class="sc">$</span>herdid) </span>
+<span id="cb16-8"><a href="modèles-mixtes-pour-données-structurées.html#cb16-8" aria-hidden="true" tabindex="-1"></a>scc40<span class="sc">$</span>cowid <span class="ot">&lt;-</span> <span class="fu">factor</span>(scc40<span class="sc">$</span>cowid)</span>
+<span id="cb16-9"><a href="modèles-mixtes-pour-données-structurées.html#cb16-9" aria-hidden="true" tabindex="-1"></a>scc40<span class="sc">$</span>c_heifer <span class="ot">&lt;-</span> <span class="fu">factor</span>(scc40<span class="sc">$</span>c_heifer)</span>
+<span id="cb16-10"><a href="modèles-mixtes-pour-données-structurées.html#cb16-10" aria-hidden="true" tabindex="-1"></a>scc40<span class="sc">$</span>t_season <span class="ot">&lt;-</span> <span class="fu">factor</span>(scc40<span class="sc">$</span>t_season)</span>
+<span id="cb16-11"><a href="modèles-mixtes-pour-données-structurées.html#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="modèles-mixtes-pour-données-structurées.html#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">#Le modèle avec intercept aléatoire</span></span>
+<span id="cb16-13"><a href="modèles-mixtes-pour-données-structurées.html#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb16-14"><a href="modèles-mixtes-pour-données-structurées.html#cb16-14" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lme</span>(<span class="at">data=</span>scc40,</span>
+<span id="cb16-15"><a href="modèles-mixtes-pour-données-structurées.html#cb16-15" aria-hidden="true" tabindex="-1"></a>             t_lnscc <span class="sc">~</span> t_dim,</span>
+<span id="cb16-16"><a href="modèles-mixtes-pour-données-structurées.html#cb16-16" aria-hidden="true" tabindex="-1"></a>             <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> herdid)</span>
+<span id="cb16-17"><a href="modèles-mixtes-pour-données-structurées.html#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div>
+<pre><code>## Linear mixed-effects model fit by REML
+##   Data: scc40 
+##        AIC     BIC    logLik
+##   7418.019 7440.76 -3705.009
+## 
+## Random effects:
+##  Formula: ~1 | herdid
+##         (Intercept) Residual
+## StdDev:   0.3797328 1.301221
+## 
+## Fixed effects:  t_lnscc ~ t_dim 
+##                Value  Std.Error   DF  t-value p-value
+## (Intercept) 4.553489 0.07253184 2137 62.77917       0
+## t_dim       0.003201 0.00045701 2137  7.00493       0
+##  Correlation: 
+##       (Intr)
+## t_dim -0.38 
+## 
+## Standardized Within-Group Residuals:
+##        Min         Q1        Med         Q3        Max 
+## -2.5011087 -0.7408145 -0.1206297  0.6477404  3.1693563 
+## 
+## Number of Observations: 2178
+## Number of Groups: 40</code></pre>
+<p>Dans ce modèle on suppose donc que l’effet de <em>t_dim</em> (i.e., <span class="math inline">\(\beta_1\)</span>) est le même dans tous les troupeaux, seul l’intercept (représenté par le symbole 1 dans <code>random = ~ 1 | herdid</code>) change en fonction du troupeau comme illustré à la figure suivante. Dans cette figure, chaque ligne représente la droite de régression d’un des 40 troupeaux. On voit que le log CCS augmente toujours de la même manière avec les jours en lait, mais que le log CCS moyen (i.e., l’intercept) varie en fonction du troupeau.</p>
+<div class="figure">
+<img src="Figures/random%20intercept.png" alt="" />
+<p class="caption">Représentation schématique d’un modèle mixte avec intercept aléatoire.</p>
+</div>
+<p>Si cela semble plus logique de permettre que l’effet d’un prédicteur varie en fonction du groupe, on pourra alors ajouter une pente aléatoire (<span class="math inline">\(\beta_j\)</span>) pour ce prédicteur, comme suit.</p>
+<p><span class="math display">\[ TLNSCC_{ij} = \beta_0 + \beta_1TDIM_{ij} + \epsilon_{ij} + \beta_jTDIM_{ij} + \mu_j\]</span>
+<span class="math display">\[ \epsilon_{ij} \sim \text{Normal}(0, \sigma^2)\]</span>
+<span class="math display">\[ \mu_j \sim \text{Normal}(0, \sigma^2_j) \]</span>
+<span class="math display">\[ \beta_j \sim \text{Normal}(0, \sigma^2_l) \]</span></p>
+<p>Où <span class="math inline">\(\beta_j\)</span> est la variation de la pente de <em>t_dim</em> en fonction du troupeau. Le paramètre <span class="math inline">\(\sigma^2_l\)</span> est alors la variance de la pente de <em>t_dim</em> entre les troupeaux. Ce modèle s’écrit comme suit :</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="modèles-mixtes-pour-données-structurées.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Le modèle avec intercept et pente t_dim aléatoire</span></span>
+<span id="cb18-2"><a href="modèles-mixtes-pour-données-structurées.html#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb18-3"><a href="modèles-mixtes-pour-données-structurées.html#cb18-3" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lme</span>(<span class="at">data=</span>scc40,</span>
+<span id="cb18-4"><a href="modèles-mixtes-pour-données-structurées.html#cb18-4" aria-hidden="true" tabindex="-1"></a>             t_lnscc <span class="sc">~</span> t_dim,</span>
+<span id="cb18-5"><a href="modèles-mixtes-pour-données-structurées.html#cb18-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> t_dim <span class="sc">|</span> herdid)</span>
+<span id="cb18-6"><a href="modèles-mixtes-pour-données-structurées.html#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div>
+<pre><code>## Linear mixed-effects model fit by REML
+##   Data: scc40 
+##        AIC      BIC    logLik
+##   7417.854 7451.965 -3702.927
+## 
+## Random effects:
+##  Formula: ~1 + t_dim | herdid
+##  Structure: General positive-definite, Log-Cholesky parametrization
+##             StdDev      Corr  
+## (Intercept) 0.435627406 (Intr)
+## t_dim       0.001970772 -0.54 
+## Residual    1.295588142       
+## 
+## Fixed effects:  t_lnscc ~ t_dim 
+##                Value  Std.Error   DF  t-value p-value
+## (Intercept) 4.556627 0.08022597 2137 56.79741       0
+## t_dim       0.003188 0.00056379 2137  5.65515       0
+##  Correlation: 
+##       (Intr)
+## t_dim -0.55 
+## 
+## Standardized Within-Group Residuals:
+##        Min         Q1        Med         Q3        Max 
+## -2.3960515 -0.7406232 -0.1138172  0.6484076  3.2099487 
+## 
+## Number of Observations: 2178
+## Number of Groups: 40</code></pre>
+<p>Dans ce modèle on suppose donc que, non seulement l’intercept (le 1 dans <code>random = ~ 1 + t_dim | herdid</code>), mais aussi l’effet de <em>t_dim</em> (i.e., <span class="math inline">\(\beta_1\)</span> ou la pente de <em>t_dim</em>) diffèrent en fonction du troupeau. Pourtant, vous noterez que vous obtenez tout de même une seule valeur, 0.003, pour le coefficient de <em>t_dim</em>. Il s’agit de la pente moyenne.</p>
+<p>Dans le modèle avec intercept et pente aléatoire, l’intercept <strong>ET</strong> la pente (<span class="math inline">\(\beta_1\)</span>) changent donc en fonction du troupeau comme illustré à la figure suivante où l’on voit que le log CCS moyen est différent <strong>ET</strong> qu’il ne change pas toujours de la même manière avec les jours en lait, en fonction du troupeau.</p>
+<div class="figure">
+<img src="Figures/random%20slope.png" alt="" />
+<p class="caption">Représentation schématique d’un modèle mixte avec intercept et pente aléatoires.</p>
+</div>
+</div>
+<div id="travaux-pratiques-10---modèles-linéaires-mixtes" class="section level2 hasAnchor" number="10.10">
+<h2><span class="header-section-number">10.10</span> Travaux pratiques 10 - Modèles linéaires mixtes<a href="modèles-mixtes-pour-données-structurées.html#travaux-pratiques-10---modèles-linéaires-mixtes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="exercices" class="section level3 hasAnchor" number="10.10.1">
+<h3><span class="header-section-number">10.10.1</span> Exercices<a href="modèles-mixtes-pour-données-structurées.html#exercices" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Pour ce TP utilisez le fichier <em>SCC40_2level.csv</em> (voir description VER p.832).</p>
+<p>Ce jeu de données provient d’une étude observationnelle dont le but était d’évaluer l’effet de différentes caractéristiques des vaches (âge [<em>c_heifer</em>], taille du troupeau [<em>h_size</em>], saison [<em>t_season</em>], jours en lait [<em>t_dim</em>], mois de la lactation [<em>test</em>]) sur le CCS des vaches (<em>t_lnscc</em>, sur une base logarithmique). Une seule observation est disponible sur chacune des 2178 vaches de 40 troupeaux.</p>
+<ol style="list-style-type: decimal">
+<li><p>Représentez schématiquement la structure de ces données, indiquez à quel niveau chacun des prédicteurs se situe et le nombre moyen, minimum et maximum d’observations par groupe.</p></li>
+<li><p>Quelle proportion de la variation du logarithme naturel du comptage des cellules somatiques (<em>t_lnscc</em>) peut être expliquée par les caractéristiques des vaches <em>vs.</em> des troupeaux ?</p></li>
+<li><p>Quelle est la corrélation entre 2 vaches d’un même troupeau quant à leur mesure de log CCS ? Comment interprétez-vous cette mesure ?</p></li>
+<li><p>Question boni (valide pour 10 banana-points). Dans ce cas-ci, quel est l’effet du dessin d’étude sur la variance (i.e., elle augmente ou diminue et de combien) ?</p></li>
+<li><p>Quel est l’effet des jours en lait (<em>t_dim</em>) sur le log CCS (supposez que <em>t_dim</em> a une relation linéaire avec <em>t_lnscc</em>) ?</p></li>
+<li><p>Vous vous demandez si le fait d’être dans un troupeau de vaches « avancées » en lactation pourrait aussi avoir un effet sur le CCS individuel. En général, la prévalence d’infections est plus élevée chez les vaches en fin de lactation et une prévalence d’infection élevée dans un troupeau augmente, en théorie, le risque qu’une vache individuelle ait un CCS élevé.</p></li>
+</ol>
+<p>6.1. Comment nomme-t’on ce genre d’effet ?</p>
+<p>6.2. Dans ce cas-ci quel est l’effet d’être dans un troupeau avec un nombre moyen de jours en lait élevé <em>vs.</em> d’être une vache avec un nombre de jours en lait élevé ?</p>
+<ol start="7" style="list-style-type: decimal">
+<li>Que pensez-vous des suppositions des résiduels (au niveau le plus bas) pour le modèle avec <em>t_dim</em> seulement ?</li>
+</ol>
+</div>
+<div id="code-r-et-réponses" class="section level3 hasAnchor" number="10.10.2">
+<h3><span class="header-section-number">10.10.2</span> Code R et réponses<a href="modèles-mixtes-pour-données-structurées.html#code-r-et-réponses" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Pour ce TP utilisez le fichier <em>SCC40_2level.csv</em> (voir description VER p.832).</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="modèles-mixtes-pour-données-structurées.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Nous importons le jeu de données</span></span>
+<span id="cb20-2"><a href="modèles-mixtes-pour-données-structurées.html#cb20-2" aria-hidden="true" tabindex="-1"></a>scc40 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="st">&quot;scc40_2level.csv&quot;</span>, </span>
+<span id="cb20-3"><a href="modèles-mixtes-pour-données-structurées.html#cb20-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">header=</span><span class="cn">TRUE</span>, </span>
+<span id="cb20-4"><a href="modèles-mixtes-pour-données-structurées.html#cb20-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sep=</span><span class="st">&quot;;&quot;</span></span>
+<span id="cb20-5"><a href="modèles-mixtes-pour-données-structurées.html#cb20-5" aria-hidden="true" tabindex="-1"></a>                    )</span>
+<span id="cb20-6"><a href="modèles-mixtes-pour-données-structurées.html#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Nous indiquons les variables catégoriques dans le jeu de données</span></span>
+<span id="cb20-7"><a href="modèles-mixtes-pour-données-structurées.html#cb20-7" aria-hidden="true" tabindex="-1"></a>scc40<span class="sc">$</span>herdid <span class="ot">&lt;-</span> <span class="fu">factor</span>(scc40<span class="sc">$</span>herdid) </span>
+<span id="cb20-8"><a href="modèles-mixtes-pour-données-structurées.html#cb20-8" aria-hidden="true" tabindex="-1"></a>scc40<span class="sc">$</span>cowid <span class="ot">&lt;-</span> <span class="fu">factor</span>(scc40<span class="sc">$</span>cowid)</span>
+<span id="cb20-9"><a href="modèles-mixtes-pour-données-structurées.html#cb20-9" aria-hidden="true" tabindex="-1"></a>scc40<span class="sc">$</span>c_heifer <span class="ot">&lt;-</span> <span class="fu">factor</span>(scc40<span class="sc">$</span>c_heifer)</span>
+<span id="cb20-10"><a href="modèles-mixtes-pour-données-structurées.html#cb20-10" aria-hidden="true" tabindex="-1"></a>scc40<span class="sc">$</span>t_season <span class="ot">&lt;-</span> <span class="fu">factor</span>(scc40<span class="sc">$</span>t_season)</span></code></pre></div>
+<p>Ce jeu de données provient d’une étude observationnelle dont le but était d’évaluer l’effet de différentes caractéristiques des vaches (âge [<em>c_heifer</em>], taille du troupeau [<em>h_size</em>], saison [<em>t_season</em>], jours en lait [<em>t_dim</em>], mois de la lactation [<em>test</em>]) sur le CCS des vaches (<em>t_lnscc</em>, sur une base logarithmique). Une seule observation est disponible sur chacune des 2178 vaches de 40 troupeaux.</p>
+<ol style="list-style-type: decimal">
+<li>Représentez schématiquement la structure de ces données, indiquez à quel niveau chacun des prédicteurs se situe et le nombre moyen, minimum et maximum d’observations par groupe.</li>
+</ol>
+<p><strong>Réponse:</strong> Il y a simplement 2 niveaux, un niveau vache imbriqué dans un niveau troupeau. Les variables <em>t_lnscc</em> (la variable dépendante) et les variables <em>test</em>, <em>c_heifer</em>, <em>t_season</em> et <em>t_dim</em> sont au niveau vache, la variable <em>h_size</em> est une variable de niveau troupeau.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="modèles-mixtes-pour-données-structurées.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Nombre total de vachess</span></span>
+<span id="cb21-2"><a href="modèles-mixtes-pour-données-structurées.html#cb21-2" aria-hidden="true" tabindex="-1"></a>dimension <span class="ot">&lt;-</span> <span class="fu">dim</span>(scc40)</span>
+<span id="cb21-3"><a href="modèles-mixtes-pour-données-structurées.html#cb21-3" aria-hidden="true" tabindex="-1"></a>total <span class="ot">&lt;-</span> dimension[<span class="dv">1</span>]</span>
+<span id="cb21-4"><a href="modèles-mixtes-pour-données-structurées.html#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="modèles-mixtes-pour-données-structurées.html#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Nombre moyen et étendue des vaches par troupeau</span></span>
+<span id="cb21-6"><a href="modèles-mixtes-pour-données-structurées.html#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Créer un jeu de données &quot;troupeau&quot; où les vachess ont été compilées par troupeau </span></span>
+<span id="cb21-7"><a href="modèles-mixtes-pour-données-structurées.html#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb21-8"><a href="modèles-mixtes-pour-données-structurées.html#cb21-8" aria-hidden="true" tabindex="-1"></a>troupeau <span class="ot">&lt;-</span> scc40 <span class="sc">%&gt;%</span></span>
+<span id="cb21-9"><a href="modèles-mixtes-pour-données-structurées.html#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(herdid)</span>
+<span id="cb21-10"><a href="modèles-mixtes-pour-données-structurées.html#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Dans ce jeu de données, la variable n représente le nombre de vaches suivies par troupeau. Nous pouvons donc obtenir la moyenne et l&#39;étendue (minimum et maximum)</span></span>
+<span id="cb21-11"><a href="modèles-mixtes-pour-données-structurées.html#cb21-11" aria-hidden="true" tabindex="-1"></a>dimension <span class="ot">&lt;-</span> <span class="fu">dim</span>(troupeau)</span>
+<span id="cb21-12"><a href="modèles-mixtes-pour-données-structurées.html#cb21-12" aria-hidden="true" tabindex="-1"></a>nb_troupeau <span class="ot">&lt;-</span> dimension[<span class="dv">1</span>]</span>
+<span id="cb21-13"><a href="modèles-mixtes-pour-données-structurées.html#cb21-13" aria-hidden="true" tabindex="-1"></a>mean_vache <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">mean</span>(troupeau<span class="sc">$</span>n),</span>
+<span id="cb21-14"><a href="modèles-mixtes-pour-données-structurées.html#cb21-14" aria-hidden="true" tabindex="-1"></a>                   <span class="at">digits=</span><span class="dv">1</span></span>
+<span id="cb21-15"><a href="modèles-mixtes-pour-données-structurées.html#cb21-15" aria-hidden="true" tabindex="-1"></a>                   )</span>
+<span id="cb21-16"><a href="modèles-mixtes-pour-données-structurées.html#cb21-16" aria-hidden="true" tabindex="-1"></a>min_vache <span class="ot">&lt;-</span> <span class="fu">min</span>(troupeau<span class="sc">$</span>n)</span>
+<span id="cb21-17"><a href="modèles-mixtes-pour-données-structurées.html#cb21-17" aria-hidden="true" tabindex="-1"></a>max_vache <span class="ot">&lt;-</span> <span class="fu">max</span>(troupeau<span class="sc">$</span>n)</span>
+<span id="cb21-18"><a href="modèles-mixtes-pour-données-structurées.html#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-19"><a href="modèles-mixtes-pour-données-structurées.html#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="co">#Il ne reste plus qu&#39;à assembler toutes ces informations dans une table</span></span>
+<span id="cb21-20"><a href="modèles-mixtes-pour-données-structurées.html#cb21-20" aria-hidden="true" tabindex="-1"></a>ligne_titre <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Niveau&quot;</span>, <span class="st">&quot;Nombre d&#39;unités&quot;</span>, <span class="st">&quot;Nombre moyen/niveau supérieur&quot;</span>, <span class="st">&quot;Minimum/niveau supérieur&quot;</span>, <span class="st">&quot;maximum/niveau supérieur&quot;</span>)</span>
+<span id="cb21-21"><a href="modèles-mixtes-pour-données-structurées.html#cb21-21" aria-hidden="true" tabindex="-1"></a>ligne_vache <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Vaches&quot;</span>, total, mean_vache, min_vache, max_vache)  </span>
+<span id="cb21-22"><a href="modèles-mixtes-pour-données-structurées.html#cb21-22" aria-hidden="true" tabindex="-1"></a>ligne_troupeau <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Troupeau&quot;</span>, nb_troupeau, <span class="st">&quot; &quot;</span>, <span class="st">&quot; &quot;</span>, <span class="st">&quot; &quot;</span>) </span>
+<span id="cb21-23"><a href="modèles-mixtes-pour-données-structurées.html#cb21-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-24"><a href="modèles-mixtes-pour-données-structurées.html#cb21-24" aria-hidden="true" tabindex="-1"></a>Structure <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">rbind</span>(ligne_titre, </span>
+<span id="cb21-25"><a href="modèles-mixtes-pour-données-structurées.html#cb21-25" aria-hidden="true" tabindex="-1"></a>                              ligne_troupeau, </span>
+<span id="cb21-26"><a href="modèles-mixtes-pour-données-structurées.html#cb21-26" aria-hidden="true" tabindex="-1"></a>                              ligne_vache)</span>
+<span id="cb21-27"><a href="modèles-mixtes-pour-données-structurées.html#cb21-27" aria-hidden="true" tabindex="-1"></a>                        )</span>
+<span id="cb21-28"><a href="modèles-mixtes-pour-données-structurées.html#cb21-28" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(Structure) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb21-29"><a href="modèles-mixtes-pour-données-structurées.html#cb21-29" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Structure) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb21-30"><a href="modèles-mixtes-pour-données-structurées.html#cb21-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-31"><a href="modèles-mixtes-pour-données-structurées.html#cb21-31" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb21-32"><a href="modèles-mixtes-pour-données-structurées.html#cb21-32" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb21-33"><a href="modèles-mixtes-pour-données-structurées.html#cb21-33" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(Structure, </span>
+<span id="cb21-34"><a href="modèles-mixtes-pour-données-structurées.html#cb21-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption=</span><span class="st">&quot;Structure des données scc40_2level.csv&quot;</span>,</span>
+<span id="cb21-35"><a href="modèles-mixtes-pour-données-structurées.html#cb21-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">align =</span> <span class="st">&quot;lccc&quot;</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb21-36"><a href="modèles-mixtes-pour-données-structurées.html#cb21-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>()</span></code></pre></div>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:unnamed-chunk-23">Table 10.2: </span>Structure des données scc40_2level.csv
+</caption>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Niveau
+</td>
+<td style="text-align:center;">
+Nombre d’unités
+</td>
+<td style="text-align:center;">
+Nombre moyen/niveau supérieur
+</td>
+<td style="text-align:center;">
+Minimum/niveau supérieur
+</td>
+<td style="text-align:left;">
+maximum/niveau supérieur
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Troupeau
+</td>
+<td style="text-align:center;">
+40
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Vaches
+</td>
+<td style="text-align:center;">
+2178
+</td>
+<td style="text-align:center;">
+54.5
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:left;">
+105
+</td>
+</tr>
+</tbody>
+</table>
+<ol start="2" style="list-style-type: decimal">
+<li>Quelle proportion de la variation du logarithme naturel du comptage des cellules somatiques (<em>t_lnscc</em>) peut être expliquée par les caractéristiques des vaches <em>vs.</em> des troupeaux ?</li>
+</ol>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="modèles-mixtes-pour-données-structurées.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Avec un modèle sans aucun prédicteurs, nous pourrons obtenir les variances vache et troupeau</span></span>
+<span id="cb22-2"><a href="modèles-mixtes-pour-données-structurées.html#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb22-3"><a href="modèles-mixtes-pour-données-structurées.html#cb22-3" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lme</span>(<span class="at">data=</span>scc40,</span>
+<span id="cb22-4"><a href="modèles-mixtes-pour-données-structurées.html#cb22-4" aria-hidden="true" tabindex="-1"></a>             t_lnscc <span class="sc">~</span> <span class="dv">1</span> ,</span>
+<span id="cb22-5"><a href="modèles-mixtes-pour-données-structurées.html#cb22-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> herdid)</span>
+<span id="cb22-6"><a href="modèles-mixtes-pour-données-structurées.html#cb22-6" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(model)</span>
+<span id="cb22-7"><a href="modèles-mixtes-pour-données-structurées.html#cb22-7" aria-hidden="true" tabindex="-1"></a>vc</span></code></pre></div>
+<pre><code>## herdid = pdLogChol(1) 
+##             Variance  StdDev   
+## (Intercept) 0.1482565 0.3850409
+## Residual    1.7304132 1.3154517</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="modèles-mixtes-pour-données-structurées.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Nous pourrions calculer directement dans R</span></span>
+<span id="cb24-2"><a href="modèles-mixtes-pour-données-structurées.html#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">999</span>)   <span class="co">#Cet argument nous permet d&#39;éviter la notation scientifique</span></span>
+<span id="cb24-3"><a href="modèles-mixtes-pour-données-structurées.html#cb24-3" aria-hidden="true" tabindex="-1"></a>var.herd <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(vc[<span class="dv">1</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">1</span>]),</span>
+<span id="cb24-4"><a href="modèles-mixtes-pour-données-structurées.html#cb24-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">digits=</span><span class="dv">4</span>)</span>
+<span id="cb24-5"><a href="modèles-mixtes-pour-données-structurées.html#cb24-5" aria-hidden="true" tabindex="-1"></a>var.cow <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(vc[<span class="dv">2</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">1</span>]),</span>
+<span id="cb24-6"><a href="modèles-mixtes-pour-données-structurées.html#cb24-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">digits=</span><span class="dv">4</span>)</span>
+<span id="cb24-7"><a href="modèles-mixtes-pour-données-structurées.html#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="modèles-mixtes-pour-données-structurées.html#cb24-8" aria-hidden="true" tabindex="-1"></a>var.tot <span class="ot">&lt;-</span> var.herd <span class="sc">+</span> var.cow </span>
+<span id="cb24-9"><a href="modèles-mixtes-pour-données-structurées.html#cb24-9" aria-hidden="true" tabindex="-1"></a>prop.herd <span class="ot">&lt;-</span> <span class="fu">round</span>(var.herd<span class="sc">/</span>var.tot<span class="sc">*</span><span class="dv">100</span>, </span>
+<span id="cb24-10"><a href="modèles-mixtes-pour-données-structurées.html#cb24-10" aria-hidden="true" tabindex="-1"></a>                   <span class="at">digits=</span><span class="dv">1</span></span>
+<span id="cb24-11"><a href="modèles-mixtes-pour-données-structurées.html#cb24-11" aria-hidden="true" tabindex="-1"></a>                   )</span>
+<span id="cb24-12"><a href="modèles-mixtes-pour-données-structurées.html#cb24-12" aria-hidden="true" tabindex="-1"></a>prop.cow <span class="ot">&lt;-</span> <span class="fu">round</span>(var.cow<span class="sc">/</span>var.tot<span class="sc">*</span><span class="dv">100</span>, </span>
+<span id="cb24-13"><a href="modèles-mixtes-pour-données-structurées.html#cb24-13" aria-hidden="true" tabindex="-1"></a>                   <span class="at">digits=</span><span class="dv">1</span></span>
+<span id="cb24-14"><a href="modèles-mixtes-pour-données-structurées.html#cb24-14" aria-hidden="true" tabindex="-1"></a>                   )</span></code></pre></div>
+<p><strong>Réponse:</strong> La variance au niveau vache était 1.7304, celle au niveau troupeau était 0.1483 et la variance totale est donc 1.8787. Les caractéristiques des vaches (e.g., âge, statut infectieux, jours en lait, génétique) expliquent 92.1% de la variation du log CCS, alors que les caractéristiques des troupeaux (e.g., logement, alimentation, éleveur) expliquent 7.9% de la variation du log CCS.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Quelle est la corrélation entre 2 vaches d’un même troupeau quant à leur mesure de log CCS ? Comment interprétez-vous cette mesure ?</li>
+</ol>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="modèles-mixtes-pour-données-structurées.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Encore une fois, nous pourrions effectuer le calcul à l&#39;aide de R</span></span>
+<span id="cb25-2"><a href="modèles-mixtes-pour-données-structurées.html#cb25-2" aria-hidden="true" tabindex="-1"></a>icc.vache <span class="ot">&lt;-</span> <span class="fu">round</span>((var.herd)<span class="sc">/</span>var.tot,</span>
+<span id="cb25-3"><a href="modèles-mixtes-pour-données-structurées.html#cb25-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">digits=</span><span class="dv">3</span>)</span>
+<span id="cb25-4"><a href="modèles-mixtes-pour-données-structurées.html#cb25-4" aria-hidden="true" tabindex="-1"></a>icc.vache</span></code></pre></div>
+<pre><code>## [1] 0.079</code></pre>
+<p><strong>Réponse:</strong> L’<span class="math inline">\(ICC_{troupeau}\)</span> était de 0.079. Il y a une certaine corrélation entre les mesures de log CCS de vaches de même troupeau (i.e., les vaches ont tendance à avoir des log CCS similaires lorsqu’elles viennent d’un même troupeau), mais cette corrélation est tout de même faible.</p>
+<ol start="4" style="list-style-type: decimal">
+<li>Question boni (valide pour 10 banana-points). Dans ce cas-ci, quel est l’effet du dessin d’étude sur la variance (i.e., elle augmente ou diminue et de combien) ?</li>
+</ol>
+<p><strong>Réponse:</strong> Nous pourrions calculer le “design effect”.<br />
+<span class="math display">\[deff = (1+(m-1)*\rho)\]</span><br />
+<span class="math display">\[deff = (1+(54.5-1)*0.079) = 5.23\]</span></p>
+<p>La variance est 5.23 fois plus grande à cause de l’agrégation des observations qu’elle ne le serait si les observations étaient indépendantes.</p>
+<ol start="5" style="list-style-type: decimal">
+<li>Quel est l’effet des jours en lait (<em>t_dim</em>) sur le log CCS (supposez que <em>t_dim</em> a une relation linéaire avec <em>t_lnscc</em>) ?</li>
+</ol>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="modèles-mixtes-pour-données-structurées.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb27-2"><a href="modèles-mixtes-pour-données-structurées.html#cb27-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lme</span>(<span class="at">data=</span>scc40,</span>
+<span id="cb27-3"><a href="modèles-mixtes-pour-données-structurées.html#cb27-3" aria-hidden="true" tabindex="-1"></a>             t_lnscc <span class="sc">~</span> t_dim ,</span>
+<span id="cb27-4"><a href="modèles-mixtes-pour-données-structurées.html#cb27-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> herdid)</span>
+<span id="cb27-5"><a href="modèles-mixtes-pour-données-structurées.html#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div>
+<pre><code>## Linear mixed-effects model fit by REML
+##   Data: scc40 
+##        AIC     BIC    logLik
+##   7418.019 7440.76 -3705.009
+## 
+## Random effects:
+##  Formula: ~1 | herdid
+##         (Intercept) Residual
+## StdDev:   0.3797328 1.301221
+## 
+## Fixed effects:  t_lnscc ~ t_dim 
+##                Value  Std.Error   DF  t-value p-value
+## (Intercept) 4.553489 0.07253184 2137 62.77917       0
+## t_dim       0.003201 0.00045701 2137  7.00493       0
+##  Correlation: 
+##       (Intr)
+## t_dim -0.38 
+## 
+## Standardized Within-Group Residuals:
+##        Min         Q1        Med         Q3        Max 
+## -2.5011087 -0.7408145 -0.1206297  0.6477404  3.1693563 
+## 
+## Number of Observations: 2178
+## Number of Groups: 40</code></pre>
+<p><strong>Réponse:</strong> Le log CCS augmente de 0.003 lorsque jours en lait augmente de 1.</p>
+<ol start="6" style="list-style-type: decimal">
+<li>Vous vous demandez si le fait d’être dans un troupeau de vaches « avancées » en lactation pourrait aussi avoir un effet sur le CCS individuel. En général, la prévalence d’infections est plus élevée chez les vaches en fin de lactation et une prévalence d’infection élevée dans un troupeau augmente, en théorie, le risque qu’une vache individuelle ait un CCS élevé.</li>
+</ol>
+<p>6.1. Comment nomme-t’on ce genre d’effet ?</p>
+<p><strong>Réponse:</strong> Un effet contextuel.</p>
+<p>6.2. Dans ce cas-ci quel est l’effet d’être dans un troupeau avec un nombre moyen de jours en lait élevé <em>vs.</em> d’être une vache avec un nombre de jours en lait élevé ?</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="modèles-mixtes-pour-données-structurées.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Centrons la variable t_dim sur sa moyenne</span></span>
+<span id="cb29-2"><a href="modèles-mixtes-pour-données-structurées.html#cb29-2" aria-hidden="true" tabindex="-1"></a>scc40<span class="sc">$</span>t_dim_ct <span class="ot">&lt;-</span> scc40<span class="sc">$</span>t_dim <span class="sc">-</span> <span class="fu">mean</span>(scc40<span class="sc">$</span>t_dim)</span>
+<span id="cb29-3"><a href="modèles-mixtes-pour-données-structurées.html#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="modèles-mixtes-pour-données-structurées.html#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Nous générons un nouveau jeu de données (herddata) qui contiendra le t_dim moyen de chaque troupeau (nous avons nommé cette nouvelle variable t_dim.herd).</span></span>
+<span id="cb29-5"><a href="modèles-mixtes-pour-données-structurées.html#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb29-6"><a href="modèles-mixtes-pour-données-structurées.html#cb29-6" aria-hidden="true" tabindex="-1"></a>herddata <span class="ot">&lt;-</span> scc40 <span class="sc">%&gt;%</span></span>
+<span id="cb29-7"><a href="modèles-mixtes-pour-données-structurées.html#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(herdid) <span class="sc">%&gt;%</span></span>
+<span id="cb29-8"><a href="modèles-mixtes-pour-données-structurées.html#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">t_dim.herd =</span> <span class="fu">mean</span>(t_dim_ct, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb29-9"><a href="modèles-mixtes-pour-données-structurées.html#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="modèles-mixtes-pour-données-structurées.html#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Réunir ces valeurs dans le jeu de données original</span></span>
+<span id="cb29-11"><a href="modèles-mixtes-pour-données-structurées.html#cb29-11" aria-hidden="true" tabindex="-1"></a>scc40_2 <span class="ot">&lt;-</span> <span class="fu">merge</span>(scc40,</span>
+<span id="cb29-12"><a href="modèles-mixtes-pour-données-structurées.html#cb29-12" aria-hidden="true" tabindex="-1"></a>                    herddata,</span>
+<span id="cb29-13"><a href="modèles-mixtes-pour-données-structurées.html#cb29-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">by=</span><span class="st">&quot;herdid&quot;</span></span>
+<span id="cb29-14"><a href="modèles-mixtes-pour-données-structurées.html#cb29-14" aria-hidden="true" tabindex="-1"></a>                    )</span>
+<span id="cb29-15"><a href="modèles-mixtes-pour-données-structurées.html#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Modéliser l&#39;effet d&#39;être dans un troupeau avec un nombre de jours en lait moyen élevé</span></span>
+<span id="cb29-16"><a href="modèles-mixtes-pour-données-structurées.html#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb29-17"><a href="modèles-mixtes-pour-données-structurées.html#cb29-17" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lme</span>(<span class="at">data=</span>scc40_2,</span>
+<span id="cb29-18"><a href="modèles-mixtes-pour-données-structurées.html#cb29-18" aria-hidden="true" tabindex="-1"></a>             t_lnscc <span class="sc">~</span> t_dim_ct <span class="sc">+</span> t_dim.herd,</span>
+<span id="cb29-19"><a href="modèles-mixtes-pour-données-structurées.html#cb29-19" aria-hidden="true" tabindex="-1"></a>             <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> herdid)</span>
+<span id="cb29-20"><a href="modèles-mixtes-pour-données-structurées.html#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div>
+<pre><code>## Linear mixed-effects model fit by REML
+##   Data: scc40_2 
+##        AIC     BIC    logLik
+##   7427.906 7456.33 -3708.953
+## 
+## Random effects:
+##  Formula: ~1 | herdid
+##         (Intercept) Residual
+## StdDev:   0.3825484 1.301231
+## 
+## Fixed effects:  t_lnscc ~ t_dim_ct + t_dim.herd 
+##                Value  Std.Error   DF  t-value p-value
+## (Intercept) 4.746819 0.06748365 2137 70.34028  0.0000
+## t_dim_ct    0.003176 0.00045836 2137  6.92917  0.0000
+## t_dim.herd  0.004280 0.00600544   38  0.71262  0.4804
+##  Correlation: 
+##            (Intr) t_dm_c
+## t_dim_ct    0.000       
+## t_dim.herd  0.001 -0.076
+## 
+## Standardized Within-Group Residuals:
+##        Min         Q1        Med         Q3        Max 
+## -2.4970293 -0.7399995 -0.1191294  0.6517849  3.1790416 
+## 
+## Number of Observations: 2178
+## Number of Groups: 40</code></pre>
+<p><strong>Réponse:</strong> Lorsque le nombre de jours en lait moyen du troupeau augmente de 1, le log CCS de la vache augmente de 0.004. Au niveau individuel, lorsque le nombre de jours en lait d’une vache augmente de 1, son log CCS augmente de 0.003. Dans ce cas, l’effet contextuel n’est pas significatif, ce ne serait donc pas nécessaire de le conserver dans le modèle. L’effet individuel, cependant est significatif.</p>
+<ol start="7" style="list-style-type: decimal">
+<li>Que pensez-vous des suppositions des résiduels (au niveau le plus bas) pour le modèle avec <em>t_dim</em> seulement ?</li>
+</ol>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="modèles-mixtes-pour-données-structurées.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb31-2"><a href="modèles-mixtes-pour-données-structurées.html#cb31-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lme</span>(<span class="at">data=</span>scc40,</span>
+<span id="cb31-3"><a href="modèles-mixtes-pour-données-structurées.html#cb31-3" aria-hidden="true" tabindex="-1"></a>             t_lnscc <span class="sc">~</span> t_dim ,</span>
+<span id="cb31-4"><a href="modèles-mixtes-pour-données-structurées.html#cb31-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> herdid)</span>
+<span id="cb31-5"><a href="modèles-mixtes-pour-données-structurées.html#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model, </span>
+<span id="cb31-6"><a href="modèles-mixtes-pour-données-structurées.html#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">residuals</span>(.) <span class="sc">~</span> <span class="fu">fitted</span>(.), <span class="co">#Nous demandons la figure des résiduels en y par les valeurs prédites en x</span></span>
+<span id="cb31-7"><a href="modèles-mixtes-pour-données-structurées.html#cb31-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Valeurs prédites&quot;</span>,</span>
+<span id="cb31-8"><a href="modèles-mixtes-pour-données-structurées.html#cb31-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Résiduels&quot;</span></span>
+<span id="cb31-9"><a href="modèles-mixtes-pour-données-structurées.html#cb31-9" aria-hidden="true" tabindex="-1"></a>     )</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-29"></span>
+<img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-29-1.png" alt="Graphique des résiduels x valeurs prédites." width="672" />
+<p class="caption">
+Figure 10.4: Graphique des résiduels x valeurs prédites.
+</p>
+</div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="modèles-mixtes-pour-données-structurées.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">resid</span>(model))</span>
+<span id="cb32-2"><a href="modèles-mixtes-pour-données-structurées.html#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(<span class="fu">resid</span>(model))</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-30"></span>
+<img src="Labo-R-Bookdown-project_files/figure-html/unnamed-chunk-30-1.png" alt="Graphique Q-Q des résiduels." width="672" />
+<p class="caption">
+Figure 10.5: Graphique Q-Q des résiduels.
+</p>
+</div>
+<p><strong>Réponse:</strong> Normalité et homoscédasticité des résiduels semblent respectées (i.e., pas vraiment d’augmentation de la variance des résiduels en fonction des valeurs prédites).</p>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p><a href="https://www.sciencedirect.com/science/article/pii/S0167947308002533">Joe. H., 2008. Accuracy of Laplace approximation for discrete response mixed models. Computational Statistics &amp; Data Analysis</a><a href="modèles-mixtes-pour-données-structurées.html#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="analyses-de-survie.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Labo R Bookdown project.pdf", "Labo R Bookdown project.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
